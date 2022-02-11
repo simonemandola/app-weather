@@ -1,0 +1,64 @@
+// Mixins
+
+@mixin pin($top, $right, $bottom, $left)
+    top: $top
+    right: $right
+    bottom: $bottom
+    left: $left
+
+@mixin flex($justify, $align, $direction)
+    display: flex
+    justify-content: $justify
+    align-items: $align
+    flex-direction: $direction
+
+@mixin bgImg($img, $position-x, $position-y, $size, $repeat)
+    background-image: $img
+    background-position-x: $position-x
+    background-position-y: $position-y
+    background-size: $size
+    background-repeat: $repeat
+
+@mixin animation($name, $duration, $fill)
+    animation-name: $name
+    animation-duration: $duration
+    animation-timing-function: ease-in-out
+    animation-fill-mode: $fill
+
+@mixin centerX
+    margin:
+        right: auto
+        left: auto
+
+@mixin centerY
+    margin:
+        top: auto
+        bottom: auto
+
+
+@mixin icon($utf)
+    font-family: "icons", sans-serif
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    font-size: 1.3rem
+
+    &::before
+        content: $utf
+        speak: none
+        font-size: 100%
+        font-style: normal
+        font-weight: normal
+        font-variant: normal
+        text-transform: none
+        -webkit-font-smoothing: antialiased
+        -moz-osx-font-smoothing: grayscale
+        padding:
+            left: 1px
+            right: 1px
+
+@mixin padding-inline-mobile
+    padding:
+        left: $padding__1
+        right: $padding__1
+    box-sizing: border-box
