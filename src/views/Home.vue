@@ -14,7 +14,6 @@
 </template>
 
 <script>
-
 // components
 import MainWeatherResult from "@/components/_mainWeatherResult.vue";
 import BackgroundImage from "@/components/_backgroundImage.vue";

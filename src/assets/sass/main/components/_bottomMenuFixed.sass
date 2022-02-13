@@ -1,0 +1,13 @@
+.bottom-menu-fixed
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  height: $return__height
+
+  &__ul
+    display: grid
+    grid-template-columns: repeat(3, 3rem)
+    justify-items: center
+    justify-content: space-around
+    @include wrap-box-background($padding__xxs, $padding__xxs)
