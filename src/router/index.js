@@ -28,13 +28,13 @@ const routes = [
   },
   {
     path: "/settings",
-    name: "Setting",
+    name: "Settings",
     component: Settings,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 

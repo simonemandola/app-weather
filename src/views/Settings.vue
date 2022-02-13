@@ -1,9 +1,22 @@
 <template>
-  <main>settings</main>
+  <main>
+    <return :title="title" />
+  </main>
 </template>
 
 <script>
+// components
+import Return from "@/components/_return.vue";
+
 export default {
   name: "Settings",
+  components: {
+    return: Return,
+  },
+  data() {
+    return {
+      title: "Ajustes",
+    };
+  },
 };
 </script>

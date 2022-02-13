@@ -1,0 +1,22 @@
+.weather-seven-days
+  width: 100%
+  margin-top: $padding__xl
+
+  &__wrap
+    width: 90%
+    display: grid
+    grid-template-columns: 35% 2rem 2rem 3rem
+    justify-content: space-between
+    align-items: center
+    @include wrap-box-background($padding__xxxs, $padding__xxs)
+    margin-top: $padding__xs
+
+  &__image
+    position: absolute
+    width: 5rem
+    top: -0.2rem
+    right: -2.6rem
+    z-index: 1
+
+  &__temperature
+    text-align: center

@@ -14,8 +14,8 @@ export default {
     title: String,
   },
   methods: {
-    goback() {
-      this.$router.go(-1);
+    goBack() {
+      return this.$router.go(-1);
     },
   },
 };

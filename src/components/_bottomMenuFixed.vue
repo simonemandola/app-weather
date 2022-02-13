@@ -1,10 +1,10 @@
 <template>
   <nav class="bottom-menu-fixed container">
     <ul class="bottom-menu-fixed__ul">
-      <li v-for="(item, i) in menuDefault" :key="i">
-        <router-link :to="item.link">
-          <i :class="isActive ? item.iconActive : item.icon"></i>
-          <span class="text-xs" v-if="isActive">item.text</span>
+      <li v-for="(item, key, i) in menu" :key="i">
+        <router-link :to="{ name: item.link, query: { active: key } }">
+          <i :class="item.isActive ? item.iconActive : item.icon"></i>
+          <span class="text-xs" v-if="item.isActive">item.text</span>
         </router-link>
       </li>
     </ul>
@@ -16,7 +16,7 @@ export default {
   name: "_bottomMenu-Fixed",
   data() {
     return {
-      menuDefault: {
+      menu: {
         settings: {
           icon: "icon__settings",
           iconActive: "icon_settings-fill",
