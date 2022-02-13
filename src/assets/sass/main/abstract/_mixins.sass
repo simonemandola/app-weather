@@ -59,6 +59,30 @@
 
 @mixin padding-inline-mobile
     padding:
-        left: $padding__1
-        right: $padding__1
+        left: $padding__xxs
+        right: $padding__xxs
     box-sizing: border-box
+
+@mixin wrap-box-background($p-block,$p-inline)
+    position: relative
+    height: fit-content
+    @include pin(0,0,0,0)
+    z-index: -1
+    pointer-events: none
+    //border: 1px solid #ffffff
+    border-radius: 1rem
+    background-color: rgba(250, 250, 250, 0.4)
+    backdrop-filter: blur(2px)
+    padding:
+        top: $p-block
+        right: $p-inline
+        bottom: $p-block
+        left: $p-inline
+    box-sizing: border-box
+
+    &::after
+        content: ''
+        position: absolute
+        @include pin(0,0,0,0)
+        border-radius: 1rem
+        box-shadow: -.5rem -.5rem .8rem -.5rem rgba(255, 255, 255, 0.4), -.3rem -.3rem .5rem -.2rem rgba(255, 255, 255, 0.55), -.1rem -.1rem .2rem -.08rem rgba(255, 255, 255, 0.7), .1rem .1rem .2rem -.1rem rgba(35, 35, 35, 0.6), .3rem .3rem .5rem -.2rem rgba(35, 35, 35, 0.4), .5rem .5rem 1rem -.5rem rgba(35, 35, 35, 0.4)
