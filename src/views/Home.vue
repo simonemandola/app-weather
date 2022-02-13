@@ -1,18 +1,43 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <main>
+    <background />
+    <div class="top-bar container">
+      <div class="top-bar__wrap">
+        <p class="text-xs text-bold">Ten un buen día.</p>
+        <button @click.prevent="addToFavorite">
+          <i class="icon__favorite"></i>
+        </button>
+      </div>
+    </div>
+    <main-weather-result />
+    <router-link class="text-xs text-bold link-more-details" to="Settings">Más detalles</router-link>
+    <weather-by-hour />
+    <weather-seven-days />
+    <bottom-menu />
+  </main>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+// components
+import MainWeatherResult from "@/components/_mainWeatherResult.vue";
+import BackgroundImage from "@/components/_backgroundImage.vue";
+import WeatherByHour from "@/components/_weatherByHour.vue";
+import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
+import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 
 export default {
   name: "Home",
   components: {
-    HelloWorld,
+    mainWeatherResult: MainWeatherResult,
+    background: BackgroundImage,
+    weatherByHour: WeatherByHour,
+    bottomMenu: BottomMenuFixed,
+    weatherSevenDays: WeatherSevenDays,
+  },
+  methods: {
+    addToFavorite() {
+      console.log("Añadido a favoritos");
+    },
   },
 };
 </script>

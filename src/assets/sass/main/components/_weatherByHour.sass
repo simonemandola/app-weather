@@ -1,0 +1,30 @@
+.weather-by-hour
+  width: 100%
+  height: auto
+  @include flex(flex-start,center,row)
+  flex-wrap: nowrap
+  overflow-x: auto
+  margin-top: $padding__xl
+  padding-left: $padding__xxs
+
+  &__wrap
+    width: 4.5rem
+    @include wrap-box-background($padding__xxxs, $padding__xxs)
+    margin-right: $padding__xxs
+    z-index: 1
+    margin:
+      top: $padding__xxs
+      bottom: $padding__xxs
+
+    &:last-child
+      margin-right: $padding__s
+
+    & > p
+      margin: .25rem 0
+      text-align: center
+
+  &__icon
+    @include flex(center,center,row)
+
+    & > img
+      width: 100%
