@@ -1,0 +1,57 @@
+.settings
+  margin-top: $return__height * 2
+
+  &__row
+    width: 100%
+    @include flex(space-between,center,row)
+    height: 3rem
+    box-sizing: border-box
+    padding:
+      left: $padding__xxs
+      right: $padding__xxs
+    border-bottom: 1px solid grey
+
+  &__item-title
+    text-transform: capitalize
+
+  &__options
+    height: 100%
+    position: relative
+    right: -0.5rem
+
+  &__wrap-option
+    height: 100%
+    @include flex(center, center, row)
+
+  &__option-label
+    text-transform: uppercase
+    padding:
+      left: $padding__xxxs
+      right: $padding__xxxs
+
+.toggle
+  height: 1.2rem
+  width: 2.8rem
+  border-radius: 1rem
+  display: inline-block
+  position: relative
+  margin: 0
+  border: 2px solid
+  border-color: #ec4f4f
+  background: linear-gradient(180deg, #2D2F39 0%, #1F2027 100%)
+  transition: all .2s ease
+  &:after
+    content: ''
+    position: absolute
+    top: 2px
+    left: 2px
+    width: 1.1rem
+    height: .7rem
+    border-radius: 1rem
+    background: white
+    box-shadow: 0 1px 2px rgba(44,44,44,.2)
+    transition: all .2s cubic-bezier(.5,.1,.75,1.35)
+  &:checked
+    border-color: #4f6eec
+    &:after
+      transform: translatex(20px)

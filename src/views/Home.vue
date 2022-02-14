@@ -10,7 +10,9 @@
       </div>
     </div>
     <main-weather-result />
-    <router-link class="text-xs text-bold link-more-details" to="Settings">Más detalles</router-link>
+    <router-link class="text-xxs link-more-details" to="Settings"
+      >Más detalles</router-link
+    >
     <weather-by-hour />
     <weather-seven-days />
     <bottom-menu />
