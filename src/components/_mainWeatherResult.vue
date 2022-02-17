@@ -1,5 +1,8 @@
 <template>
-  <div class="main-weather-result container">
+  <router-link
+    :to="{ name: 'WeatherDetails' }"
+    class="main-weather-result container"
+  >
     <div class="main-weather-result__wrap">
       <div class="main-weather-result__text">
         <p class="main-weather-result__date text-xs text-grey">Hoy</p>
@@ -17,7 +20,7 @@
       <p class="text-xs text-grey"><i class="icon__wind"></i>10%</p>
       <p class="text-xs text-grey"><i class="icon__humidity"></i>80%</p>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

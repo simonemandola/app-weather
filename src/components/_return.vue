@@ -1,5 +1,5 @@
 <template>
-  <div class="return">
+  <div class="return" :style="backgroundStyle">
     <button type="button" class="return__btn" @click.prevent="goBack">
       <i class="icon__return"></i>
     </button>
@@ -16,6 +16,14 @@ export default {
   props: {
     title: String,
     location: String,
+  },
+  data() {
+    return {
+      scrollY: 0,
+      backgroundStyle: {
+        backgroundColor: "#ffffff40",
+      },
+    };
   },
   methods: {
     goBack() {
