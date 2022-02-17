@@ -1,0 +1,77 @@
+.card
+  width: 90%
+  margin-top: $padding__s
+
+  &__wrap
+    @include wrap-box-background($padding__xxs, $padding__xxs)
+    display: grid
+    grid-template-columns: auto 30%
+    min-height: 7.5rem
+
+  &__text
+    width: 100%
+    display: grid
+    grid-template-rows: auto auto
+
+  &__location
+    margin: 0
+    line-height: 100%
+
+  &__data-cont
+    display: grid
+    grid-template-columns: auto auto auto
+    column-gap: $gap__xs
+
+  &__date-state
+    display: grid
+    grid-template-rows: auto auto
+    align-items: center
+
+  &__date,
+  &__state
+    margin: 0
+
+  &__state
+    line-height: .8rem
+
+  &__temperature
+    border-left: 1px solid $color__grey
+    border-right: 1px solid $color__grey
+    @include flex(center, center, row)
+
+  &__temperature > p
+    font-size: 1.5rem
+    margin: 0
+    padding:
+      left: $padding__xxxs
+      right: $padding__xxxs
+    box-sizing: border-box
+
+  &__wind-humidity
+    display: grid
+    grid-template-rows: auto auto
+    align-items: center
+
+    & > div > p
+      margin: 0
+
+    & > div > i
+      font-size: .6rem
+
+  &__wind,
+  &__humidity
+    display: grid
+    grid-template-columns: auto auto
+    justify-content: left
+    align-items: center
+    column-gap: $gap__xxs
+
+  &__image
+    position: absolute
+    top: 0
+    right: -3rem
+    z-index: 1
+
+    & > img
+      width: 8rem
+      height: auto

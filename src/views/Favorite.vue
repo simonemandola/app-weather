@@ -2,6 +2,11 @@
   <main>
     <background />
     <return :title="title" />
+    <div class="container mt-8">
+      <card />
+      <card />
+      <card />
+    </div>
   </main>
 </template>
 
@@ -9,12 +14,14 @@
 // components
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
+import Card from "@/components/_card.vue";
 
 export default {
   name: "Favorite",
   components: {
     return: Return,
     background: GradientBackground,
+    card: Card,
   },
   data() {
     return {

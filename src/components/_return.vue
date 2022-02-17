@@ -3,7 +3,10 @@
     <button type="button" class="return__btn" @click.prevent="goBack">
       <i class="icon__return"></i>
     </button>
-    <p class="return__title text-white" v-if="title">{{ title }}</p>
+    <p class="return__title text-s text-white" v-if="title">
+      {{ title }}
+      <span class="text-xxs" v-if="location">{{ location }}</span>
+    </p>
   </div>
 </template>
 
@@ -12,6 +15,7 @@ export default {
   name: "Return",
   props: {
     title: String,
+    location: String,
   },
   methods: {
     goBack() {

@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="weather-seven-days container">
-      <div
-        v-for="(day, key, i) in days"
-        :key="i"
-        class="weather-seven-days__wrap"
-      >
-        <p class="text-xs">{{ day.name }}</p>
-        <p class="weather-seven-days__temperature text-xs">{{ day.tempMin }}</p>
-        <p class="weather-seven-days__temperature text-xs">{{ day.tempMax }}</p>
-        <div class="weather-seven-days__image">
-          <img src="/img/weather-status/day/cloudy-day.png" alt="weather">
-        </div>
+  <div class="weather-seven-days container">
+    <div
+      v-for="(day, key, i) in days"
+      :key="i"
+      class="weather-seven-days__wrap"
+    >
+      <p class="text-xs">{{ day.name }}</p>
+      <p class="weather-seven-days__temperature text-xs">{{ day.tempMin }}</p>
+      <p class="weather-seven-days__temperature text-xs">{{ day.tempMax }}</p>
+      <div class="weather-seven-days__image">
+        <img src="/img/weather-status/day/cloudy-day.png" alt="weather">
       </div>
     </div>
   </div>

@@ -10,7 +10,7 @@
       </div>
     </div>
     <main-weather-result />
-    <router-link class="text-xxs link-more-details" to="Settings"
+    <router-link class="text-xxs link-more-details" :to="{ name: 'WeatherDetails' }"
       >Más detalles</router-link
     >
     <weather-by-hour />
