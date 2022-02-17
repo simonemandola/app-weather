@@ -4,6 +4,7 @@
     <return :title="'Detalles'" :location="'Valencia'" />
     <div class="container mt-8">
       <card />
+      <v-apexchart />
     </div>
     <bottom-menu />
   </main>
@@ -16,6 +17,9 @@ import Return from "@/components/_return.vue";
 import Card from "@/components/_card.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
+// graph
+import Graph from "@/components/_graph.vue";
+
 export default {
   name: "WeatherDetails",
   components: {
@@ -23,6 +27,7 @@ export default {
     return: Return,
     card: Card,
     bottomMenu: BottomMenuFixed,
+    vApexchart: Graph,
   },
 };
 </script>
