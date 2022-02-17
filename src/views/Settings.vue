@@ -14,6 +14,7 @@
               <input
                 class="settings__input toggle text-white"
                 type="checkbox"
+                :checked="checked"
                 @change="doSelect($event.target.checked)"
               />
               <span class="settings__option-label text-white"
@@ -43,6 +44,7 @@ export default {
     return {
       title: "Ajustes",
       units: this.$store.state.units,
+      checked: false,
       unitsOptions: {
         celsius: {
           name: "celsius",
@@ -57,14 +59,22 @@ export default {
   },
   methods: {
     doSelect(checked) {
-      if (checked) {
-        this.$store.state.units = this.unitsOptions.farenheit.name;
-        this.units = this.unitsOptions.farenheit.name;
-      } else {
-        this.$store.state.units = this.unitsOptions.celsius.name;
-        this.units = this.unitsOptions.celsius.name;
+      switch (checked) {
+        case true:
+          this.$store.state.units = this.unitsOptions.farenheit.name;
+          this.units = this.unitsOptions.farenheit.name;
+          break;
+        case false:
+          this.$store.state.units = this.unitsOptions.celsius.name;
+          this.units = this.unitsOptions.celsius.name;
+          break;
       }
     },
+  },
+  mounted() {
+    if (this.$store.state.units === "farenheit") {
+      this.checked = true;
+    }
   },
 };
 </script>
