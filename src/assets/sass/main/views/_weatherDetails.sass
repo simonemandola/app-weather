@@ -1,0 +1,36 @@
+.custom-apexchart
+  margin-top: $padding__xl
+
+  &__wrap-chart
+    @include wrap-box-background(0, 0)
+
+.weather-details
+  padding:
+    top: $padding__xl
+    bottom: $padding__xl
+  @include padding-inline-mobile
+
+.weather-details-hour
+  margin-top: $padding__xl
+  padding-bottom: $padding__xl
+
+  &__wrap
+    @include wrap-box-background($padding__xs, $padding__xs)
+
+  &__head-table,
+  &__table > ul > li
+    height: auto
+    margin-bottom: $padding__xxs
+    padding-bottom: $padding__xxxs
+    display: grid
+    grid-template-columns: repeat(6, 2.7rem)
+    justify-content: space-between
+    align-items: center
+    border-bottom: 1px solid $color__grey
+
+    & > span
+      @include flex(flex-end,center,column)
+      height: 100%
+
+      & > span
+        line-height: 90%

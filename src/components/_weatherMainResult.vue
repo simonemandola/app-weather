@@ -1,7 +1,7 @@
 <template>
   <router-link
     :to="{ name: 'WeatherDetails' }"
-    class="main-weather-result container"
+    class="main-weather-result"
   >
     <div class="main-weather-result__wrap">
       <div class="main-weather-result__text">

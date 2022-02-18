@@ -2,7 +2,7 @@
   <main>
     <background />
     <return :title="title" />
-    <div class="container mt-8">
+    <div class="favorite">
       <card />
       <card />
       <card />
@@ -27,6 +27,9 @@ export default {
     return {
       title: "Favoritos",
     };
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
 };
 </script>

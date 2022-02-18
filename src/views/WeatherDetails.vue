@@ -2,9 +2,10 @@
   <main>
     <background />
     <return :title="'Detalles'" :location="'Valencia'" />
-    <div class="container mt-8">
+    <div class="weather-details">
       <card />
       <v-apexchart />
+      <w-table-hour />
     </div>
     <bottom-menu />
   </main>
@@ -15,6 +16,7 @@
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Return from "@/components/_return.vue";
 import Card from "@/components/_card.vue";
+import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // graph
@@ -28,6 +30,10 @@ export default {
     card: Card,
     bottomMenu: BottomMenuFixed,
     vApexchart: Graph,
+    wTableHour: WeatherTableHour,
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
 };
 </script>

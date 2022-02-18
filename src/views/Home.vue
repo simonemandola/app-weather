@@ -1,7 +1,7 @@
 <template>
   <main>
     <background />
-    <div class="top-bar container">
+    <div class="top-bar">
       <div class="top-bar__wrap">
         <p class="text-xs text-bold">Ten un buen día.</p>
         <button @click.prevent="addToFavorite">
@@ -18,7 +18,7 @@
 
 <script>
 // components
-import MainWeatherResult from "@/components/_mainWeatherResult.vue";
+import WeatherMainResult from "@/components/_weatherMainResult.vue";
 import BackgroundImage from "@/components/_backgroundImage.vue";
 import WeatherByHour from "@/components/_weatherByHour.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
@@ -27,7 +27,7 @@ import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 export default {
   name: "Home",
   components: {
-    mainWeatherResult: MainWeatherResult,
+    mainWeatherResult: WeatherMainResult,
     background: BackgroundImage,
     weatherByHour: WeatherByHour,
     bottomMenu: BottomMenuFixed,
@@ -37,6 +37,9 @@ export default {
     addToFavorite() {
       console.log("Añadido a favoritos");
     },
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
 };
 </script>
