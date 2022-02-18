@@ -2,7 +2,7 @@
   <div>
     <div
       class="background"
-      :style="{ 'background-image': 'url(' + randomImage + ')' }"
+      :style="{ 'background-image': 'url(' + imageUrl + ')' }"
     ></div>
     <div class="custom-shape-divider-bottom">
       <svg
@@ -31,19 +31,35 @@
 </template>
 
 <script>
+// Constants
+const API_URL = "https://pixabay.com/api/";
+const KEY = "?key=25774774-e84e21b133c120ee0a33fc5c7";
+const QUERY = "&q=valencia";
+const LANG = "&lang=es";
+const IMAGE_TYPE = "&image_type=photo";
+const SAFESEARCH = "&safesearch=true";
 export default {
   name: "_backgroundImage",
   data() {
     return {
-      randomImage:
+      imageUrl:
         "https://images.unsplash.com/photo-1629546615669-8b50ea857003?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80",
-      API: "https://api.unsplash.com/photos/random?query=valencia+citys&orientation=portrait&client_id=K5OM0v54TJ_N4-7SodsSlq-m-Z93_FSUNjAS43S9Wy8&fm=jpg",
+      max: 315,
+      min: 1,
     };
   },
-  async create() {
-    const res = await fetch(this.API);
-    this.randomImage = await res.json();
-    this.randomImage = this.randomImage.urls.regular;
+  methods: {
+    randomX() {
+      return Math.floor(Math.random() * (this.max - this.min + 1)) + this.min; // Número random entre dos valores
+    },
+  },
+  async created() {
+    // TODO asignar la query correcta según la ubicación
+    const res = await fetch(
+      API_URL + KEY + QUERY + LANG + IMAGE_TYPE + SAFESEARCH
+    );
+    this.imageUrl = await res.json();
+    this.imageUrl = this.imageUrl.hits[this.randomX()].webformatURL;
   },
 };
 </script>
