@@ -1,5 +1,5 @@
 <template>
-  <nav class="bottom-menu-fixed container">
+  <nav class="bottom-menu-fixed">
     <ul class="bottom-menu-fixed__ul">
       <li v-for="(item, key, i) in menu" :key="i">
         <router-link :to="{ name: item.link, query: { active: key } }">

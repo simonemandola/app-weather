@@ -1,5 +1,5 @@
 <template>
-  <div class="return" :style="backgroundStyle">
+  <div class="return" :class="{ 'background-return': backgroundStyle }">
     <button type="button" class="return__btn" @click.prevent="goBack">
       <i class="icon__return"></i>
     </button>
@@ -19,16 +19,20 @@ export default {
   },
   data() {
     return {
-      scrollY: 0,
-      backgroundStyle: {
-        backgroundColor: "#ffffff40",
-      },
+      backgroundStyle: false,
     };
   },
   methods: {
     goBack() {
       return this.$router.go(-1);
     },
+  },
+  mounted() {
+    document.addEventListener("scroll", () => {
+      window.scrollY > 95
+        ? (this.backgroundStyle = true)
+        : (this.backgroundStyle = false);
+    });
   },
 };
 </script>

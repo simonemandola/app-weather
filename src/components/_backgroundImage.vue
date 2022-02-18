@@ -40,10 +40,10 @@ export default {
       API: "https://api.unsplash.com/photos/random?query=valencia+citys&orientation=portrait&client_id=K5OM0v54TJ_N4-7SodsSlq-m-Z93_FSUNjAS43S9Wy8&fm=jpg",
     };
   },
-  async created() {
-    // const res = await fetch(this.API);
-    // this.randomImage = await res.json();
-    // this.randomImage = this.randomImage.urls.regular;
+  async create() {
+    const res = await fetch(this.API);
+    this.randomImage = await res.json();
+    this.randomImage = this.randomImage.urls.regular;
   },
 };
 </script>

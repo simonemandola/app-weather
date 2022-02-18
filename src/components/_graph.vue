@@ -1,6 +1,7 @@
 <template>
-  <div class="mt-8">
+  <div class="custom-apexchart">
     <apexchart
+      class="custom-apexchart__wrap-chart"
       type="area"
       :height="heightGraph"
       :options="chartOptions"
