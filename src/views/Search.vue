@@ -7,16 +7,21 @@
         <i class="icon__location"></i>
         <input type="search" :placeholder="placeholder" v-model="city.value" />
       </label>
-      <div class="search-form__suggestions" v-if="suggestions.length !== 0">
+      <div class="search-form__suggestions" v-if="suggestions.length > 0">
         <ul>
           <li
-            v-for="(suggestion, key, i) in suggestions"
+            v-for="(suggestion, key) in suggestions"
             :key="key"
-            @click.prevent="showResult(suggestions.features[i])"
+            @click.prevent="showResult(suggestion)"
           >
-            {{ suggestions.features[i].place_name }}
+            {{ suggestion.place_name }}
           </li>
         </ul>
+      </div>
+      <div class="loader" v-if="loader">
+        <div class="loader__point"></div>
+        <div class="loader__point"></div>
+        <div class="loader__point"></div>
       </div>
     </form>
   </main>
@@ -37,6 +42,14 @@ const AUTOCOMPLETE = "&autocomplete=true";
 const TYPES = "&types=place";
 const LANG = "&language=es";
 
+// constants Open Weather - One Call
+const API_URL_OPW_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall?";
+const OPW_LAT = "lat=";
+const OPW_LON = "&lon=";
+const OPW_UNITS = "&units=";
+const OPW_EXCLUDE = "&exclude=minutely,alerts";
+const OPW_KEY = "&appid=9014bc217533668d1681d0858a1ca241";
+
 export default {
   name: "Search",
   components: {
@@ -51,8 +64,14 @@ export default {
         selected: "",
         value: "",
       },
+      locationCoord: {
+        lon: 0,
+        lat: 0,
+      },
       minChars: 3,
       suggestions: [],
+      loader: false,
+      weatherData: [],
     };
   },
   methods: {
@@ -72,21 +91,67 @@ export default {
         const data = await res.json();
         // Si no se encontraron coincidencias, crea un nuevo error y muestra un mensaje en la consola
         if (data.features.length === 0) {
-          throw "New error";
+          throw new Error("No se encontraron coincidencias.");
         } else {
-          this.suggestions = await data;
+          this.suggestions = data.features;
         }
       } catch (error) {
-        console.warn("No se encontraron coincidencias.");
+        console.warn(error);
       }
     },
-    showResult(value) {
-      this.city.value = value.place_name;
-      this.city.selected = value.place_name;
-      this.$store.state.locationData[0].coord.lon =
-        value.geometry.coordinates[0];
-      this.$store.state.locationData[0].coord.lat =
-        value.geometry.coordinates[1];
+    async getWeatherData() {
+      this.suggestions = [];
+      this.loader = true;
+      try {
+        const res = await fetch(
+          API_URL_OPW_ONE_CALL +
+            OPW_LAT +
+            this.locationCoord.lat +
+            OPW_LON +
+            this.locationCoord.lon +
+            OPW_UNITS +
+            this.$store.state.units.selected +
+            OPW_EXCLUDE +
+            OPW_KEY
+        );
+        const data = await res.json();
+        // Si no se encontraron coincidencias, crea un nuevo error y muestra un mensaje en la consola
+        if (data.daily.length === 0) {
+          throw new Error("No se encontró coincidencia de ciudad.");
+        } else {
+          this.loader = false;
+          this.weatherData = data;
+          console.log(this.weatherData);
+          console.log("todo bien");
+        }
+      } catch (error) {
+        console.warn(error);
+      }
+    },
+    uniqueID(id) {
+      this.$store.state.idCounter = id + 1;
+      return id;
+    },
+    setNewData(city) {
+      this.$store.state.locationData[0].id = this.uniqueID(
+        this.$store.state.idCounter
+      );
+      this.$store.state.locationData[0].name = city.text;
+      this.$store.state.locationData[0].country = city.context[1].short_code;
+      this.$store.state.locationData[0].coord.lat = this.weatherData.lat;
+      this.$store.state.locationData[0].coord.lon = this.weatherData.lon;
+      this.$store.state.locationData[0].current = this.weatherData.current;
+      this.$store.state.locationData[0].hourly = this.weatherData.hourly;
+      this.$store.state.locationData[0].daily = this.weatherData.daily;
+    },
+    async showResult(citySelected) {
+      this.suggestions = [];
+      this.city.value = citySelected.place_name;
+      this.city.selected = citySelected.place_name;
+      this.locationCoord.lon = citySelected.geometry.coordinates[0];
+      this.locationCoord.lat = citySelected.geometry.coordinates[1];
+      await this.getWeatherData();
+      await this.setNewData(citySelected);
       this.$router.push({ name: "Home" });
     },
   },
@@ -95,7 +160,7 @@ export default {
       handler(newValue) {
         if (
           newValue.value.length > this.minChars &&
-          newValue.value.length !== this.city.selected
+          newValue.value !== this.city.selected
         ) {
           this.getGeocoding();
         } else {
