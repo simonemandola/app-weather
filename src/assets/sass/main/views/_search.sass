@@ -1,0 +1,38 @@
+.search-form
+  @include padding-inline-mobile
+  padding-top: $padding__xl
+  position: relative
+
+  label
+    width: 100%
+    height: 3rem
+    border-bottom: 1px solid $color__white
+    display: grid
+    grid-template-columns: 10% 90%
+    justify-content: left
+    align-items: center
+
+    i
+      color: $color__white
+
+    input
+      color: $color__white
+      text-transform: capitalize
+
+      &::placeholder
+        color: $color__white
+        text-transform: initial
+
+  &__suggestions
+    position: absolute
+    width: 100%
+    transition: $main-transition
+    @include wrap-box-background($padding__xxs, $padding__xxs)
+    top: initial
+    bottom: -2rem
+
+    & > ul > li
+      height: 1.5rem
+      color: $color__white
+      @include flex(flex-start,center,row)
+      margin: $padding__xxs 0

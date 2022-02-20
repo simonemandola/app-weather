@@ -1,12 +1,12 @@
 import { createStore } from "vuex";
 
 // constants Open Weather - One Call
-const API_URL_OPW_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall?";
-const OPW_LAT = "lat=";
-const OPW_LON = "&lon=";
-const OPW_UNITS = "&units=";
-const OPW_EXCLUDE = "&exclude=minutely,alerts";
-const OPW_KEY = "&appid=9014bc217533668d1681d0858a1ca241";
+// const API_URL_OPW_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall?";
+// const OPW_LAT = "lat=";
+// const OPW_LON = "&lon=";
+// const OPW_UNITS = "&units=";
+// const OPW_EXCLUDE = "&exclude=minutely,alerts";
+// const OPW_KEY = "&appid=9014bc217533668d1681d0858a1ca241";
 
 export default createStore({
   state: {
@@ -101,11 +101,11 @@ export default createStore({
   actions: {
     // TODO obtener lat y lon desde la api de geolocalización en la vista "Search", guardar current lat y lon en el
     //  state.
-    async weatherOneCallFetch({commit}, data) {
-      try {
-        const res = await fetch(API_URL_OPW_ONE_CALL + OPW_LAT + )
-      }
-    }
+    // async weatherOneCallFetch({commit}, data) {
+    //   try {
+    //     const res = await fetch(API_URL_OPW_ONE_CALL + OPW_LAT + )
+    //   }
+    // }
   },
   modules: {},
 });
