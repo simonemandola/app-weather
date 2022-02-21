@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "_bottomMenu-Fixed",
+  name: "BottomMenuFixed",
   data() {
     return {
       menu: {

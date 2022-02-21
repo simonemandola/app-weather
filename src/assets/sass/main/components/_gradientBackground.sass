@@ -1,10 +1,9 @@
 @keyframes animBgColor
   from
-    right: -18rem
-    transform: translateY(-2rem)
+    transform: translateY(-2rem) translateX(6rem)
   to
     right: 18rem
-    transform: translateY(0)
+    transform: translateY(0) translateX(0)
 
 
 .gradient-background
@@ -34,15 +33,16 @@
   &::before
     content: ''
     position: absolute
-    bottom: -10rem
+    left: 2rem
+    bottom: -8rem
     width: 15rem
     height: 15rem
     border-radius: 20rem
     background-color: $color__light-blue
     opacity: .6
-    filter: blur(100px)
+    filter: blur(80px)
     @include animation(animBgColor, 18s, both)
     animation-iteration-count: infinite
     animation-direction: alternate-reverse
-    animation-timing-function: linear
+    animation-timing-function: ease-out
     animation-delay: 1s

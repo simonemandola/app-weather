@@ -1,6 +1,6 @@
 <template>
   <main>
-    <background />
+    <main-background />
     <div class="top-bar">
       <div class="top-bar__wrap">
         <p class="text-xs text-bold">Ten un buen día.</p>
@@ -9,7 +9,7 @@
         </button>
       </div>
     </div>
-    <main-weather-result />
+    <main-results />
     <weather-by-hour />
     <weather-seven-days />
     <bottom-menu />
@@ -19,7 +19,7 @@
 <script>
 // components
 import WeatherMainResult from "@/components/_weatherMainResult.vue";
-import BackgroundImage from "@/components/_backgroundImage.vue";
+import MainBackground from "@/components/_mainBackground.vue";
 import WeatherByHour from "@/components/_weatherByHour.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
@@ -27,8 +27,8 @@ import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 export default {
   name: "Home",
   components: {
-    mainWeatherResult: WeatherMainResult,
-    background: BackgroundImage,
+    mainResults: WeatherMainResult,
+    mainBackground: MainBackground,
     weatherByHour: WeatherByHour,
     bottomMenu: BottomMenuFixed,
     weatherSevenDays: WeatherSevenDays,

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Screensplash from "@/views/Screensplash.vue";
 import Home from "@/views/Home.vue";
 import WeatherDetails from "@/views/WeatherDetails.vue";
 import Favorite from "@/views/Favorite.vue";
@@ -8,6 +9,11 @@ import Settings from "@/views/Settings.vue";
 const routes = [
   {
     path: "/",
+    name: "Screensplash",
+    component: Screensplash,
+  },
+  {
+    path: "/home",
     name: "Home",
     component: Home,
   },
