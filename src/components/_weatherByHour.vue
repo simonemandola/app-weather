@@ -1,73 +1,36 @@
 <template>
   <div class="weather-by-hour">
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
+    <div
+      class="weather-by-hour__item"
+      v-for="(weatherByHourItem, key) in weatherByHour"
+      :key="key"
+    >
+      <p class="text-xxs">{{ weatherByHourItem.dt }}</p>
       <div class="weather-by-hour__icon">
         <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
       </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
-    </div>
-    <div class="weather-by-hour__wrap">
-      <p class="text-xxs">Ahora</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
-      </div>
-      <p class="text-xxs">20%</p>
+      <p class="text-xxs">{{ weatherByHourItem.temp }}º</p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "_weatherByHour",
+  name: "WeatherByHour",
+  data() {
+    return {
+      weatherByHour: this.$store.state.locationData[0].hourly,
+    };
+  },
+  mounted() {
+    this.weatherByHour.forEach((hour) => {
+      hour.dt = new Date(hour.dt * 1000).getUTCHours();
+      if (hour.dt < 10) {
+        hour.dt = "0" + hour.dt;
+      }
+      hour.dt = hour.dt + ":00";
+      // hour.temp = hour.temp.toFixed(0);
+    });
+  },
 };
 </script>

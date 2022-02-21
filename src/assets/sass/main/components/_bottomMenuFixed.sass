@@ -5,18 +5,16 @@
   right: 0
   height: $return__height
   z-index: 99999
-  margin-bottom: $padding__xs
   box-sizing: border-box
-  padding:
-    left: $padding__xxs
-    right: $padding__xxs
+  border-top-left-radius: $border-radius-m
+  border-top-right-radius: $border-radius-m
+  overflow: hidden
 
   &__ul
     display: grid
     grid-template-columns: repeat(3, 3rem)
     justify-items: center
     justify-content: space-around
-    @include wrap-box-background(0, $padding__xxs)
     height: 100%
     background-color: $color__white
 

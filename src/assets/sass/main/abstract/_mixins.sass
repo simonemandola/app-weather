@@ -67,9 +67,9 @@
     position: relative
     height: fit-content
     @include pin(0,0,0,0)
-    border-radius: 1rem
-    background-color: rgba(250, 250, 250, 0.4)
-    backdrop-filter: blur(4px)
+    border-radius: $border-radius-s
+    background-color: transparentize($color__dark-blue, .65)
+    backdrop-filter: blur(1px)
     padding:
         top: $p-block
         right: $p-inline
@@ -81,7 +81,7 @@
         content: ''
         position: absolute
         @include pin(0,0,0,0)
-        border-radius: 1rem
+        border-radius: $border-radius-s
         pointer-events: none
         box-shadow: -.5rem -.5rem .6rem -.5rem rgba(255, 255, 255, 0.4), -.3rem -.3rem .5rem -.2rem rgba(255, 255, 255, 0.55), -.1rem -.1rem .2rem -.08rem rgba(255, 255, 255, 0.7), .1rem .1rem .2rem -.1rem rgba(35, 35, 35, 0.6), .3rem .3rem .5rem -.2rem rgba(35, 35, 35, 0.4), .5rem .5rem 1rem -.5rem rgba(35, 35, 35, 0.4)
         -webkit-box-shadow: -.5rem -.5rem .6rem -.5rem rgba(255, 255, 255, 0.4), -.3rem -.3rem .5rem -.2rem rgba(255, 255, 255, 0.55), -.1rem -.1rem .2rem -.08rem rgba(255, 255, 255, 0.7), .1rem .1rem .2rem -.1rem rgba(35, 35, 35, 0.6), .3rem .3rem .5rem -.2rem rgba(35, 35, 35, 0.4), .5rem .5rem 1rem -.5rem rgba(35, 35, 35, 0.4)

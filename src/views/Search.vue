@@ -99,16 +99,16 @@ export default {
         console.warn(error);
       }
     },
-    async getWeatherData() {
+    async getWeatherData(lat, lon) {
       this.suggestions = [];
       this.loader = true;
       try {
         const res = await fetch(
           API_URL_OPW_ONE_CALL +
             OPW_LAT +
-            this.locationCoord.lat +
+            lat +
             OPW_LON +
-            this.locationCoord.lon +
+            lon +
             OPW_UNITS +
             this.$store.state.units.selected +
             OPW_EXCLUDE +
@@ -150,7 +150,7 @@ export default {
       this.city.selected = citySelected.place_name;
       this.locationCoord.lon = citySelected.geometry.coordinates[0];
       this.locationCoord.lat = citySelected.geometry.coordinates[1];
-      await this.getWeatherData();
+      await this.getWeatherData(this.locationCoord.lat, this.locationCoord.lon);
       await this.setNewData(citySelected);
       this.$router.push({ name: "Home" });
     },

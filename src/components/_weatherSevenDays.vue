@@ -1,15 +1,15 @@
 <template>
   <div class="weather-seven-days container">
     <div
-      v-for="(day, key, i) in days"
+      v-for="(day, key, i) in weatherByDays"
       :key="i"
       class="weather-seven-days__wrap"
     >
-      <p class="text-xs">{{ day.name }}</p>
-      <p class="weather-seven-days__temperature text-xs">{{ day.tempMin }}</p>
-      <p class="weather-seven-days__temperature text-xs">{{ day.tempMax }}</p>
+      <p class="text-xs">{{ day.dt }}</p>
+      <p class="weather-seven-days__temperature text-xs">{{ day.temp.min }}º</p>
+      <p class="weather-seven-days__temperature text-xs">{{ day.temp.max }}º</p>
       <div class="weather-seven-days__image">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="weather">
+        <img src="/img/weather-status/day/cloudy-day.png" alt="weather" />
       </div>
     </div>
   </div>
@@ -20,49 +20,17 @@ export default {
   name: "weatherSevenDays",
   data() {
     return {
-      days: {
-        currentDay: {
-          name: "Lunes",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-        DayOne: {
-          name: "Martes",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-        DayTwo: {
-          name: "Miercoles",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-        DayThree: {
-          name: "Jueves",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-        DayFour: {
-          name: "Viernes",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-        DayFive: {
-          name: "Sabado",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-        DaySix: {
-          name: "Domingo",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-        DaySeven: {
-          name: "Lunes",
-          tempMin: "6º",
-          tempMax: "22º",
-        },
-      },
+      weatherByDays: this.$store.state.locationData[0].daily,
     };
+  },
+  mounted() {
+    this.weatherByDays.forEach((day) => {
+      day.dt = new Date(day.dt * 1000).toLocaleDateString("es-ES", { weekday: "long" });
+      //// console.log(day.dt.toLocaleDateString("es-ES", options));
+      //// .toLocaleDateString("es-ES", options);
+      // day.temp.min = day.temp.min.toFixed(0);
+      // day.temp.max = day.temp.max.toFixed(0);
+    });
   },
 };
 </script>
