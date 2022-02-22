@@ -3,20 +3,26 @@
   margin-top: $padding__xl
 
   &__wrap
-    width: 93%
+    width: 100%
     display: grid
-    grid-template-columns: 35% 2rem 2rem 2rem
+    grid-template-columns: 25% auto auto 4rem
     justify-content: space-between
     align-items: center
-    @include wrap-box-background($padding__xxxs, $padding__xxs)
+    @include card-settings($padding__xxxs, $padding__xxs)
     margin-top: $padding__xs
 
+  &__day
+    text-transform: capitalize
+
   &__image
-    position: absolute
-    width: 4.2rem
-    top: 0
-    right: -2rem
-    z-index: 1
+    width: 2.5rem
+    margin-left: auto
 
   &__temperature
     text-align: center
+    display: grid
+    grid-template-columns: auto auto
+    column-gap: $gap__xs
+
+    & > i
+      font-size: .8rem

@@ -1,9 +1,6 @@
 .custom-apexchart
   margin-top: $padding__xl
 
-  &__wrap-chart
-    @include wrap-box-background(0, 0)
-
 .weather-details
   padding:
     top: $padding__xl
@@ -15,7 +12,7 @@
   padding-bottom: $padding__xl
 
   &__wrap
-    @include wrap-box-background($padding__xs, $padding__xs)
+    @include card-settings($padding__xs, $padding__xs)
 
   &__head-table,
   &__table > ul > li
