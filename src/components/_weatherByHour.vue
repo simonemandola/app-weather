@@ -7,7 +7,7 @@
     >
       <p class="text-xxs">{{ weatherByHourItem.dt }}</p>
       <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="sunny" />
+        <img src="/img/weather-status/icons/day/02d.png" alt="sunny" />
       </div>
       <p class="text-xxs">{{ weatherByHourItem.temp }}º</p>
     </div>

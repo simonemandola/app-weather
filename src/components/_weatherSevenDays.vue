@@ -9,7 +9,7 @@
       <p class="weather-seven-days__temperature text-xs">{{ day.temp.min }}º</p>
       <p class="weather-seven-days__temperature text-xs">{{ day.temp.max }}º</p>
       <div class="weather-seven-days__image">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="weather" />
+        <img src="/img/weather-status/icons/day/02d.png" alt="weather" />
       </div>
     </div>
   </div>

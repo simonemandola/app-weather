@@ -12,7 +12,7 @@
         </p>
       </div>
       <div class="main-weather-result__image">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="" />
+        <img src="/img/weather-status/icons/day/02d.png" alt="" />
       </div>
     </div>
     <div class="main-weather-result__state-info">

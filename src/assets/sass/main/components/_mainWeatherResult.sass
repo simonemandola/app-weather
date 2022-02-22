@@ -5,7 +5,7 @@
   height: auto
 
   &__wrap
-    @include wrap-box-background($padding__xxs, $padding__xxs)
+    @include flex(center, center, column)
     z-index: 1
 
   &__text
@@ -71,8 +71,8 @@
       margin-right: .25rem
 
   &__image
-    position: absolute
-    width: 65%
-    right: -2.25rem
-    top: -4.5rem
+    width: 40%
     z-index: 1
+
+    & > img
+      fill: $color__white

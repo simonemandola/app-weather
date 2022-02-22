@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="card__image">
-        <img src="/img/weather-status/day/cloudy-day.png" alt="weather">
+        <img src="/img/weather-status/icons/day/02d.png" alt="weather">
       </div>
     </div>
   </article>
