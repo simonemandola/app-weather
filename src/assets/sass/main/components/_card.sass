@@ -1,12 +1,13 @@
 .card
-  width: 90%
+  width: 100%
   margin-top: $padding__s
 
   &__wrap
-    @include wrap-box-background($padding__xxs, $padding__xxs)
+    @include card-settings($padding__xxs, $padding__xxs)
     display: grid
-    grid-template-columns: auto 30%
+    grid-template-columns: auto 20%
     min-height: 7.5rem
+    column-gap: $gap__l
 
   &__text
     width: 100%
@@ -67,11 +68,9 @@
     column-gap: $gap__xxs
 
   &__image
-    position: absolute
-    top: 0
-    right: -3rem
-    z-index: 1
+    display: grid
+    place-content: center
 
     & > img
-      width: 8rem
+      width: 4rem
       height: auto

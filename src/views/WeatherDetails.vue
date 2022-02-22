@@ -1,7 +1,7 @@
 <template>
   <main>
     <background />
-    <return :title="'Detalles'" :location="'Valencia'" />
+    <return :title="'Detalles'" :location="locationInfo" />
     <div class="weather-details">
       <card />
       <v-apexchart />
@@ -32,8 +32,19 @@ export default {
     vApexchart: Graph,
     wTableHour: WeatherTableHour,
   },
+  data() {
+    return {
+      country: "",
+      location: "",
+      locationInfo: "",
+    };
+  },
   mounted() {
     window.scrollTo(0, 0);
+    this.country =
+      this.$store.state.locationData[0].country.toLocaleUpperCase();
+    this.location = this.$store.state.locationData[0].name;
+    this.locationInfo = `${this.location}, ${this.country}`;
   },
 };
 </script>
