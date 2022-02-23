@@ -60,11 +60,19 @@ export default {
     };
   },
   methods: {
+    // convertToCelsius() {
+    //   let weatherData = window.localStorage.getItem("user-weather-data");
+    //   weatherData = JSON.parse(weatherData);
+    //   console.log(weatherData);
+    //   weatherData.current.temp = weatherData.current.temp * (9 / 5) + 32;
+    //   console.log(weatherData);
+    // },
     doSelect(checked) {
       switch (checked) {
         case true:
           this.$store.state.units.selected = this.unitsOptions.farenheit.unit;
           this.units = this.unitsOptions.farenheit.name;
+          // this.convertToCelsius();
           break;
         case false:
           this.$store.state.units.selected = this.unitsOptions.celsius.unit;

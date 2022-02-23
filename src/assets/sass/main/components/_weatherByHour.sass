@@ -5,8 +5,7 @@
   flex-wrap: nowrap
   overflow-x: auto
   margin-top: $padding__xl
-  padding-left: $padding__xxs
-  box-sizing: border-box
+  @include padding-inline-mobile
 
   &__item
     width: 4.5rem
@@ -17,7 +16,7 @@
       bottom: $padding__xxs
 
     &:last-child
-      margin-right: $padding__s
+      margin-right: 0
 
     & > p
       margin: .25rem 0
