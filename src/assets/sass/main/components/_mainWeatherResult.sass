@@ -9,23 +9,23 @@
     z-index: 1
 
   &__text
+    width: 100%
     position: relative
-    z-index: 5
 
   &__text > h1
+    width: 100%
     font-weight: 300
     margin: 0
     line-height: 100%
-
-  &__date
-    margin: 0
-    padding-bottom: $padding__xxxs
 
   &__temperature
+    width: 100%
     font-size: 6rem
     font-weight: 300
-    margin: 0
+    margin: $padding__xxxs 0
     line-height: 100%
+    padding-left: 2.2rem
+    box-sizing: border-box
 
   &__state
     text-transform: capitalize
@@ -53,8 +53,5 @@
       margin-right: .25rem
 
   &__image
-    width: 40%
+    width: 30%
     margin-bottom: $padding__xxs
-
-    & > img
-      fill: $color__white

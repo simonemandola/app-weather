@@ -38,8 +38,17 @@ export default {
       console.log("Añadido a favoritos");
     },
   },
-  mounted() {
+  created() {
     window.scrollTo(0, 0);
+    if (!window.localStorage.getItem("user-weather-data")) {
+      window.localStorage.setItem(
+        "user-weather-data",
+        JSON.stringify(this.$store.state.locationData[0])
+      );
+    } else {
+      const data = window.localStorage.getItem("user-weather-data");
+      this.$store.state.locationData[0] = JSON.parse(data);
+    }
   },
 };
 </script>

@@ -22,6 +22,7 @@ const API_URL_OPW_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall?";
 const OPW_LAT = "lat=";
 const OPW_LON = "&lon=";
 const OPW_UNITS = "&units=";
+const OPW_LANG = "&lang=es";
 const OPW_EXCLUDE = "&exclude=minutely,alerts";
 const OPW_KEY = "&appid=9014bc217533668d1681d0858a1ca241";
 export default {
@@ -63,12 +64,13 @@ export default {
             lon +
             OPW_UNITS +
             this.$store.state.units.selected +
+            OPW_LANG +
             OPW_EXCLUDE +
             OPW_KEY
         );
         this.weatherData = await res.json();
         console.log(this.weatherData);
-        console.log("todo bien");
+        console.log("Weather data getted successfully");
       } catch (error) {
         console.warn(error);
       }

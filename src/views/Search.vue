@@ -68,7 +68,7 @@ export default {
         lon: 0,
         lat: 0,
       },
-      minChars: 3,
+      minChars: 2,
       suggestions: [],
       loader: false,
       weatherData: [],
@@ -152,6 +152,7 @@ export default {
       this.locationCoord.lat = citySelected.geometry.coordinates[1];
       await this.getWeatherData(this.locationCoord.lat, this.locationCoord.lon);
       await this.setNewData(citySelected);
+      window.localStorage.removeItem("user-weather-data");
       this.$router.push({ name: "Home" });
     },
   },

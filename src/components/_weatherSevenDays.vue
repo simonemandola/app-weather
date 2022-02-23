@@ -33,10 +33,8 @@ export default {
         weekday: "long",
       });
       this.weatherByDays[0].dt = "Hoy";
-      //// console.log(day.dt.toLocaleDateString("es-ES", options));
-      //// .toLocaleDateString("es-ES", options);
-      // day.temp.min = day.temp.min.toFixed(0);
-      // day.temp.max = day.temp.max.toFixed(0);
+      day.temp.min = day.temp.min.toFixed(0);
+      day.temp.max = day.temp.max.toFixed(0);
     });
   },
 };

@@ -2,11 +2,11 @@
   <router-link :to="{ name: 'WeatherDetails' }" class="main-weather-result">
     <div class="main-weather-result__wrap">
       <div class="main-weather-result__image">
-        <img src="/img/weather-status/icons/day/02d.svg" alt="">
+        <img src="/img/weather-status/icons/day/02d.svg" alt="" />
       </div>
       <div class="main-weather-result__text">
         <h1 class="title-xs text-center">{{ weatherData?.name }}</h1>
-        <p class="main-weather-result__temperature text-bold">
+        <p class="main-weather-result__temperature text-center">
           {{ weatherData.current?.temp }}º
         </p>
         <p class="main-weather-result__state text-s text-center">
@@ -34,8 +34,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.weatherData.daily[0].temp.min);
-    // this.weatherData.current.temp = this.weatherData.current.temp.toFixed(0);
+    this.weatherData.current.temp = this.weatherData.current.temp.toFixed(0);
   },
 };
 </script>
