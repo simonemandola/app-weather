@@ -71,8 +71,7 @@ export default {
             OPW_KEY
         );
         this.weatherData = await res.json();
-        console.log(this.weatherData);
-        console.log("Weather data getted successfully");
+        console.log("Weather data getted successfully!");
       } catch (error) {
         console.warn(error);
       }
@@ -104,6 +103,7 @@ export default {
     },
   },
   created() {
+    window.localStorage.removeItem("user-weather-data");
     navigator.geolocation.getCurrentPosition((position) => {
       this.currentPosition.lat = position.coords.latitude;
       this.currentPosition.lon = position.coords.longitude;
