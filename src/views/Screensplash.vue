@@ -2,7 +2,7 @@
   <div>
     <main-background />
     <div class="screensplash">
-      <img src="/img/weather-status/icons/day/02d.svg" alt="icon app">
+      <img src="/img/weather-status/icons/day/02d.svg" alt="icon app" />
     </div>
   </div>
 </template>
@@ -76,19 +76,16 @@ export default {
         console.warn(error);
       }
     },
-    uniqueID(id) {
-      this.$store.state.idCounter = id + 1;
-      return id;
-    },
     setNewData() {
-      this.$store.state.locationData[0].id = this.uniqueID(
-        this.$store.state.idCounter
-      );
       this.$store.state.locationData[0].coord.lat = this.currentPosition.lat;
       this.$store.state.locationData[0].coord.lon = this.currentPosition.lon;
+      this.$store.state.locationData[0].id =
+        this.$store.state.locationData[0].coord.lat.toString() +
+        this.$store.state.locationData[0].coord.lon.toString();
       this.$store.state.locationData[0].current = this.weatherData.current;
       this.$store.state.locationData[0].hourly = this.weatherData.hourly;
       this.$store.state.locationData[0].daily = this.weatherData.daily;
+      this.$store.state.locationData[0].favorite = false;
     },
     async showResult() {
       await this.getWeatherData(
@@ -99,7 +96,7 @@ export default {
       await this.setNewData();
       setTimeout(() => {
         this.$router.push({ name: "Home" });
-      }, 2000);
+      }, 1500);
     },
   },
   created() {

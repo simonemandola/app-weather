@@ -130,18 +130,13 @@ export default {
         console.warn(error);
       }
     },
-    uniqueID(id) {
-      this.$store.state.idCounter = id + 1;
-      return id;
-    },
     setNewData(city) {
-      this.$store.state.locationData[0].id = this.uniqueID(
-        this.$store.state.idCounter
-      );
       this.$store.state.locationData[0].name = city.text;
       this.$store.state.locationData[0].country = city.context[1].short_code;
       this.$store.state.locationData[0].coord.lat = this.weatherData.lat;
       this.$store.state.locationData[0].coord.lon = this.weatherData.lon;
+      this.$store.state.locationData[0].id =
+        this.$store.state.locationData[0].coord.lat.toString() + this.$store.state.locationData[0].coord.lon.toString();
       this.$store.state.locationData[0].current = this.weatherData.current;
       this.$store.state.locationData[0].hourly = this.weatherData.hourly;
       this.$store.state.locationData[0].daily = this.weatherData.daily;

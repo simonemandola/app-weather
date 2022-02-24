@@ -3,9 +3,19 @@
     <background />
     <return :title="title" />
     <div class="favorite">
-      <card />
-      <card />
-      <card />
+      <p v-if="favoriteLocations.length === 0" class="text-s text-center">
+        ¡No tienes ubicaciones favoritas!
+      </p>
+      <card
+        v-else
+        v-for="(location, i) in favoriteLocations"
+        :key="i"
+        :location-name="location.name"
+        :weather-description="location.current.weather[0].description"
+        :temperature="location.current.temp"
+        :wind-speed="location.current.wind_speed"
+        :humidity="location.current.humidity"
+      />
     </div>
   </main>
 </template>
@@ -26,6 +36,7 @@ export default {
   data() {
     return {
       title: "Favoritos",
+      favoriteLocations: this.$store.state.favoriteLocations,
     };
   },
   mounted() {
