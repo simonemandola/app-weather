@@ -13,6 +13,9 @@
 <script>
 import VueApexCharts from "vue3-apexcharts";
 
+let temperatureArray = [];
+let hoursArray = [];
+
 export default {
   name: "Graph",
   components: {
@@ -20,18 +23,21 @@ export default {
   },
   data() {
     return {
+      weatherData: this.$store.state.locationData[0],
       heightGraph: 256,
       series: [
         {
-          name: "series1",
-          data: [38, 40, 38, 39, 42, 45, 40],
+          name: "Temperature",
+          data: temperatureArray,
         },
       ],
       chartOptions: {
         chart: {
-          type: "area",
-          fontFamily: "Telegraf, sans-serif",
-          foreColor: "#ffffff",
+          offsetY: 0,
+          offsetX: -6,
+          type: "column",
+          fontFamily: "Niramit, sans-serif",
+          foreColor: "#f5f5f5",
           zoom: {
             enabled: false,
           },
@@ -46,22 +52,29 @@ export default {
           curve: "smooth",
         },
         xaxis: {
-          type: "datetime",
-          categories: [
-            "2018-09-19T00:00:00.000Z",
-            "2018-09-19T01:30:00.000Z",
-            "2018-09-19T02:30:00.000Z",
-            "2018-09-19T03:30:00.000Z",
-            "2018-09-19T04:30:00.000Z",
-            "2018-09-19T05:30:00.000Z",
-            "2018-09-19T06:30:00.000Z",
-          ],
+          type: "string",
+          categories: hoursArray,
+          labels: {
+            offsetY: 5,
+          },
         },
         tooltip: {
           enabled: false,
         },
       },
     };
+  },
+  mounted() {
+    if (hoursArray.length > 0 || temperatureArray.length > 0) {
+      hoursArray = [];
+      temperatureArray = [];
+    }
+    this.weatherData.hourly.filter((hour, i) => {
+      if (i < 12) {
+        hoursArray.push(hour.dt);
+        temperatureArray.push(hour.temp);
+      }
+    });
   },
 };
 </script>

@@ -1,7 +1,9 @@
 <template>
   <div>
     <main-background />
-    <div class="screensplash"></div>
+    <div class="screensplash">
+      <img src="/img/weather-status/icons/day/02d.svg" alt="icon app">
+    </div>
   </div>
 </template>
 
