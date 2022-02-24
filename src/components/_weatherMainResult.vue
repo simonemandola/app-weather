@@ -5,21 +5,21 @@
         <img src="/img/weather-status/icons/day/02d.svg" alt="" />
       </div>
       <div class="main-weather-result__text">
-        <h1 class="title-xs text-center">{{ weatherData?.name }}</h1>
+        <h1 class="title-xs text-center">{{ weatherData.name }}, <span>{{ weatherData.country }}</span></h1>
         <p class="main-weather-result__temperature text-center">
-          {{ weatherData.current?.temp }}º
+          {{ weatherData.current.temp }}º
         </p>
         <p class="main-weather-result__state text-s text-center">
-          {{ weatherData.current.weather[0]?.description }}
+          {{ weatherData.current.weather[0].description }}
         </p>
       </div>
     </div>
     <div class="main-weather-result__state-info">
       <p class="text-xs">
-        <i class="icon__temp-min"></i>{{ weatherData.daily[0].temp?.min }}
+        <i class="icon__temp-min"></i>{{ weatherData.daily[0].temp.min }}
       </p>
       <p class="text-xs">
-        <i class="icon__temp-max"></i>{{ weatherData.daily[0].temp?.max }}
+        <i class="icon__temp-max"></i>{{ weatherData.daily[0].temp.max }}
       </p>
     </div>
   </router-link>

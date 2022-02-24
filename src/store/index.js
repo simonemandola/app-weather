@@ -2,7 +2,6 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    idCounter: 0,
     units2: "celsius",
     locationData: [
       {
@@ -29,6 +28,7 @@ export default createStore({
         value: "imperial",
       },
     },
+    favoriteLocations: [],
   },
   mutations: {},
   actions: {},

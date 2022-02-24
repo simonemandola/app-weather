@@ -5,7 +5,7 @@
       <div class="top-bar__wrap">
         <p class="text-xs text-bold">Ten un buen día.</p>
         <button @click.prevent="addToFavorite">
-          <i class="icon__favorite"></i>
+          <i :class="locationIsFavorite ? icon.checked : icon.unchecked"></i>
         </button>
       </div>
     </div>
@@ -33,9 +33,46 @@ export default {
     bottomMenu: BottomMenuFixed,
     weatherSevenDays: WeatherSevenDays,
   },
+  data() {
+    return {
+      favoriteLocations: this.$store.state.favoriteLocations,
+      locationToAdd: "",
+      myLocalStorage: window.localStorage,
+      icon: {
+        unchecked: "icon__favorite",
+        checked: "icon__favorite-checked",
+      },
+      locationIsFavorite: false,
+    };
+  },
   methods: {
     addToFavorite() {
-      console.log("Añadido a favoritos");
+      this.locationToAdd = this.myLocalStorage.getItem("user-weather-data");
+      this.locationToAdd = JSON.parse(this.locationToAdd);
+      const locationToAddID = this.locationToAdd.id;
+      this.locationIsFavorite = this.favoriteLocations.some(
+        (location) => location.id === locationToAddID
+      );
+      if (!this.locationIsFavorite) {
+        this.locationIsFavorite = true;
+        this.favoriteLocations.push(this.locationToAdd);
+        this.myLocalStorage.setItem(
+          "favorite-locations",
+          JSON.stringify(this.favoriteLocations)
+        );
+        this.$store.state.favoriteLocations.favorite = true;
+      } else {
+        this.locationIsFavorite = false;
+        this.favoriteLocations = this.favoriteLocations.filter(
+          (location) => location.id !== locationToAddID
+        );
+        this.myLocalStorage.removeItem("favorite-locations");
+        this.myLocalStorage.setItem(
+          "favorite-locations",
+          JSON.stringify(this.favoriteLocations)
+        );
+        this.$store.state.favoriteLocations.favorite = false;
+      }
     },
   },
   created() {
@@ -49,6 +86,11 @@ export default {
       const data = window.localStorage.getItem("user-weather-data");
       this.$store.state.locationData[0] = JSON.parse(data);
     }
+  },
+  mounted() {
+    this.locationIsFavorite = this.favoriteLocations.some(
+      (location) => location.id === this.$store.state.locationData[0].id
+    );
   },
 };
 </script>

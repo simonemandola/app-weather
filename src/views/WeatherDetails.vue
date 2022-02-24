@@ -3,7 +3,13 @@
     <background />
     <return :title="'Detalles'" :location="locationInfo" />
     <div class="weather-details">
-      <card />
+      <card
+        :location-name="weatherData.name"
+        :weather-description="weatherData.current.weather[0].description"
+        :temperature="weatherData.current.temp"
+        :wind-speed="weatherData.current.wind_speed"
+        :humidity="weatherData.current.humidity"
+      />
       <v-apexchart />
       <w-table-hour />
       <w-gallery />
@@ -40,9 +46,11 @@ export default {
       country: "",
       location: "",
       locationInfo: "",
+      weatherData: this.$store.state.locationData[0],
     };
   },
   mounted() {
+    console.log(this.weatherData);
     window.scrollTo(0, 0);
     this.country =
       this.$store.state.locationData[0].country.toLocaleUpperCase();
