@@ -13,6 +13,7 @@
       />
       <v-apexchart />
       <w-table-hour />
+      <map-location />
       <w-gallery />
     </div>
     <bottom-menu />
@@ -25,6 +26,7 @@ import GradientBackground from "@/components/_gradientBackground.vue";
 import Return from "@/components/_return.vue";
 import Card from "@/components/_card.vue";
 import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
+import MapLocation from "@/components/_mapLocation.vue";
 import WeatherDetailsGallery from "@/components/_weatherDetailsGallery.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
@@ -40,6 +42,7 @@ export default {
     bottomMenu: BottomMenuFixed,
     vApexchart: Graph,
     wTableHour: WeatherTableHour,
+    mapLocation: MapLocation,
     wGallery: WeatherDetailsGallery,
   },
   data() {
