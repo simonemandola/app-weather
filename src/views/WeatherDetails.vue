@@ -9,6 +9,7 @@
         :temperature="weatherData.current.temp"
         :wind-speed="weatherData.current.wind_speed"
         :humidity="weatherData.current.humidity"
+        :icon-weather="weatherData.current.weather[0].icon"
       />
       <v-apexchart />
       <w-table-hour />

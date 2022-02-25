@@ -1,15 +1,18 @@
 <template>
   <div class="weather-by-hour">
-    <div
-      class="weather-by-hour__item"
-      v-for="(weatherByHourItem, key) in weatherByHour"
-      :key="key"
-    >
-      <p class="text-xxs">{{ weatherByHourItem.dt }}</p>
-      <div class="weather-by-hour__icon">
-        <img src="/img/weather-status/icons/day/02d.svg" alt="">
+    <p class="text-xxs weather-by-hour__title">Previsión 48 horas</p>
+    <div class="weather-by-hour__items-wrap">
+      <div
+        class="weather-by-hour__item"
+        v-for="(hour, key) in weatherByHour"
+        :key="key"
+      >
+        <p class="text-xxs">{{ hour.dt }}</p>
+        <div class="weather-by-hour__icon">
+          <img :src="'/img/weather-status/icons/' + hour.weather[0].icon + '.svg'" alt="">
+        </div>
+        <p class="text-xxs">{{ hour.temp }}º</p>
       </div>
-      <p class="text-xxs">{{ weatherByHourItem.temp }}º</p>
     </div>
   </div>
 </template>

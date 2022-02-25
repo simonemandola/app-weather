@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="card__image">
-        <img src="/img/weather-status/icons/day/02d.svg" alt="weather" />
+        <img :src="'/img/weather-status/icons/' + iconWeather + '.svg'" alt="weather" />
       </div>
     </div>
   </article>
@@ -40,6 +40,7 @@ export default {
     temperature: String,
     windSpeed: Number,
     humidity: Number,
+    iconWeather: String,
   },
 };
 </script>

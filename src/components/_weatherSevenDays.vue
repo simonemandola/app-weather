@@ -1,5 +1,6 @@
 <template>
   <div class="weather-seven-days container">
+    <p class="text-xxs weather-seven-days__title">Previsión 7 días</p>
     <div
       v-for="(day, key, i) in weatherByDays"
       :key="i"
@@ -13,7 +14,10 @@
         {{ day.temp.max }}º<i class="icon__temp-max"></i>
       </p>
       <div class="weather-seven-days__image">
-        <img src="/img/weather-status/icons/day/02d.svg" alt="" />
+        <img
+          :src="'/img/weather-status/icons/' + day.weather[0].icon + '.svg'"
+          alt=""
+        />
       </div>
     </div>
   </div>

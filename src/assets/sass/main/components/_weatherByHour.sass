@@ -1,11 +1,16 @@
 .weather-by-hour
   width: 100%
   height: auto
-  @include flex(flex-start,center,row)
-  flex-wrap: nowrap
-  overflow-x: auto
   margin-top: $padding__xl
   @include padding-inline-mobile
+
+  &__title
+    margin: 0
+
+  &__items-wrap
+    @include flex(flex-start,center,row)
+    flex-wrap: nowrap
+    overflow-x: auto
 
   &__item
     width: 4.5rem

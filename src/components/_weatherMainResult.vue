@@ -2,10 +2,19 @@
   <router-link :to="{ name: 'WeatherDetails' }" class="main-weather-result">
     <div class="main-weather-result__wrap">
       <div class="main-weather-result__image">
-        <img src="/img/weather-status/icons/day/02d.svg" alt="" />
+        <img
+          :src="
+            '/img/weather-status/icons/' +
+            weatherData.current.weather[0].icon +
+            '.svg'
+          "
+          alt=""
+        />
       </div>
       <div class="main-weather-result__text">
-        <h1 class="title-xs text-center">{{ weatherData.name }}, <span>{{ weatherData.country }}</span></h1>
+        <h1 class="title-xs text-center">
+          {{ weatherData.name }}, <span>{{ weatherData.country }}</span>
+        </h1>
         <p class="main-weather-result__temperature text-center">
           {{ weatherData.current.temp }}º
         </p>

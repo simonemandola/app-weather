@@ -15,6 +15,7 @@
         :temperature="location.current.temp"
         :wind-speed="location.current.wind_speed"
         :humidity="location.current.humidity"
+        :icon-weather="location.current.weather[0].icon"
       />
     </div>
   </main>
@@ -41,6 +42,11 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    this.favoriteLocations.forEach((location) => {
+      location.current.temp = parseInt(location.current.temp);
+      location.current.temp = location.current.temp.toString();
+      return location.current.temp;
+    });
   },
 };
 </script>
