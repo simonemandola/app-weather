@@ -1,8 +1,14 @@
 .favorite
+  height: 100%
   padding:
     top: $return__height * 2
     bottom: $padding__xl
+  box-sizing: border-box
   @include padding-inline-mobile
+  overflow-x: hidden
 
   & > article:first-child
     margin-top: 0
+
+.allow-delete-favorite
+  transform: translateX(-16%)

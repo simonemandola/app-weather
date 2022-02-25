@@ -1,6 +1,10 @@
 .card
   width: 100%
   margin-top: $padding__s
+  display: grid
+  grid-template-columns: 100% 5rem
+  column-gap: $gap__m
+  transition: $transition-bezier
 
   &__wrap
     @include card-settings($padding__xxs, $padding__xxs)
@@ -74,3 +78,35 @@
     & > img
       width: 4rem
       height: auto
+
+  &__btn-delete
+    width: 4rem
+    height: 100%
+    background-color: $color__red
+    display: grid
+    place-content: center
+    border-top-left-radius: $border-radius-s
+    border-bottom-left-radius: $border-radius-s
+
+    & > i
+      color: $color__white
+
+.slide-card-enter-from
+  opacity: .5%
+  transform: translateY(5%)
+
+.slide-card-enter-to
+  opacity: 1
+  transform: translateY(0)
+
+.slide-card-enter-active,
+.slide-card-leave-active
+  transition: $transition-bezier
+
+.slide-card-leave-from
+  opacity: .5
+  transform: translateY(0)
+
+.slide-card-leave-to
+  opacity: 0
+  transform: translateY(-5%)

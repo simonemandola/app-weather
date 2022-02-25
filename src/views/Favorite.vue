@@ -8,6 +8,7 @@
       </p>
       <card
         v-else
+        v-touch:swipe="toggleAllowToDelete(location.id)"
         v-for="(location, i) in favoriteLocations"
         :key="i"
         :location-name="location.name"
@@ -16,6 +17,8 @@
         :wind-speed="location.current.wind_speed"
         :humidity="location.current.humidity"
         :icon-weather="location.current.weather[0].icon"
+        :class="{ 'allow-delete-favorite': sets.has(location.id) }"
+        @delete-from-favorite="deleteLocationFromFavorite(location.id)"
       />
     </div>
   </main>
@@ -38,7 +41,39 @@ export default {
     return {
       title: "Favoritos",
       favoriteLocations: this.$store.state.favoriteLocations,
+      sets: new Set(),
+      myLocalStorage: window.localStorage,
     };
+  },
+  methods: {
+    toggleAllowToDelete(id) {
+      return (direction) => {
+        switch (direction) {
+          case "right":
+            this.sets.delete(id);
+            break;
+          case "left":
+            this.sets.add(id);
+            break;
+        }
+      };
+    },
+    deleteLocationFromFavorite(id) {
+      this.$store.state.favoriteLocations =
+        this.myLocalStorage.getItem("favorite-locations");
+      this.$store.state.favoriteLocations = JSON.parse(
+        this.$store.state.favoriteLocations
+      );
+      this.favoriteLocations = this.$store.state.favoriteLocations.filter(
+        (location) => location.id !== id
+      );
+      this.$store.state.favoriteLocations = this.favoriteLocations;
+      console.log(this.$store.state.favoriteLocations);
+      this.myLocalStorage.setItem(
+        "favorite-locations",
+        JSON.stringify(this.$store.state.favoriteLocations)
+      );
+    },
   },
   mounted() {
     window.scrollTo(0, 0);

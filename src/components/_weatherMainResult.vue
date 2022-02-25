@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name: 'WeatherDetails' }" class="main-weather-result">
+  <div class="main-weather-result" v-touch:swipe.left="showDetailsView">
     <div class="main-weather-result__wrap">
       <div class="main-weather-result__image">
         <img
@@ -31,7 +31,7 @@
         <i class="icon__temp-max"></i>{{ weatherData.daily[0].temp.max }}
       </p>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -41,6 +41,11 @@ export default {
     return {
       weatherData: this.$store.state.locationData[0],
     };
+  },
+  methods: {
+    showDetailsView() {
+      this.$router.push({ name: "WeatherDetails" });
+    },
   },
   mounted() {
     this.weatherData.current.temp = this.weatherData.current.temp.toFixed(0);
