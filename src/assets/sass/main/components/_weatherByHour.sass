@@ -2,15 +2,16 @@
   width: 100%
   height: auto
   margin-top: $padding__xl
-  @include padding-inline-mobile
 
   &__title
     margin: 0
+    @include padding-inline-mobile
 
   &__items-wrap
     @include flex(flex-start,center,row)
     flex-wrap: nowrap
     overflow-x: auto
+    @include padding-inline-mobile
 
   &__item
     width: 4.5rem
