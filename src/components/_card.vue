@@ -33,6 +33,7 @@
     </div>
     <button
       class="card__btn-delete"
+      v-if="enableDelete"
       @click.prevent="$emit('deleteFromFavorite')"
     >
       <i class="icon__bin"></i>
@@ -50,6 +51,10 @@ export default {
     windSpeed: Number,
     humidity: Number,
     iconWeather: String,
+    enableDelete: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>

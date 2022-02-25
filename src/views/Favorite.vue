@@ -18,6 +18,7 @@
         :humidity="location.current.humidity"
         :icon-weather="location.current.weather[0].icon"
         :class="{ 'allow-delete-favorite': sets.has(location.id) }"
+        :enable-delete="true"
         @delete-from-favorite="deleteLocationFromFavorite(location.id)"
       />
     </div>
