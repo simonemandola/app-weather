@@ -12,6 +12,10 @@
 // components
 import MainBackground from "@/components/_mainBackground.vue";
 
+// API get IP address
+const API_IP_URL = "https://api.ipgeolocation.io/ipgeo?";
+const API_KEY_IP = "apiKey=4f48c9c8d5a242deabd6962ffcecbf36";
+
 // API Geocoding Mapbox, constants
 const API_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 const FORMAT = ".json?";
@@ -99,14 +103,17 @@ export default {
         this.$router.push({ name: "Home" });
       }, 1500);
     },
+    async getIpAddress() {
+      const res = await fetch(API_IP_URL + API_KEY_IP);
+      const data = await res.json();
+      this.currentPosition.lat = data.latitude;
+      this.currentPosition.lon = data.longitude;
+    },
   },
-  created() {
+  async created() {
     window.localStorage.removeItem("user-weather-data");
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.currentPosition.lat = position.coords.latitude;
-      this.currentPosition.lon = position.coords.longitude;
-      this.showResult();
-    });
+    await this.getIpAddress();
+    await this.showResult();
   },
 };
 </script>
