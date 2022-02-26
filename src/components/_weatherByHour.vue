@@ -28,7 +28,7 @@ export default {
   mounted() {
     this.weatherByHour = this.$store.state.locationData[0].hourly;
     this.weatherByHour.forEach((hour) => {
-      hour.dt = new Date(hour.dt * 1000).getUTCHours();
+      hour.dt = new Date(hour.dt * 1000).getHours();
       if (hour.dt < 10) {
         hour.dt = "0" + hour.dt;
       }
