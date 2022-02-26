@@ -1,6 +1,6 @@
 <template>
   <div class="weather-by-hour">
-    <p class="text-xxs weather-by-hour__title">Previsión 48 horas</p>
+    <h2 class="title-xxs weather-by-hour__title">Previsión 48 horas</h2>
     <div class="weather-by-hour__items-wrap">
       <div
         class="weather-by-hour__item"
