@@ -1,6 +1,6 @@
 <template>
   <div class="weather-by-hour">
-    <h2 class="title-xxs weather-by-hour__title">Previsión 48 horas</h2>
+    <h2 class="subtitle-xs weather-by-hour__title">Previsión 48 horas</h2>
     <div class="weather-by-hour__items-wrap">
       <div
         class="weather-by-hour__item"
@@ -28,7 +28,7 @@ export default {
   mounted() {
     this.weatherByHour = this.$store.state.locationData[0].hourly;
     this.weatherByHour.forEach((hour) => {
-      hour.dt = new Date(hour.dt * 1000).getUTCHours();
+      hour.dt = new Date(hour.dt * 1000).getHours();
       if (hour.dt < 10) {
         hour.dt = "0" + hour.dt;
       }

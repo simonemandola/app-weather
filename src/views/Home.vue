@@ -11,7 +11,11 @@
     </div>
     <main-results />
     <weather-by-hour />
+    <w-table-hour />
+    <v-apexchart />
+    <map-location />
     <weather-seven-days />
+    <news />
     <bottom-menu />
   </main>
 </template>
@@ -21,8 +25,14 @@
 import WeatherMainResult from "@/components/_weatherMainResult.vue";
 import MainBackground from "@/components/_mainBackground.vue";
 import WeatherByHour from "@/components/_weatherByHour.vue";
+import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
+import MapLocation from "@/components/_mapLocation.vue";
+import News from "@/components/_news.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
+
+// graph
+import Graph from "@/components/_graph.vue";
 
 export default {
   name: "Home",
@@ -32,6 +42,10 @@ export default {
     weatherByHour: WeatherByHour,
     bottomMenu: BottomMenuFixed,
     weatherSevenDays: WeatherSevenDays,
+    vApexchart: Graph,
+    wTableHour: WeatherTableHour,
+    mapLocation: MapLocation,
+    news: News,
   },
   data() {
     return {

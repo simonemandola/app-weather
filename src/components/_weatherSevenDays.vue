@@ -1,6 +1,6 @@
 <template>
-  <div class="weather-seven-days container">
-    <h2 class="title-xxs weather-seven-days__title">Previsión 7 días</h2>
+  <div class="weather-seven-days">
+    <h2 class="subtitle-xs weather-seven-days__title">Previsión 7 días</h2>
     <div
       v-for="(day, key, i) in weatherByDays"
       :key="i"

@@ -15,5 +15,5 @@
 // };
 
 export const isNight = (date, sunsetDate) => {
-  return date < sunsetDate;
+  return date > sunsetDate;
 }
