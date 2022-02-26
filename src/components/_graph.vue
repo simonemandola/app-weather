@@ -24,6 +24,8 @@ export default {
   data() {
     return {
       weatherData: this.$store.state.locationData[0],
+      watcherDate: this.$store.state.locationData[0].coord.lat,
+      limitHourToShow: 12,
       heightGraph: 256,
       series: [
         {
@@ -64,17 +66,31 @@ export default {
       },
     };
   },
-  mounted() {
-    if (hoursArray.length > 0 || temperatureArray.length > 0) {
-      hoursArray = [];
-      temperatureArray = [];
-    }
-    this.weatherData.hourly.filter((hour, i) => {
-      if (i < 12) {
-        hoursArray.push(hour.dt);
-        temperatureArray.push(hour.temp);
+  methods: {
+    setGraphData() {
+      if (hoursArray.length > 0 || temperatureArray.length > 0) {
+        hoursArray = [];
+        temperatureArray = [];
       }
-    });
+      this.weatherData.hourly.filter((hour, i) => {
+        if (i < this.limitHourToShow) {
+          hoursArray.push(hour.dt);
+          temperatureArray.push(hour.temp);
+        }
+      });
+    },
+  },
+  mounted() {
+    console.log(this.watcherDate);
+    this.setGraphData();
+  },
+  watch: {
+    watcherDate(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        (this.weatherData = this.$store.state.locationData[0]),
+          this.setGraphData();
+      }
+    },
   },
 };
 </script>
