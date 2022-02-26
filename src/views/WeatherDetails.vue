@@ -15,6 +15,7 @@
       <w-table-hour />
       <map-location />
       <w-gallery />
+      <news />
     </div>
     <bottom-menu />
   </main>
@@ -28,6 +29,7 @@ import Card from "@/components/_card.vue";
 import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
 import MapLocation from "@/components/_mapLocation.vue";
 import WeatherDetailsGallery from "@/components/_weatherDetailsGallery.vue";
+import News from "@/components/_news.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // graph
@@ -44,6 +46,7 @@ export default {
     wTableHour: WeatherTableHour,
     mapLocation: MapLocation,
     wGallery: WeatherDetailsGallery,
+    news: News,
   },
   data() {
     return {
