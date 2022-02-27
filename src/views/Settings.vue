@@ -23,8 +23,24 @@
             </label>
           </form>
         </li>
+        <li class="settings__row" v-if="userIsLogged">
+          <button class="settings__item-title" @click.prevent="showAccountModal">
+            Salir
+          </button>
+        </li>
+        <li class="settings__row" v-if="userIsLogged">
+          <button class="settings__item-title text-red" @click.prevent="showAccountModal">
+            Borrar cuenta
+          </button>
+        </li>
+        <li class="settings__row" v-else>
+          <button class="settings__item-title" @click.prevent="showAccountModal">
+            Acceder
+          </button>
+        </li>
       </ul>
     </nav>
+    <sign-in-modal @show-account-form="showForm = $event" :show-account-form="showForm" />
     <p class="text-xxs version-text text-white">Version 1.0</p>
   </main>
 </template>
@@ -33,12 +49,14 @@
 // components
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
+import SignInForm from "@/components/_signInForm.vue";
 
 export default {
   name: "Settings",
   components: {
     return: Return,
     background: GradientBackground,
+    signInModal: SignInForm,
   },
   data() {
     return {
@@ -57,6 +75,8 @@ export default {
           value: "f",
         },
       },
+      userIsLogged: this.$store.state.user.isLogged,
+      showForm: false,
     };
   },
   methods: {
@@ -79,6 +99,9 @@ export default {
           this.units = this.unitsOptions.celsius.name;
           break;
       }
+    },
+    showAccountModal() {
+      this.showForm = true;
     },
   },
   mounted() {

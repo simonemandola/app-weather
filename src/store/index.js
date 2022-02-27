@@ -28,7 +28,13 @@ export default createStore({
         value: "imperial",
       },
     },
+    // Favorites locations
     favoriteLocations: [],
+    // User
+    user: {
+      isLogged: false,
+      favoriteLocations: [],
+    },
   },
   mutations: {},
   actions: {},
