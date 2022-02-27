@@ -40,7 +40,7 @@
         </li>
       </ul>
     </nav>
-    <sign-in-modal @show-account-form="showForm = $event" :show-account-form="showForm" />
+    <sign-in-modal @show-user-form="showForm = $event" :show-user-form="showForm" />
     <p class="text-xxs version-text text-white">Version 1.0</p>
   </main>
 </template>

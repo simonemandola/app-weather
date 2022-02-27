@@ -1,5 +1,5 @@
 <template>
-  <div class="account-modal" v-if="showAccountForm">
+  <div class="account-modal" v-if="showUserForm">
     <div class="account-modal__wrap modal-sign-in">
       <h1 class="title-xxs text-center">{{ titleForm }}</h1>
       <form>
@@ -10,11 +10,7 @@
           </label>
           <label>
             <span class="text-xxxs">Correo</span>
-            <input
-              type="email"
-              v-model="user.email"
-              placeholder="@"
-            />
+            <input type="email" v-model="user.email" placeholder="@" />
           </label>
           <label>
             <span class="text-xxxs">Password</span>
@@ -25,19 +21,19 @@
             />
           </label>
           <button
-            v-if="isCreateNewAccount"
+            v-if="isAddNewUser"
             type="submit"
-            @click.prevent="doCreateNewAccount"
+            @click.prevent="doAddNewUser"
           >
             Crear cuenta
           </button>
-          <button type="submit" @click.prevent="doSignIn" v-else>Entrar</button>
-          <div v-if="!isCreateNewAccount">
+          <button type="submit" @click.prevent="doLogIn" v-else>Entrar</button>
+          <div v-if="!isAddNewUser">
             <p class="text-xxs">¿No tienes una cuenta?</p>
             <button
               class="text-xxs"
               type="button"
-              @click.prevent="showCreateNewAccount"
+              @click.prevent="showAddNewUserForm"
             >
               Crear nueva cuenta.
             </button>
@@ -64,10 +60,13 @@
 </template>
 
 <script>
+// supabase
+import { addNewUser, logIn } from "@/supabase/fetchFunctions.js";
+
 export default {
   name: "SignInForm",
   props: {
-    showAccountForm: {
+    showUserForm: {
       type: Boolean,
       default: false,
     },
@@ -86,28 +85,48 @@ export default {
       },
       titleForm: "",
       isLogged: this.$store.state.user.isLogged,
-      isCreateNewAccount: false,
+      isAddNewUser: false,
       showForm: true,
+      myLocalStorage: window.localStorage,
+      userFavoriteLocations: [],
     };
   },
   methods: {
-    doSignIn() {
-      console.log("Sign In");
+    async doLogIn() {
+      console.log("Logging in...");
+      const userData = await logIn(undefined, undefined, this.user.username);
+      this.$store.state.user.isLogged = true;
+      this.$store.state.user.favoriteLocations = JSON.parse(
+        userData[0].favorite_locations
+      );
     },
-    doCreateNewAccount() {
-      console.log("Creating new account...");
+    async doAddNewUser() {
+      console.log("Creating new user...");
+      if (this.myLocalStorage.getItem("favorite-locations")) {
+        this.userFavoriteLocations =
+          this.myLocalStorage.getItem("favorite-locations");
+      }
+      const newUser = {
+        username: this.user.username,
+        email: this.user.email,
+        password: this.user.password,
+        favorite_locations: this.userFavoriteLocations,
+      };
+      await addNewUser(undefined, undefined, JSON.stringify(newUser));
     },
     doLogOut() {
       console.log("Log out...");
+      this.$store.state.user.isLogged = false;
+      this.$store.state.user.favoriteLocations = [];
     },
-    showCreateNewAccount() {
+    showAddNewUserForm() {
       console.log("Show create new account.");
-      this.isCreateNewAccount = true;
+      this.isAddNewUser = true;
       this.titleForm = this.title.createNewAccount;
     },
     hideUserForm() {
       console.log("Account form closed.");
-      this.$emit("showAccountForm", this.closeForm);
+      this.$emit("showUserForm", this.closeForm);
     },
   },
   mounted() {
