@@ -9,6 +9,14 @@
             <input type="text" v-model="user.username" placeholder="Username" />
           </label>
           <label>
+            <span class="text-xxxs">Correo</span>
+            <input
+              type="email"
+              v-model="user.email"
+              placeholder="@"
+            />
+          </label>
+          <label>
             <span class="text-xxxs">Password</span>
             <input
               type="password"
@@ -68,6 +76,7 @@ export default {
     return {
       user: {
         username: "",
+        email: "",
         password: "",
       },
       title: {
