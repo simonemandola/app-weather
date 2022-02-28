@@ -37,8 +37,8 @@
   position: relative
   margin: 0
   border: 2px solid
-  border-color: #ec4f4f
-  background: linear-gradient(180deg, #2D2F39 0%, #1F2027 100%)
+  border-color: $color__red
+  background: linear-gradient(180deg, $color__dark-blue 0%, $color__blue 100%)
   transition: all .2s ease
   &:after
     content: ''
@@ -52,7 +52,7 @@
     box-shadow: 0 1px 2px rgba(44,44,44,.2)
     transition: all .2s cubic-bezier(.5,.1,.75,1.35)
   &:checked
-    border-color: #4f6eec
+    border-color: $color__light-blue
     &:after
       transform: translatex(20px)
 
@@ -63,3 +63,53 @@
   pointer-events: none
   width: 100%
   text-align: center
+
+.user-account-modal
+  position: absolute
+  @include pin(0,0,0,0)
+  display: grid
+  place-content: center
+  background-color: transparentize($color__black, .2)
+
+  &__wrap
+    width: 18rem
+    height: auto
+    background-color: $color__dark-blue
+    @include card-settings($padding__xs, $padding__xs)
+
+  &__title
+    margin: 0
+
+  &__form
+    padding-top: $padding__xxs
+    box-sizing: border-box
+
+    & label
+      width: 100%
+      height: 3rem
+      margin-top: $padding__xxxs
+      @include flex(center, flex-start, column)
+      box-sizing: border-box
+      padding:
+        left: $padding__xxs
+        right: $padding__xxs
+      border-bottom: 1px solid $color__grey
+
+    & label > input
+      width: 100%
+      height: 100%
+      background-color: transparent
+      color: $color__white
+
+    & button
+      padding: $padding__xxs
+
+    &-not-logged-no-user
+      margin-top: $padding__xs
+      display: grid
+      grid-template-rows: auto auto
+      row-gap: $gap__s
+
+      & > button
+        padding: 0
+        justify-content: flex-start
