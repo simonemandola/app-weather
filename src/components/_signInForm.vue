@@ -1,7 +1,9 @@
 <template>
   <div class="user-account-modal" v-if="showUserForm">
     <div class="user-account-modal__wrap modal-sign-in">
-      <h1 class="user-account-modal__title title-xxs text-center">{{ titleForm }}</h1>
+      <h1 class="user-account-modal__title title-xxs text-center">
+        {{ titleForm }}
+      </h1>
       <form class="user-account-modal__form">
         <div class="user-account-modal__form-not-logged" v-if="!isLogged">
           <label>
@@ -28,7 +30,10 @@
             Crear cuenta
           </button>
           <button type="submit" @click.prevent="doLogIn" v-else>Entrar</button>
-          <div class="user-account-modal__form-not-logged-no-user" v-if="!isAddNewUser">
+          <div
+            class="user-account-modal__form-not-logged-no-user"
+            v-if="!isAddNewUser"
+          >
             <span class="text-xxs">¿No tienes una cuenta?</span>
             <button
               class="text-xxs"
