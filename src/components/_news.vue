@@ -1,62 +1,28 @@
 <template>
   <div class="article-news">
-    <h2 class="subtitle-xs">News</h2>
-    <article class="article-news__article">
+    <h2 class="subtitle-xs">Últimas noticias</h2>
+    <article
+      class="article-news__article"
+      v-for="(singleArticle, i) in allArticles"
+      :key="i"
+    >
       <div class="article-news__image">
         <img
-          src="https://zambianfootball.co.zm/wp-content/uploads/2022/01/breaking-news.jpg"
-          alt=""
+          :src="singleArticle.urlToImage"
+          :alt="singleArticle.title"
         />
       </div>
       <div class="article-news__text">
         <h1 class="title-xxs text-bold article-news__title">
-          CDC eases mask recommendations, other restrictions, for most Americans
-          - The Washington Post
+          {{ singleArticle.title }}
         </h1>
         <p class="text-xxs article-news__description">
-          The new guidelines reflect the view that the United States has entered
-          a potentially less dangerous phase of the pandemic.
+          {{ singleArticle.description }}
         </p>
       </div>
-      <div class="text-xs article-news__link">Ir a la noticia >></div>
-    </article>
-    <article class="article-news__article">
-      <div class="article-news__image">
-        <img
-          src="https://zambianfootball.co.zm/wp-content/uploads/2022/01/breaking-news.jpg"
-          alt=""
-        />
+      <div class="text-xs article-news__link">
+        <a :href="singleArticle.url" target="_blank">Ir a la noticia >></a>
       </div>
-      <div class="article-news__text">
-        <h1 class="title-xxs text-bold article-news__title">
-          CDC eases mask recommendations, other restrictions, for most Americans
-          - The Washington Post
-        </h1>
-        <p class="text-xxs article-news__description">
-          The new guidelines reflect the view that the United States has entered
-          a potentially less dangerous phase of the pandemic.
-        </p>
-      </div>
-      <div class="text-xs article-news__link">Ir a la noticia >></div>
-    </article>
-    <article class="article-news__article">
-      <div class="article-news__image">
-        <img
-          src="https://zambianfootball.co.zm/wp-content/uploads/2022/01/breaking-news.jpg"
-          alt=""
-        />
-      </div>
-      <div class="article-news__text">
-        <h1 class="title-xxs text-bold article-news__title">
-          CDC eases mask recommendations, other restrictions, for most Americans
-          - The Washington Post
-        </h1>
-        <p class="text-xxs article-news__description">
-          The new guidelines reflect the view that the United States has entered
-          a potentially less dangerous phase of the pandemic.
-        </p>
-      </div>
-      <div class="text-xs article-news__link">Ir a la noticia >></div>
     </article>
   </div>
 </template>
@@ -67,7 +33,7 @@ const API_URL = "https://newsapi.org/v2/everything?";
 const QUERY = "q=";
 const DATE_FROM = "&from=";
 const SORT_BY = "&sortBy=popularity";
-const COUNTRY = "&country=es";
+const COUNTRY = "&language=es";
 const PAGE_SIZE = "&pageSize=10";
 const API_KEY = "&apiKey=";
 export default {
@@ -77,7 +43,7 @@ export default {
       apiKey: "a515538b10f84c498a02f9cb900f7035",
       query: this.$store.state.locationData[0].name,
       dateFrom: new Date() - 2,
-      newsData: [],
+      allArticles: [],
       max: 19,
       min: 0,
     };
@@ -89,23 +55,23 @@ export default {
           API_URL +
             QUERY +
             this.query +
+            COUNTRY +
             DATE_FROM +
             this.dateFrom +
             SORT_BY +
-            COUNTRY +
             PAGE_SIZE +
             API_KEY +
             this.apiKey
         );
-        this.newsData = await res.json();
+        this.allArticles = await res.json();
       } catch (e) {
         console.warn(e);
       }
-      console.log(this.newsData.articles);
+      this.allArticles = this.allArticles.articles;
     },
   },
   mounted() {
-    // this.getNews();
+    this.getNews();
   },
 };
 </script>

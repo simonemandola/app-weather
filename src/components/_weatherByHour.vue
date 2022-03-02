@@ -35,6 +35,7 @@ export default {
       hour.dt = hour.dt + ":00";
       hour.temp = hour.temp.toFixed(0);
     });
+    this.weatherByHour[0].dt = "Ahora";
   },
 };
 </script>

@@ -1,10 +1,13 @@
 <template>
-  <div class="map" ref="map">
-    <div class="marker" ref="marker">
-      <i
-        class="icon__location"
-        :class="{ 'text-grey': !isNightCurrentDate }"
-      ></i>
+  <div class="map">
+    <h2 class="subtitle-xs map__title">Mapa</h2>
+    <div class="map__map" ref="map">
+      <div class="marker" ref="marker">
+        <i
+          class="icon__location"
+          :class="{ 'text-grey': !isNightCurrentDate }"
+        ></i>
+      </div>
     </div>
   </div>
 </template>

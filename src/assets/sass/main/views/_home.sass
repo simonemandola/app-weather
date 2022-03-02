@@ -15,6 +15,10 @@
 .custom-apexchart
   margin-top: $padding__xl
 
+  &__title
+    @include padding-inline-mobile
+    margin-bottom: 0
+
 .weather-details
   padding:
     top: $padding__xl
@@ -24,6 +28,9 @@
 .weather-details-hour
   margin-top: $padding__xl
   @include padding-inline-mobile
+
+  &__title
+    margin-bottom: $padding__xxs
 
   &__wrap
     @include card-settings($padding__xs, $padding__xs)
@@ -90,14 +97,20 @@
       object-fit: cover
 
 .map
-  height: 16rem
   margin-top: $padding__xl
-  border: $main-border
-  border-radius: $border-radius-s
-  box-sizing: border-box
-  margin:
-    left: $padding__xxs
-    right: $padding__xxs
+
+  &__title
+    @include padding-inline-mobile
+    margin-bottom: $padding__xxs
+
+  &__map
+    height: 16rem
+    border: $main-border
+    border-radius: $border-radius-s
+    box-sizing: border-box
+    margin:
+      left: $padding__xxs
+      right: $padding__xxs
 
 .mapboxgl-canvas
   border-radius: $border-radius-s

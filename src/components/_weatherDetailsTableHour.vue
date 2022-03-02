@@ -1,5 +1,8 @@
 <template>
   <div class="weather-details-hour">
+    <h2 class="subtitle-xs weather-details-hour__title">
+      Previsión detallada por hora
+    </h2>
     <div class="weather-details-hour__head-table">
       <span class="text-xs text-grey">Hora</span>
       <span class="text-xs text-grey">Temp.</span>
@@ -36,7 +39,10 @@
               hour.wind_speed
             }}</span>
             <span class="weather-details-hour__table-item text-xs"
-              ><i class="icon__arrow" :style="'transform: rotate(' + hour.wind_deg + 'deg)'"></i
+              ><i
+                class="icon__arrow"
+                :style="'transform: rotate(' + hour.wind_deg + 'deg)'"
+              ></i
             ></span>
           </li>
         </ul>
