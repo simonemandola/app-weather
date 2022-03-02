@@ -29,7 +29,7 @@
           >
             Crear cuenta
           </button>
-          <button type="submit" @click.prevent="doLogIn" v-else>Entrar</button>
+          <button type="submit" @click.prevent="doSignIn" v-else>Entrar</button>
           <div
             class="user-account-modal__form-not-logged-no-user"
             v-if="!isAddNewUser"
@@ -65,8 +65,12 @@
 </template>
 
 <script>
-// supabase
-import { addNewUser, logIn } from "@/supabase/fetchFunctions.js";
+// supabase client
+import { createClient } from "@supabase/supabase-js";
+const supabaseUrl = "https://smomsvxxaoqkfdwmihfg.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtb21zdnh4YW9xa2Zkd21paGZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDU5ODk3MDMsImV4cCI6MTk2MTU2NTcwM30.aNPsG0RjV8VQstO0ytMtuaZLIbNn_2rtjONGE71wb18";
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default {
   name: "SignInForm",
@@ -97,13 +101,16 @@ export default {
     };
   },
   methods: {
-    async doLogIn() {
-      console.log("Logging in...");
-      const userData = await logIn(undefined, undefined, this.user.username);
+    async doSignIn() {
+      console.log("Signing in...");
+      let { user, error } = await supabase.auth.signIn({
+        email: this.user.email,
+        password: this.user.password,
+      });
+      console.log(user);
+      console.log(error);
       this.$store.state.user.isLogged = true;
-      this.$store.state.user.favoriteLocations = JSON.parse(
-        userData[0].favorite_locations
-      );
+      this.$router.push({ name: "Home" });
     },
     async doAddNewUser() {
       console.log("Creating new user...");
@@ -111,18 +118,22 @@ export default {
         this.userFavoriteLocations =
           this.myLocalStorage.getItem("favorite-locations");
       }
-      const newUser = {
-        username: this.user.username,
+      // SignUp
+      let { user, error } = await supabase.auth.signUp({
         email: this.user.email,
         password: this.user.password,
-        favorite_locations: this.userFavoriteLocations,
-      };
-      await addNewUser(undefined, undefined, JSON.stringify(newUser));
+        favorite_locations: JSON.stringify(this.userFavoriteLocations),
+      });
+      console.log(user);
+      console.log(error);
     },
-    doLogOut() {
+    async doLogOut() {
       console.log("Log out...");
+      let { error } = await supabase.auth.signOut();
+      console.log(error);
       this.$store.state.user.isLogged = false;
       this.$store.state.user.favoriteLocations = [];
+      this.$router.push({ name: "Home" });
     },
     showAddNewUserForm() {
       console.log("Show create new account.");
@@ -135,9 +146,13 @@ export default {
     },
   },
   mounted() {
-    this.$store.state.user.isLogged
-      ? (this.titleForm = this.title.logOut)
-      : (this.titleForm = this.title.signIn);
+    if (this.myLocalStorage.getItem("supabase.auth.token")) {
+      this.$store.state.user.isLogged = true;
+      this.titleForm = this.title.logOut;
+    } else {
+      this.$store.state.user.isLogged = false;
+      this.titleForm = this.title.signIn;
+    }
   },
 };
 </script>
