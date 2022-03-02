@@ -4,7 +4,7 @@
   @include padding-inline-mobile
 
   &__title
-    margin: 0
+    margin-bottom: $padding__xxs
 
   &__wrap
     width: 100%
@@ -15,8 +15,8 @@
     @include card-settings($padding__xxxs, $padding__xxs)
     margin-top: $padding__xs
 
-    &:first-child
-      margin-top: $padding__xxs
+  &__wrap:first-child
+    margin-top: 0
 
   &__day
     text-transform: capitalize

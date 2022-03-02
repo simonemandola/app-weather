@@ -1,5 +1,6 @@
 <template>
   <div class="custom-apexchart">
+    <h2 class="subtitle-xs custom-apexchart__title">Gráfico de temperatura</h2>
     <apexchart
       class="custom-apexchart__wrap-chart"
       type="area"
