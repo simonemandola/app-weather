@@ -71,8 +71,8 @@ export default {
             this.apiKey,
           {
             headers: {
-              "Access-Control-Allow-Origin": "https://newsapi.org/",
-              Vary: "Origin",
+              "Access-Control-Allow-Origin": "https://simone-mandola-app-weather.netlify.app",
+              "Access-Control-Allow-Methods": "GET",
             },
           }
         );
