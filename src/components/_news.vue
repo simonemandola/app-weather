@@ -9,7 +9,7 @@
       >
         <div class="article-news__image">
           <img
-            :src="singleArticle.urlToImage"
+            :src="singleArticle.urlToImage + '/'"
             :alt="singleArticle.title"
           />
         </div>
@@ -68,7 +68,8 @@ export default {
             SORT_BY +
             PAGE_SIZE +
             API_KEY +
-            this.apiKey + "/"
+            this.apiKey,
+          { headers: { "Access-Control-Allow-Origin": "*" } }
         );
         this.allArticles = await res.json();
       } catch (e) {
