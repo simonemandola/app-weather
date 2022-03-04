@@ -69,7 +69,12 @@ export default {
             PAGE_SIZE +
             API_KEY +
             this.apiKey,
-          { headers: { "Access-Control-Allow-Origin": "*" } }
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "https://newsapi.org/",
+              Vary: "Origin",
+            },
+          }
         );
         this.allArticles = await res.json();
       } catch (e) {
