@@ -1,5 +1,5 @@
 <template>
-  <div class="article-news">
+  <div class="article-news" v-if="existArticles">
     <h2 class="subtitle-xs">Últimas noticias</h2>
     <article
       class="article-news__article"
@@ -47,6 +47,11 @@ export default {
       max: 19,
       min: 0,
     };
+  },
+  computed: {
+    existArticles() {
+      return this.allArticles.length > 0;
+    },
   },
   methods: {
     async getNews() {
