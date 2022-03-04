@@ -68,7 +68,7 @@ export default {
             SORT_BY +
             PAGE_SIZE +
             API_KEY +
-            this.apiKey
+            this.apiKey + "/"
         );
         this.allArticles = await res.json();
       } catch (e) {
