@@ -1,29 +1,31 @@
 <template>
-  <div class="article-news" v-if="existArticles">
-    <h2 class="subtitle-xs">Últimas noticias</h2>
-    <article
-      class="article-news__article"
-      v-for="(singleArticle, i) in allArticles"
-      :key="i"
-    >
-      <div class="article-news__image">
-        <img
-          :src="singleArticle.urlToImage"
-          :alt="singleArticle.title"
-        />
-      </div>
-      <div class="article-news__text">
-        <h1 class="title-xxs text-bold article-news__title">
-          {{ singleArticle.title }}
-        </h1>
-        <p class="text-xxs article-news__description">
-          {{ singleArticle.description }}
-        </p>
-      </div>
-      <div class="text-xs article-news__link">
-        <a :href="singleArticle.url" target="_blank">Ir a la noticia >></a>
-      </div>
-    </article>
+  <div class="article-news">
+    <div v-if="existArticles">
+      <h2 class="subtitle-xs">Últimas noticias</h2>
+      <article
+        class="article-news__article"
+        v-for="(singleArticle, i) in allArticles"
+        :key="i"
+      >
+        <div class="article-news__image">
+          <img
+            :src="singleArticle.urlToImage"
+            :alt="singleArticle.title"
+          />
+        </div>
+        <div class="article-news__text">
+          <h1 class="title-xxs text-bold article-news__title">
+            {{ singleArticle.title }}
+          </h1>
+          <p class="text-xxs article-news__description">
+            {{ singleArticle.description }}
+          </p>
+        </div>
+        <div class="text-xs article-news__link">
+          <a :href="singleArticle.url" target="_blank">Ir a la noticia >></a>
+        </div>
+      </article>
+    </div>
   </div>
 </template>
 
