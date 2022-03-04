@@ -67,9 +67,9 @@
 <script>
 // supabase client
 import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = "https://smomsvxxaoqkfdwmihfg.supabase.co";
+const supabaseUrl = "https://ydyyzkyuojfqqeuyaagh.supabase.co";
 const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtb21zdnh4YW9xa2Zkd21paGZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDU5ODk3MDMsImV4cCI6MTk2MTU2NTcwM30.aNPsG0RjV8VQstO0ytMtuaZLIbNn_2rtjONGE71wb18";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkeXl6a3l1b2pmcXFldXlhYWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYzODYxNjksImV4cCI6MTk2MTk2MjE2OX0.2zTcwxb_-8jB0dK6wySOItJI2gXdCo3hhazbiYfalRY";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default {
@@ -122,10 +122,10 @@ export default {
       let { user, error } = await supabase.auth.signUp({
         email: this.user.email,
         password: this.user.password,
-        favorite_locations: JSON.stringify(this.userFavoriteLocations),
       });
       console.log(user);
       console.log(error);
+      this.isAddNewUser = false;
     },
     async doLogOut() {
       console.log("Log out...");
