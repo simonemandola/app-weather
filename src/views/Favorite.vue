@@ -8,18 +8,20 @@
       </p>
       <card
         v-else
-        v-touch:swipe="toggleAllowToDelete(location.id)"
+        v-touch:swipe="toggleAllowToDelete(location.locations.id)"
         v-for="(location, i) in favoriteLocations"
         :key="i"
-        :location-name="location.name"
-        :weather-description="location.current.weather[0].description"
-        :temperature="location.current.temp"
-        :wind-speed="location.current.wind_speed"
-        :humidity="location.current.humidity"
-        :icon-weather="location.current.weather[0].icon"
-        :class="{ 'allow-delete-favorite': sets.has(location.id) }"
+        :location-name="location.locations.name"
+        :weather-description="location.locations.current.weather[0].description"
+        :temperature="location.locations.current.temp"
+        :wind-speed="location.locations.current.wind_speed"
+        :humidity="location.locations.current.humidity"
+        :icon-weather="location.locations.current.weather[0].icon"
+        :class="{ 'allow-delete-favorite': sets.has(location.locations.id) }"
         :enable-delete="true"
-        @delete-from-favorite="deleteLocationFromFavorite(location.id)"
+        @delete-from-favorite="
+          deleteLocationFromFavorite(location.locations.id)
+        "
       />
     </div>
   </main>
@@ -41,7 +43,7 @@ export default {
   data() {
     return {
       title: "Favoritos",
-      favoriteLocations: this.$store.state.favoriteLocations,
+      favoriteLocations: [],
       sets: new Set(),
       myLocalStorage: window.localStorage,
     };
@@ -66,7 +68,7 @@ export default {
         this.$store.state.favoriteLocations
       );
       this.favoriteLocations = this.$store.state.favoriteLocations.filter(
-        (location) => location.id !== id
+        (location) => location.locations.id !== id
       );
       this.$store.state.favoriteLocations = this.favoriteLocations;
       console.log(this.$store.state.favoriteLocations);
@@ -78,10 +80,20 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    if (this.myLocalStorage.getItem("supabase.auth.token")) {
+      this.favoriteLocations = this.$store.state.user.favoriteLocations;
+    } else {
+      this.favoriteLocations = this.$store.state.favoriteLocations;
+    }
+    console.log("********");
+    console.log(this.favoriteLocations);
     this.favoriteLocations.forEach((location) => {
-      location.current.temp = parseInt(location.current.temp);
-      location.current.temp = location.current.temp.toString();
-      return location.current.temp;
+      location.locations.current.temp = parseInt(
+        location.locations.current.temp
+      );
+      location.locations.current.temp =
+        location.locations.current.temp.toString();
+      return location.locations.current.temp;
     });
   },
 };

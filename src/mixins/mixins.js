@@ -17,11 +17,3 @@
 export const isNight = (date, sunsetDate) => {
   return date > sunsetDate;
 }
-
-export const addToFavoriteMixin = {
-  methods: {
-    addToFavorite() {
-
-    },
-  },
-}

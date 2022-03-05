@@ -34,6 +34,13 @@ import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 // graph
 import Graph from "@/components/_graph.vue";
 
+// supabase client
+import { createClient } from "@supabase/supabase-js";
+const supabaseUrl = "https://ydyyzkyuojfqqeuyaagh.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkeXl6a3l1b2pmcXFldXlhYWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYzODYxNjksImV4cCI6MTk2MTk2MjE2OX0.2zTcwxb_-8jB0dK6wySOItJI2gXdCo3hhazbiYfalRY";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 export default {
   name: "Home",
   components: {
@@ -50,7 +57,10 @@ export default {
   data() {
     return {
       favoriteLocations: this.$store.state.favoriteLocations,
-      locationToAdd: "",
+      locationToAdd: {
+        userID: "",
+        locations: [],
+      },
       myLocalStorage: window.localStorage,
       icon: {
         unchecked: "icon__favorite",
@@ -60,32 +70,44 @@ export default {
     };
   },
   methods: {
-    addToFavorite() {
-      this.locationToAdd = this.myLocalStorage.getItem("user-weather-data");
-      this.locationToAdd = JSON.parse(this.locationToAdd);
-      const locationToAddID = this.locationToAdd.id;
+    async addToFavorite() {
+      this.locationToAdd.locations = this.myLocalStorage.getItem("user-weather-data");
+      this.locationToAdd.locations = JSON.parse(this.locationToAdd.locations);
+      const locationToAddID = this.locationToAdd.locations.id;
+      console.log(this.locationToAdd.locations);
+      console.log(locationToAddID);
+      console.log(this.favoriteLocations);
       this.locationIsFavorite = this.favoriteLocations.some(
-        (location) => location.id === locationToAddID
+        (location) => location.locations.id === locationToAddID
       );
+      const user = await supabase.auth.user();
+      // Add user id to favorite locations if user is logged in
+      if (user) this.locationToAdd.userID = user.id;
       if (!this.locationIsFavorite) {
         this.locationIsFavorite = true;
         this.favoriteLocations.push(this.locationToAdd);
+        // Update the list of favorite locations in the store
+        this.$store.state.user.favoriteLocations = this.favoriteLocations;
+        // Update the list of favorite locations in the local storage
         this.myLocalStorage.setItem(
           "favorite-locations",
           JSON.stringify(this.favoriteLocations)
-        );
-        this.$store.state.favoriteLocations.favorite = true;
+        )
+        console.log(this.favoriteLocations);
       } else {
         this.locationIsFavorite = false;
         this.favoriteLocations = this.favoriteLocations.filter(
-          (location) => location.id !== locationToAddID
+          (location) => location.locations.id !== locationToAddID
         );
+        // Update the list of favorite locations in the store
+        this.$store.state.user.favoriteLocations = this.favoriteLocations;
+        // Update the list of favorite locations in the local storage
         this.myLocalStorage.removeItem("favorite-locations");
         this.myLocalStorage.setItem(
           "favorite-locations",
           JSON.stringify(this.favoriteLocations)
         );
-        this.$store.state.favoriteLocations.favorite = false;
+        console.log(this.favoriteLocations);
       }
     },
   },
@@ -102,8 +124,10 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.state.locationData);
+    console.log(this.favoriteLocations);
     this.locationIsFavorite = this.favoriteLocations.some(
-      (location) => location.id === this.$store.state.locationData[0].id
+      (location) => location.locations.id === this.$store.state.locationData[0].id
     );
   },
 };

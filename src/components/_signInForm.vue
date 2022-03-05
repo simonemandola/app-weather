@@ -107,10 +107,14 @@ export default {
         email: this.user.email,
         password: this.user.password,
       });
-      console.log(user);
-      console.log(error);
-      this.$store.state.user.isLogged = true;
-      this.$router.push({ name: "Home" });
+      if (user) {
+        console.log(user);
+        this.$store.state.user.isLogged = true;
+        this.$router.push({ name: "Home" });
+      } else {
+        console.log(error);
+        console.log("password o email incorrectos");
+      }
     },
     async doAddNewUser() {
       console.log("Creating new user...");
@@ -123,9 +127,25 @@ export default {
         email: this.user.email,
         password: this.user.password,
       });
-      console.log(user);
-      console.log(error);
-      this.isAddNewUser = false;
+      if (user) {
+        this.titleForm = this.title.signIn;
+        this.isAddNewUser = false;
+        const { data, error } = await supabase
+          .from("user-favorite-locations")
+          .insert([
+            {
+              id: user.id,
+              favorite_locations: JSON.stringify(this.userFavoriteLocations),
+            },
+          ]);
+        if (data) {
+          console.log("Favorite locations saved");
+        } else {
+          console.log(error);
+        }
+      } else {
+        console.log(error);
+      }
     },
     async doLogOut() {
       console.log("Log out...");

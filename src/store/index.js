@@ -5,7 +5,7 @@ export default createStore({
     units2: "celsius",
     locationData: [
       {
-        id: 0,
+        id: "",
         name: "",
         country: "",
         coord: {
