@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      favoriteLocations: this.$store.state.favoriteLocations,
+      favoriteLocations: [],
       locationToAdd: {
         userID: "",
         locations: [],
@@ -70,44 +70,65 @@ export default {
     };
   },
   methods: {
-    async addToFavorite() {
-      this.locationToAdd.locations = this.myLocalStorage.getItem("user-weather-data");
-      this.locationToAdd.locations = JSON.parse(this.locationToAdd.locations);
-      const locationToAddID = this.locationToAdd.locations.id;
-      console.log(this.locationToAdd.locations);
-      console.log(locationToAddID);
-      console.log(this.favoriteLocations);
-      this.locationIsFavorite = this.favoriteLocations.some(
-        (location) => location.locations.id === locationToAddID
+    async updateSupabaseData(userID) {
+      const { data, error } = await supabase
+        .from("user-favorite-locations")
+        .update({
+          favorite_locations: this.favoriteLocations,
+        })
+        .eq("id", userID);
+      console.log(data);
+      if (error) console.log(error);
+    },
+    updateLocalsStores(user) {
+      // Update the list of favorite locations in the store
+      if (user) {
+        this.$store.state.user.favoriteLocations = this.favoriteLocations;
+      } else {
+        this.$store.state.favoriteLocations = this.favoriteLocations;
+      }
+      // Update the list of favorite locations in the local storage
+      this.myLocalStorage.removeItem("favorite-locations");
+      this.myLocalStorage.setItem(
+        "favorite-locations",
+        JSON.stringify(this.favoriteLocations)
       );
+    },
+    async addToFavorite() {
+      // Get data from LocalStorage
+      this.locationToAdd.locations =
+        this.myLocalStorage.getItem("user-weather-data");
+      // Convert to JSON object
+      this.locationToAdd.locations = JSON.parse(this.locationToAdd.locations);
+      // Return true o false if the location is already a favorite
+      this.locationIsFavorite = this.favoriteLocations.some(
+        (location) => location.locations.id === this.locationToAdd.locations.id
+      );
+      // Get the JSON object for the logged in user.
       const user = await supabase.auth.user();
       // Add user id to favorite locations if user is logged in
       if (user) this.locationToAdd.userID = user.id;
       if (!this.locationIsFavorite) {
+        // if not a favorite set the variable to true
         this.locationIsFavorite = true;
+        // Add the new location to the favorite locations array
         this.favoriteLocations.push(this.locationToAdd);
-        // Update the list of favorite locations in the store
-        this.$store.state.user.favoriteLocations = this.favoriteLocations;
-        // Update the list of favorite locations in the local storage
-        this.myLocalStorage.setItem(
-          "favorite-locations",
-          JSON.stringify(this.favoriteLocations)
-        )
-        console.log(this.favoriteLocations);
+        // Update local Store
+        this.updateLocalsStores(user);
+        // Update supabase data
+        if (user) this.updateSupabaseData(user.id);
       } else {
+        // if already a favorite set the variable to false
         this.locationIsFavorite = false;
+        // Return an updated list of favorite locations
         this.favoriteLocations = this.favoriteLocations.filter(
-          (location) => location.locations.id !== locationToAddID
+          (location) =>
+            location.locations.id !== this.locationToAdd.locations.id
         );
-        // Update the list of favorite locations in the store
-        this.$store.state.user.favoriteLocations = this.favoriteLocations;
-        // Update the list of favorite locations in the local storage
-        this.myLocalStorage.removeItem("favorite-locations");
-        this.myLocalStorage.setItem(
-          "favorite-locations",
-          JSON.stringify(this.favoriteLocations)
-        );
-        console.log(this.favoriteLocations);
+        // Update local Store
+        this.updateLocalsStores(user);
+        // Update supabase data
+        if (user) this.updateSupabaseData(user.id);
       }
     },
   },
@@ -123,11 +144,38 @@ export default {
       this.$store.state.locationData[0] = JSON.parse(data);
     }
   },
-  mounted() {
-    console.log(this.$store.state.locationData);
-    console.log(this.favoriteLocations);
+  async mounted() {
+    // Get the JSON object for the logged in user.
+    const user = await supabase.auth.user();
+    // If user is logged in get their favorite locations list
+    if (user) {
+      // Get the user's favorite locations from the database
+      let { data: locationsDataFromDatabase, error } = await supabase
+        .from("user-favorite-locations")
+        .select("favorite_locations")
+        .eq("id", user.id);
+      if (error) console.log(error);
+      // Convert to JSON object
+      this.favoriteLocations = JSON.parse(
+        locationsDataFromDatabase[0].favorite_locations
+      );
+      // Set or upgrade at local store
+      this.$store.state.user.favoriteLocations = this.favoriteLocations;
+      // Update the list of favorite locations in the local storage
+      this.myLocalStorage.removeItem("favorite-locations");
+      this.myLocalStorage.setItem(
+        "favorite-locations",
+        JSON.stringify(this.favoriteLocations)
+      );
+    } else {
+      // Get data from the local store
+      this.favoriteLocations = this.$store.state.favoriteLocations;
+    }
+    // Check if current location is already a favorite location,
+    // return "true" if is favorite, return "false" if not a favorite
     this.locationIsFavorite = this.favoriteLocations.some(
-      (location) => location.locations.id === this.$store.state.locationData[0].id
+      (location) =>
+        location.locations.id === this.$store.state.locationData[0].id
     );
   },
 };

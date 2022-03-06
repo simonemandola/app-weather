@@ -89,7 +89,7 @@ export default {
       },
       title: {
         signIn: "Acceder",
-        createNewAccount: "Crear una nueva cuenta",
+        createNewUser: "Crear una nueva cuenta",
         logOut: "¿Seguro que quieres salir?",
       },
       titleForm: "",
@@ -108,12 +108,10 @@ export default {
         password: this.user.password,
       });
       if (user) {
-        console.log(user);
         this.$store.state.user.isLogged = true;
         this.$router.push({ name: "Home" });
       } else {
         console.log(error);
-        console.log("password o email incorrectos");
       }
     },
     async doAddNewUser() {
@@ -135,14 +133,10 @@ export default {
           .insert([
             {
               id: user.id,
-              favorite_locations: JSON.stringify(this.userFavoriteLocations),
+              favorite_locations: this.userFavoriteLocations,
             },
           ]);
-        if (data) {
-          console.log("Favorite locations saved");
-        } else {
-          console.log(error);
-        }
+        data ? console.log("Favorite locations saved") : console.log(error);
       } else {
         console.log(error);
       }
@@ -150,27 +144,25 @@ export default {
     async doLogOut() {
       console.log("Log out...");
       let { error } = await supabase.auth.signOut();
-      console.log(error);
+      if (error) console.log(error);
       this.$store.state.user.isLogged = false;
       this.$store.state.user.favoriteLocations = [];
       this.$router.push({ name: "Home" });
     },
     showAddNewUserForm() {
-      console.log("Show create new account.");
+      console.log("Show create new user.");
       this.isAddNewUser = true;
-      this.titleForm = this.title.createNewAccount;
+      this.titleForm = this.title.createNewUser;
     },
     hideUserForm() {
-      console.log("Account form closed.");
+      console.log("User form closed.");
       this.$emit("showUserForm", this.closeForm);
     },
   },
   mounted() {
     if (this.myLocalStorage.getItem("supabase.auth.token")) {
-      this.$store.state.user.isLogged = true;
       this.titleForm = this.title.logOut;
     } else {
-      this.$store.state.user.isLogged = false;
       this.titleForm = this.title.signIn;
     }
   },
