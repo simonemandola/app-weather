@@ -9,7 +9,7 @@
       >
         <div class="article-news__image">
           <img
-            :src="singleArticle.urlToImage + '/'"
+            :src="singleArticle.urlToImage"
             :alt="singleArticle.title"
           />
         </div>
@@ -34,7 +34,7 @@
 const API_URL = "https://newsapi.org/v2/everything?";
 const QUERY = "q=";
 const DATE_FROM = "&from=";
-const SORT_BY = "&sortBy=popularity";
+const SORT_BY = "&sortBy=publishedAt";
 const COUNTRY = "&language=es";
 const PAGE_SIZE = "&pageSize=10";
 const API_KEY = "&apiKey=";
@@ -68,13 +68,7 @@ export default {
             SORT_BY +
             PAGE_SIZE +
             API_KEY +
-            this.apiKey,
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "https://simone-mandola-app-weather.netlify.app",
-              "Access-Control-Allow-Methods": "GET",
-            },
-          }
+            this.apiKey
         );
         this.allArticles = await res.json();
       } catch (e) {
