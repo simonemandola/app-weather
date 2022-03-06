@@ -23,8 +23,30 @@
             </label>
           </form>
         </li>
+        <li class="settings__row" v-if="userIsLogged">
+          <button class="settings__item-title" @click.prevent="showUserModal">
+            Salir
+          </button>
+        </li>
+        <li class="settings__row" v-if="userIsLogged">
+          <button
+            class="settings__item-title text-red"
+            @click.prevent="showUserModal"
+          >
+            Borrar cuenta
+          </button>
+        </li>
+        <li class="settings__row" v-else>
+          <button class="settings__item-title" @click.prevent="showUserModal">
+            Acceder
+          </button>
+        </li>
       </ul>
     </nav>
+    <sign-in-modal
+      @show-user-form="showForm = $event"
+      :show-user-form="showForm"
+    />
     <p class="text-xxs version-text text-white">Version 1.0</p>
   </main>
 </template>
@@ -33,12 +55,14 @@
 // components
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
+import SignInForm from "@/components/_signInForm.vue";
 
 export default {
   name: "Settings",
   components: {
     return: Return,
     background: GradientBackground,
+    signInModal: SignInForm,
   },
   data() {
     return {
@@ -57,6 +81,9 @@ export default {
           value: "f",
         },
       },
+      userIsLogged: false,
+      showForm: false,
+      myLocalStorage: window.localStorage,
     };
   },
   methods: {
@@ -80,6 +107,9 @@ export default {
           break;
       }
     },
+    showUserModal() {
+      this.showForm = true;
+    },
   },
   mounted() {
     if (this.$store.state.units.selected === "imperial") {
@@ -89,6 +119,10 @@ export default {
       this.checked = false;
       this.units = this.unitsOptions.celsius.name;
     }
+    this.myLocalStorage.getItem("supabase.auth.token")
+      ? (this.$store.state.user.isLogged = true)
+      : (this.$store.state.user.isLogged = false);
+    this.userIsLogged = this.$store.state.user.isLogged;
   },
 };
 </script>

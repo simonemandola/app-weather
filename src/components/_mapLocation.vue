@@ -44,7 +44,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.isNightCurrentDate);
     this.refMap = this.$refs.map;
     this.refMarker = this.$refs.marker;
     mapboxgl.accessToken = this.key;

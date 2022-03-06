@@ -5,7 +5,7 @@ export default createStore({
     units2: "celsius",
     locationData: [
       {
-        id: 0,
+        id: "",
         name: "",
         country: "",
         coord: {
@@ -28,7 +28,13 @@ export default createStore({
         value: "imperial",
       },
     },
+    // Favorites locations
     favoriteLocations: [],
+    // User
+    user: {
+      isLogged: false,
+      favoriteLocations: [],
+    },
   },
   mutations: {},
   actions: {},

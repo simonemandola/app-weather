@@ -34,6 +34,13 @@ import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 // graph
 import Graph from "@/components/_graph.vue";
 
+// supabase client
+import { createClient } from "@supabase/supabase-js";
+const supabaseUrl = "https://ydyyzkyuojfqqeuyaagh.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkeXl6a3l1b2pmcXFldXlhYWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYzODYxNjksImV4cCI6MTk2MTk2MjE2OX0.2zTcwxb_-8jB0dK6wySOItJI2gXdCo3hhazbiYfalRY";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 export default {
   name: "Home",
   components: {
@@ -49,8 +56,11 @@ export default {
   },
   data() {
     return {
-      favoriteLocations: this.$store.state.favoriteLocations,
-      locationToAdd: "",
+      favoriteLocations: [],
+      locationToAdd: {
+        userID: "",
+        locations: [],
+      },
       myLocalStorage: window.localStorage,
       icon: {
         unchecked: "icon__favorite",
@@ -60,32 +70,65 @@ export default {
     };
   },
   methods: {
-    addToFavorite() {
-      this.locationToAdd = this.myLocalStorage.getItem("user-weather-data");
-      this.locationToAdd = JSON.parse(this.locationToAdd);
-      const locationToAddID = this.locationToAdd.id;
-      this.locationIsFavorite = this.favoriteLocations.some(
-        (location) => location.id === locationToAddID
-      );
-      if (!this.locationIsFavorite) {
-        this.locationIsFavorite = true;
-        this.favoriteLocations.push(this.locationToAdd);
-        this.myLocalStorage.setItem(
-          "favorite-locations",
-          JSON.stringify(this.favoriteLocations)
-        );
-        this.$store.state.favoriteLocations.favorite = true;
+    async updateSupabaseData(userID) {
+      const { data, error } = await supabase
+        .from("user-favorite-locations")
+        .update({
+          favorite_locations: this.favoriteLocations,
+        })
+        .eq("id", userID);
+      console.log(data);
+      if (error) console.log(error);
+    },
+    updateLocalsStores(user) {
+      // Update the list of favorite locations in the store
+      if (user) {
+        this.$store.state.user.favoriteLocations = this.favoriteLocations;
       } else {
+        this.$store.state.favoriteLocations = this.favoriteLocations;
+      }
+      // Update the list of favorite locations in the local storage
+      this.myLocalStorage.removeItem("favorite-locations");
+      this.myLocalStorage.setItem(
+        "favorite-locations",
+        JSON.stringify(this.favoriteLocations)
+      );
+    },
+    async addToFavorite() {
+      // Get data from LocalStorage
+      this.locationToAdd.locations =
+        this.myLocalStorage.getItem("user-weather-data");
+      // Convert to JSON object
+      this.locationToAdd.locations = JSON.parse(this.locationToAdd.locations);
+      // Return true o false if the location is already a favorite
+      this.locationIsFavorite = this.favoriteLocations.some(
+        (location) => location.locations.id === this.locationToAdd.locations.id
+      );
+      // Get the JSON object for the logged in user.
+      const user = await supabase.auth.user();
+      // Add user id to favorite locations if user is logged in
+      if (user) this.locationToAdd.userID = user.id;
+      if (!this.locationIsFavorite) {
+        // if not a favorite set the variable to true
+        this.locationIsFavorite = true;
+        // Add the new location to the favorite locations array
+        this.favoriteLocations.push(this.locationToAdd);
+        // Update local Store
+        this.updateLocalsStores(user);
+        // Update supabase data
+        if (user) this.updateSupabaseData(user.id);
+      } else {
+        // if already a favorite set the variable to false
         this.locationIsFavorite = false;
+        // Return an updated list of favorite locations
         this.favoriteLocations = this.favoriteLocations.filter(
-          (location) => location.id !== locationToAddID
+          (location) =>
+            location.locations.id !== this.locationToAdd.locations.id
         );
-        this.myLocalStorage.removeItem("favorite-locations");
-        this.myLocalStorage.setItem(
-          "favorite-locations",
-          JSON.stringify(this.favoriteLocations)
-        );
-        this.$store.state.favoriteLocations.favorite = false;
+        // Update local Store
+        this.updateLocalsStores(user);
+        // Update supabase data
+        if (user) this.updateSupabaseData(user.id);
       }
     },
   },
@@ -101,9 +144,38 @@ export default {
       this.$store.state.locationData[0] = JSON.parse(data);
     }
   },
-  mounted() {
+  async mounted() {
+    // Get the JSON object for the logged in user.
+    const user = await supabase.auth.user();
+    // If user is logged in get their favorite locations list
+    if (user) {
+      // Get the user's favorite locations from the database
+      let { data: locationsDataFromDatabase, error } = await supabase
+        .from("user-favorite-locations")
+        .select("favorite_locations")
+        .eq("id", user.id);
+      if (error) console.log(error);
+      // Convert to JSON object
+      this.favoriteLocations = JSON.parse(
+        locationsDataFromDatabase[0].favorite_locations
+      );
+      // Set or upgrade at local store
+      this.$store.state.user.favoriteLocations = this.favoriteLocations;
+      // Update the list of favorite locations in the local storage
+      this.myLocalStorage.removeItem("favorite-locations");
+      this.myLocalStorage.setItem(
+        "favorite-locations",
+        JSON.stringify(this.favoriteLocations)
+      );
+    } else {
+      // Get data from the local store
+      this.favoriteLocations = this.$store.state.favoriteLocations;
+    }
+    // Check if current location is already a favorite location,
+    // return "true" if is favorite, return "false" if not a favorite
     this.locationIsFavorite = this.favoriteLocations.some(
-      (location) => location.id === this.$store.state.locationData[0].id
+      (location) =>
+        location.locations.id === this.$store.state.locationData[0].id
     );
   },
 };
