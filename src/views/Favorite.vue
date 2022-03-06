@@ -106,11 +106,33 @@ export default {
       if (user) this.updateSupabaseData(user.id);
     },
   },
-  mounted() {
+  async mounted() {
     window.scrollTo(0, 0);
-    if (this.myLocalStorage.getItem("supabase.auth.token")) {
-      this.favoriteLocations = this.$store.state.user.favoriteLocations;
+    // Get the JSON object for the logged in user.
+    const user = await supabase.auth.user();
+    // If user is logged in get their favorite locations list
+    if (user) {
+      // Get the user's favorite locations from the database
+      let { data: locationsDataFromDatabase, error } = await supabase
+        .from("user-favorite-locations")
+        .select("favorite_locations")
+        .eq("id", user.id);
+      if (error) console.log(error);
+      // Convert to JSON object
+      this.favoriteLocations = JSON.parse(
+        locationsDataFromDatabase[0].favorite_locations
+      );
+      // Set or upgrade at local store
+      this.$store.state.user.favoriteLocations = this.favoriteLocations;
+      console.log(this.$store.state.user.favoriteLocations);
+      // Update the list of favorite locations in the local storage
+      this.myLocalStorage.removeItem("favorite-locations");
+      this.myLocalStorage.setItem(
+        "favorite-locations",
+        JSON.stringify(this.favoriteLocations)
+      );
     } else {
+      // Get data from the local store
       this.favoriteLocations = this.$store.state.favoriteLocations;
     }
     this.favoriteLocations.forEach((location) => {

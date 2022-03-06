@@ -97,7 +97,7 @@ export default {
       await this.setNewData();
       setTimeout(() => {
         this.$router.push({ name: "Home" });
-      }, 1500);
+      }, 1200);
     },
   },
   async created() {
@@ -107,7 +107,6 @@ export default {
       this.currentPosition.lon = position.coords.longitude;
       this.showResult();
     });
-    // await this.showResult();
   },
 };
 </script>

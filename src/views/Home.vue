@@ -161,6 +161,7 @@ export default {
       );
       // Set or upgrade at local store
       this.$store.state.user.favoriteLocations = this.favoriteLocations;
+      console.log(this.$store.state.user.favoriteLocations);
       // Update the list of favorite locations in the local storage
       this.myLocalStorage.removeItem("favorite-locations");
       this.myLocalStorage.setItem(

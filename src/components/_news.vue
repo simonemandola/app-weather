@@ -8,10 +8,7 @@
         :key="i"
       >
         <div class="article-news__image">
-          <img
-            :src="singleArticle.urlToImage"
-            :alt="singleArticle.title"
-          />
+          <img :src="singleArticle.urlToImage" :alt="singleArticle.title" />
         </div>
         <div class="article-news__text">
           <h1 class="title-xxs text-bold article-news__title">
@@ -37,12 +34,11 @@ const DATE_FROM = "&from=";
 const SORT_BY = "&sortBy=publishedAt";
 const COUNTRY = "&language=es";
 const PAGE_SIZE = "&pageSize=10";
-const API_KEY = "&apiKey=";
+const API_KEY = "&apiKey=a515538b10f84c498a02f9cb900f7035";
 export default {
   name: "News",
   data() {
     return {
-      apiKey: "a515538b10f84c498a02f9cb900f7035",
       query: this.$store.state.locationData[0].name,
       dateFrom: new Date() - 2,
       allArticles: [],
@@ -67,8 +63,7 @@ export default {
             this.dateFrom +
             SORT_BY +
             PAGE_SIZE +
-            API_KEY +
-            this.apiKey
+            API_KEY
         );
         this.allArticles = await res.json();
       } catch (e) {
