@@ -16,6 +16,11 @@
     <map-location />
     <weather-seven-days />
     <news />
+    <notification
+      :show-notification="showNotification"
+      :notifications-messages="notificationsMessages"
+      @hide-notification="showNotification = $event"
+    />
     <bottom-menu />
   </main>
 </template>
@@ -30,6 +35,7 @@ import MapLocation from "@/components/_mapLocation.vue";
 import News from "@/components/_news.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
+import NotificationMessage from "@/components/_notificationMessage.vue";
 
 // graph
 import Graph from "@/components/_graph.vue";
@@ -53,6 +59,7 @@ export default {
     wTableHour: WeatherTableHour,
     mapLocation: MapLocation,
     news: News,
+    notification: NotificationMessage,
   },
   data() {
     return {
@@ -68,6 +75,8 @@ export default {
       },
       locationIsFavorite: false,
       userAccessToken: "",
+      showNotification: false,
+      notificationsMessages: [],
     };
   },
   methods: {
@@ -110,7 +119,8 @@ export default {
       this.locationIsFavorite = this.favoriteLocations.some(
         (location) => location.locations.id === this.locationToAdd.locations.id
       );
-      await this.getUserAccessToken();
+      if (this.myLocalStorage.getItem("supabase.auth.token"))
+        this.getUserAccessToken();
       // Get the JSON object for the logged in user.
       const user = await supabase.auth.api.getUser(this.userAccessToken);
       console.log(user);
@@ -125,6 +135,10 @@ export default {
         this.updateLocalsStores(user);
         // Update supabase data
         if (user) this.updateSupabaseData(user.user.id);
+        // Show notification
+        this.showNotification = true;
+        this.notificationsMessages = [];
+        this.notificationsMessages.push("Ubicación añadida a favoritos.");
       } else {
         // if already a favorite set the variable to false
         this.locationIsFavorite = false;
@@ -137,6 +151,10 @@ export default {
         this.updateLocalsStores(user);
         // Update supabase data
         if (user) this.updateSupabaseData(user.user.id);
+        // Show notification
+        this.showNotification = true;
+        this.notificationsMessages = [];
+        this.notificationsMessages.push("Ubicación eliminada de favoritos.");
       }
     },
   },
@@ -153,11 +171,11 @@ export default {
     }
   },
   async mounted() {
-    this.getUserAccessToken();
+    if (this.myLocalStorage.getItem("supabase.auth.token"))
+      this.getUserAccessToken();
     // Get the JSON object for the logged in user.
     const user = await supabase.auth.api.getUser(this.userAccessToken);
     // If user is logged in get their favorite locations list
-    console.log(user);
     if (user) {
       // Get the user's favorite locations from the database
       let { data: locationsDataFromDatabase, error } = await supabase
