@@ -67,6 +67,7 @@ export default {
         checked: "icon__favorite-checked",
       },
       locationIsFavorite: false,
+      userAccessToken: "",
     };
   },
   methods: {
@@ -94,6 +95,11 @@ export default {
         JSON.stringify(this.favoriteLocations)
       );
     },
+    getUserAccessToken() {
+      let supaTokenData = this.myLocalStorage.getItem("supabase.auth.token");
+      supaTokenData = JSON.parse(supaTokenData);
+      return (this.userAccessToken = supaTokenData.currentSession.access_token);
+    },
     async addToFavorite() {
       // Get data from LocalStorage
       this.locationToAdd.locations =
@@ -104,10 +110,12 @@ export default {
       this.locationIsFavorite = this.favoriteLocations.some(
         (location) => location.locations.id === this.locationToAdd.locations.id
       );
+      await this.getUserAccessToken();
       // Get the JSON object for the logged in user.
-      const user = await supabase.auth.user();
+      const user = await supabase.auth.api.getUser(this.userAccessToken);
+      console.log(user);
       // Add user id to favorite locations if user is logged in
-      if (user) this.locationToAdd.userID = user.id;
+      if (user) this.locationToAdd.userID = user.user.id;
       if (!this.locationIsFavorite) {
         // if not a favorite set the variable to true
         this.locationIsFavorite = true;
@@ -116,7 +124,7 @@ export default {
         // Update local Store
         this.updateLocalsStores(user);
         // Update supabase data
-        if (user) this.updateSupabaseData(user.id);
+        if (user) this.updateSupabaseData(user.user.id);
       } else {
         // if already a favorite set the variable to false
         this.locationIsFavorite = false;
@@ -128,7 +136,7 @@ export default {
         // Update local Store
         this.updateLocalsStores(user);
         // Update supabase data
-        if (user) this.updateSupabaseData(user.id);
+        if (user) this.updateSupabaseData(user.user.id);
       }
     },
   },
@@ -145,15 +153,17 @@ export default {
     }
   },
   async mounted() {
+    this.getUserAccessToken();
     // Get the JSON object for the logged in user.
-    const user = await supabase.auth.user();
+    const user = await supabase.auth.api.getUser(this.userAccessToken);
     // If user is logged in get their favorite locations list
+    console.log(user);
     if (user) {
       // Get the user's favorite locations from the database
       let { data: locationsDataFromDatabase, error } = await supabase
         .from("user-favorite-locations")
         .select("favorite_locations")
-        .eq("id", user.id);
+        .eq("id", user.user.id);
       if (error) console.log(error);
       // Convert to JSON object
       this.favoriteLocations = JSON.parse(
@@ -161,7 +171,6 @@ export default {
       );
       // Set or upgrade at local store
       this.$store.state.user.favoriteLocations = this.favoriteLocations;
-      console.log(this.$store.state.user.favoriteLocations);
       // Update the list of favorite locations in the local storage
       this.myLocalStorage.removeItem("favorite-locations");
       this.myLocalStorage.setItem(

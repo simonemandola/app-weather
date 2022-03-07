@@ -53,6 +53,7 @@ export default {
       favoriteLocations: [],
       sets: new Set(),
       myLocalStorage: window.localStorage,
+      userAccessToken: "",
     };
   },
   methods: {
@@ -67,6 +68,11 @@ export default {
             break;
         }
       };
+    },
+    getUserAccessToken() {
+      let supaTokenData = this.myLocalStorage.getItem("supabase.auth.token");
+      supaTokenData = JSON.parse(supaTokenData);
+      return (this.userAccessToken = supaTokenData.currentSession.access_token);
     },
     async updateSupabaseData(userID) {
       const { data, error } = await supabase
@@ -94,7 +100,7 @@ export default {
     },
     async deleteLocationFromFavorite(id) {
       // Get the JSON object for the logged in user.
-      const user = await supabase.auth.user();
+      const user = await supabase.auth.api.getUser(this.userAccessToken);
       // Return an updated list of favorite locations
       this.favoriteLocations = this.favoriteLocations.filter(
         (location) =>
@@ -103,20 +109,22 @@ export default {
       // Update local Store
       this.updateLocalsStores(user);
       // Update supabase data
-      if (user) this.updateSupabaseData(user.id);
+      if (user) this.updateSupabaseData(user.user.id);
     },
   },
   async mounted() {
     window.scrollTo(0, 0);
+    this.getUserAccessToken();
     // Get the JSON object for the logged in user.
-    const user = await supabase.auth.user();
+    const user = await supabase.auth.api.getUser(this.userAccessToken);
+    console.log(user);
     // If user is logged in get their favorite locations list
     if (user) {
       // Get the user's favorite locations from the database
       let { data: locationsDataFromDatabase, error } = await supabase
         .from("user-favorite-locations")
         .select("favorite_locations")
-        .eq("id", user.id);
+        .eq("id", user.user.id);
       if (error) console.log(error);
       // Convert to JSON object
       this.favoriteLocations = JSON.parse(

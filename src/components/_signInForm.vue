@@ -113,6 +113,7 @@ export default {
       } else {
         console.log(error);
       }
+      this.updateLocalsStores();
     },
     async doAddNewUser() {
       console.log("Creating new user...");
@@ -146,7 +147,7 @@ export default {
       let { error } = await supabase.auth.signOut();
       if (error) console.log(error);
       this.$store.state.user.isLogged = false;
-      this.$store.state.user.favoriteLocations = [];
+      this.updateLocalsStores();
       this.$router.push({ name: "Home" });
     },
     showAddNewUserForm() {
@@ -157,6 +158,13 @@ export default {
     hideUserForm() {
       console.log("User form closed.");
       this.$emit("showUserForm", this.closeForm);
+    },
+    updateLocalsStores() {
+      // Update the list of favorite locations in the store
+      this.$store.state.user.favoriteLocations = [];
+      this.$store.state.favoriteLocations = [];
+      // Update the list of favorite locations in the local storage
+      this.myLocalStorage.removeItem("favorite-locations");
     },
   },
   mounted() {
