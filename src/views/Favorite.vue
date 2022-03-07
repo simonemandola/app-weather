@@ -114,7 +114,8 @@ export default {
   },
   async mounted() {
     window.scrollTo(0, 0);
-    this.getUserAccessToken();
+    if (this.myLocalStorage.getItem("supabase.auth.token"))
+      this.getUserAccessToken();
     // Get the JSON object for the logged in user.
     const user = await supabase.auth.api.getUser(this.userAccessToken);
     console.log(user);
