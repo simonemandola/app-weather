@@ -33,23 +33,22 @@ import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 
 // API Geocoding Mapbox, constants
-const API_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
+const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
 const FORMAT = ".json?";
 const TOKEN = "access_token=";
-const PK =
-  "pk.eyJ1Ijoic2ltb25lbWFuZG9sYSIsImEiOiJja3djYTY3cmkzc3dtMzByb2NnaXFqdGd3In0.LkO9Y9a2d2o50nNLp476eQ";
+const PK = process.env.VUE_APP_KEY_PUBLIC_MAPBOX;
 const AUTOCOMPLETE = "&autocomplete=true";
 const TYPES = "&types=place";
 const LANG = "&language=es";
 
 // constants Open Weather - One Call
-const API_URL_OPW_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall?";
+const API_URL_OPW_ONE_CALL = process.env.VUE_APP_URL_API_OPEN_WEATHER_ONE_CALL;
 const OPW_LAT = "lat=";
 const OPW_LON = "&lon=";
 const OPW_UNITS = "&units=";
 const OPW_LANG = "&lang=es";
 const OPW_EXCLUDE = "&exclude=minutely,alerts";
-const OPW_KEY = "&appid=9014bc217533668d1681d0858a1ca241";
+const OPW_KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 
 export default {
   name: "Search",
@@ -132,11 +131,14 @@ export default {
     },
     setNewData(city) {
       this.$store.state.locationData[0].name = city.text;
-      this.$store.state.locationData[0].country = city.context[1].short_code;
+      console.log(city);
+      this.$store.state.locationData[0].country =
+        city.context[0].short_code ?? city.context[1].short_code;
       this.$store.state.locationData[0].coord.lat = this.weatherData.lat;
       this.$store.state.locationData[0].coord.lon = this.weatherData.lon;
       this.$store.state.locationData[0].id =
-        this.$store.state.locationData[0].coord.lat.toString() + this.$store.state.locationData[0].coord.lon.toString();
+        this.$store.state.locationData[0].coord.lat.toString() +
+        this.$store.state.locationData[0].coord.lon.toString();
       this.$store.state.locationData[0].current = this.weatherData.current;
       this.$store.state.locationData[0].hourly = this.weatherData.hourly;
       this.$store.state.locationData[0].daily = this.weatherData.daily;

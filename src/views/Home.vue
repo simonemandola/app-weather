@@ -42,9 +42,8 @@ import Graph from "@/components/_graph.vue";
 
 // supabase client
 import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = "https://ydyyzkyuojfqqeuyaagh.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkeXl6a3l1b2pmcXFldXlhYWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYzODYxNjksImV4cCI6MTk2MTk2MjE2OX0.2zTcwxb_-8jB0dK6wySOItJI2gXdCo3hhazbiYfalRY";
+const supabaseUrl = process.env.VUE_APP_URL_API_SUPABASE;
+const supabaseKey = process.env.VUE_APP_KEY_PUBLIC_SUPABASE;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default {
@@ -92,7 +91,7 @@ export default {
     },
     updateLocalsStores(user) {
       // Update the list of favorite locations in the store
-      if (user) {
+      if (user.data) {
         this.$store.state.user.favoriteLocations = this.favoriteLocations;
       } else {
         this.$store.state.favoriteLocations = this.favoriteLocations;
@@ -123,9 +122,8 @@ export default {
         this.getUserAccessToken();
       // Get the JSON object for the logged in user.
       const user = await supabase.auth.api.getUser(this.userAccessToken);
-      console.log(user);
       // Add user id to favorite locations if user is logged in
-      if (user) this.locationToAdd.userID = user.user.id;
+      if (user.data) this.locationToAdd.userID = user.user.id;
       if (!this.locationIsFavorite) {
         // if not a favorite set the variable to true
         this.locationIsFavorite = true;
@@ -134,7 +132,7 @@ export default {
         // Update local Store
         this.updateLocalsStores(user);
         // Update supabase data
-        if (user) this.updateSupabaseData(user.user.id);
+        if (user.data) this.updateSupabaseData(user.user.id);
         // Show notification
         this.showNotification = true;
         this.notificationsMessages = [];
@@ -150,7 +148,7 @@ export default {
         // Update local Store
         this.updateLocalsStores(user);
         // Update supabase data
-        if (user) this.updateSupabaseData(user.user.id);
+        if (user.data) this.updateSupabaseData(user.user.id);
         // Show notification
         this.showNotification = true;
         this.notificationsMessages = [];
@@ -175,8 +173,8 @@ export default {
       this.getUserAccessToken();
     // Get the JSON object for the logged in user.
     const user = await supabase.auth.api.getUser(this.userAccessToken);
-    // If user is logged in get their favorite locations list
-    if (user) {
+    // If user is logged in, get their favorite locations list
+    if (user.data) {
       // Get the user's favorite locations from the database
       let { data: locationsDataFromDatabase, error } = await supabase
         .from("user-favorite-locations")

@@ -13,21 +13,20 @@
 import MainBackground from "@/components/_mainBackground.vue";
 
 // API Geocoding Mapbox, constants
-const API_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
+const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
 const FORMAT = ".json?";
 const TOKEN = "access_token=";
-const PK =
-  "pk.eyJ1Ijoic2ltb25lbWFuZG9sYSIsImEiOiJja3djYTY3cmkzc3dtMzByb2NnaXFqdGd3In0.LkO9Y9a2d2o50nNLp476eQ";
+const PK = process.env.VUE_APP_KEY_PUBLIC_MAPBOX;
 const TYPES = "&types=place,country";
 
 // constants Open Weather - One Call
-const API_URL_OPW_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall?";
+const API_URL_OPW_ONE_CALL = process.env.VUE_APP_URL_API_OPEN_WEATHER_ONE_CALL;
 const OPW_LAT = "lat=";
 const OPW_LON = "&lon=";
 const OPW_UNITS = "&units=";
 const OPW_LANG = "&lang=es";
 const OPW_EXCLUDE = "&exclude=minutely,alerts";
-const OPW_KEY = "&appid=9014bc217533668d1681d0858a1ca241";
+const OPW_KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 export default {
   name: "Screensplash",
   components: {

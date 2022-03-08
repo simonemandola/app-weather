@@ -39,7 +39,7 @@ export default {
   name: "News",
   data() {
     return {
-      query: this.$store.state.locationData[0].name,
+      query: "",
       dateFrom: new Date() - 2,
       allArticles: [],
       max: 19,
@@ -73,6 +73,7 @@ export default {
     },
   },
   mounted() {
+    this.query = this.$store.state.locationData[0].name;
     this.getNews();
   },
 };

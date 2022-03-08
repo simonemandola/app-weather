@@ -35,9 +35,8 @@ import Card from "@/components/_card.vue";
 
 // supabase client
 import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = "https://ydyyzkyuojfqqeuyaagh.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkeXl6a3l1b2pmcXFldXlhYWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYzODYxNjksImV4cCI6MTk2MTk2MjE2OX0.2zTcwxb_-8jB0dK6wySOItJI2gXdCo3hhazbiYfalRY";
+const supabaseUrl = process.env.VUE_APP_URL_API_SUPABASE;
+const supabaseKey = process.env.VUE_APP_KEY_PUBLIC_SUPABASE;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default {
@@ -86,7 +85,7 @@ export default {
     },
     updateLocalsStores(user) {
       // Update the list of favorite locations in the store
-      if (user) {
+      if (user.data) {
         this.$store.state.user.favoriteLocations = this.favoriteLocations;
       } else {
         this.$store.state.favoriteLocations = this.favoriteLocations;
@@ -109,7 +108,7 @@ export default {
       // Update local Store
       this.updateLocalsStores(user);
       // Update supabase data
-      if (user) this.updateSupabaseData(user.user.id);
+      if (user.data) this.updateSupabaseData(user.user.id);
     },
   },
   async mounted() {
@@ -120,7 +119,7 @@ export default {
     const user = await supabase.auth.api.getUser(this.userAccessToken);
     console.log(user);
     // If user is logged in get their favorite locations list
-    if (user) {
+    if (user.data) {
       // Get the user's favorite locations from the database
       let { data: locationsDataFromDatabase, error } = await supabase
         .from("user-favorite-locations")
@@ -133,7 +132,6 @@ export default {
       );
       // Set or upgrade at local store
       this.$store.state.user.favoriteLocations = this.favoriteLocations;
-      console.log(this.$store.state.user.favoriteLocations);
       // Update the list of favorite locations in the local storage
       this.myLocalStorage.removeItem("favorite-locations");
       this.myLocalStorage.setItem(
