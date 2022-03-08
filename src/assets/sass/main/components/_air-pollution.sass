@@ -1,0 +1,40 @@
+.air-pollution
+  width: 100%
+  @include padding-inline-mobile
+  margin-top: $padding__l
+
+  &__title
+    margin-bottom: $padding__xxs
+
+  &__wrap
+    @include card-settings($padding__xxs, $padding__xxs)
+
+  &__bg
+    width: 100%
+    height: .5rem
+    border: 1px solid transparentize($color__grey, .8)
+    position: relative
+    border-radius: $border-radius-s
+
+  &__color
+    width: 100%
+    height: 100%
+    background-image: $linear__gradient__air__pollution
+    border-radius: $border-radius-s
+
+  &__point
+    position: absolute
+    top: -.25rem
+    bottom: 0
+    width: .5rem
+    height: 1rem
+    border-radius: $border-radius-s
+    background-color: $color__white
+    z-index: 500
+
+  &__text
+    margin:
+      top: $padding__xxs
+      bottom: 0
+    padding-top: $padding__xxxs
+    border-top: $main-border

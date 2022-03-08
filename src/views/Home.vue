@@ -11,6 +11,7 @@
     </div>
     <main-results />
     <weather-by-hour />
+    <air-pollution />
     <w-table-hour />
     <v-apexchart />
     <map-location />
@@ -30,6 +31,7 @@
 import WeatherMainResult from "@/components/_weatherMainResult.vue";
 import MainBackground from "@/components/_mainBackground.vue";
 import WeatherByHour from "@/components/_weatherByHour.vue";
+import AirPollution from "@/components/_airPollution.vue";
 import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
 import MapLocation from "@/components/_mapLocation.vue";
 import News from "@/components/_news.vue";
@@ -52,6 +54,7 @@ export default {
     mainResults: WeatherMainResult,
     mainBackground: MainBackground,
     weatherByHour: WeatherByHour,
+    airPollution: AirPollution,
     bottomMenu: BottomMenuFixed,
     weatherSevenDays: WeatherSevenDays,
     vApexchart: Graph,
