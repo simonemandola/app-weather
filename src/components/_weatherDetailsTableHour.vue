@@ -42,8 +42,8 @@
               ><i
                 class="icon__arrow"
                 :style="'transform: rotate(' + hour.wind_deg + 'deg)'"
-              ></i
-            ></span>
+              ></i>
+            </span>
           </li>
         </ul>
       </div>

@@ -12,6 +12,7 @@
     <main-results />
     <weather-by-hour />
     <air-pollution />
+    <compass-rose />
     <w-table-hour />
     <v-apexchart />
     <map-location />
@@ -32,6 +33,7 @@ import WeatherMainResult from "@/components/_weatherMainResult.vue";
 import MainBackground from "@/components/_mainBackground.vue";
 import WeatherByHour from "@/components/_weatherByHour.vue";
 import AirPollution from "@/components/_airPollution.vue";
+import CompassRose from "@/components/_compassRose.vue";
 import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
 import MapLocation from "@/components/_mapLocation.vue";
 import News from "@/components/_news.vue";
@@ -55,6 +57,7 @@ export default {
     mainBackground: MainBackground,
     weatherByHour: WeatherByHour,
     airPollution: AirPollution,
+    compassRose: CompassRose,
     bottomMenu: BottomMenuFixed,
     weatherSevenDays: WeatherSevenDays,
     vApexchart: Graph,
