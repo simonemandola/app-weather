@@ -94,7 +94,7 @@ export default {
     },
     updateLocalsStores(user) {
       // Update the list of favorite locations in the store
-      if (user.data) {
+      if (user) {
         this.$store.state.user.favoriteLocations = this.favoriteLocations;
       } else {
         this.$store.state.favoriteLocations = this.favoriteLocations;
@@ -124,7 +124,7 @@ export default {
       if (this.myLocalStorage.getItem("supabase.auth.token"))
         this.getUserAccessToken();
       // Get the JSON object for the logged in user.
-      const user = await supabase.auth.api.getUser(this.userAccessToken);
+      const user = await supabase.auth.api.getUser(process.env.VUE_APP_JWT_SECRET_SUPABASE);
       // Add user id to favorite locations if user is logged in
       if (user.data) this.locationToAdd.userID = user.user.id;
       if (!this.locationIsFavorite) {
@@ -133,7 +133,7 @@ export default {
         // Add the new location to the favorite locations array
         this.favoriteLocations.push(this.locationToAdd);
         // Update local Store
-        this.updateLocalsStores(user);
+        this.updateLocalsStores(user.data);
         // Update supabase data
         if (user.data) this.updateSupabaseData(user.user.id);
         // Show notification
@@ -149,7 +149,7 @@ export default {
             location.locations.id !== this.locationToAdd.locations.id
         );
         // Update local Store
-        this.updateLocalsStores(user);
+        this.updateLocalsStores(user.data);
         // Update supabase data
         if (user.data) this.updateSupabaseData(user.user.id);
         // Show notification
@@ -175,7 +175,7 @@ export default {
     if (this.myLocalStorage.getItem("supabase.auth.token"))
       this.getUserAccessToken();
     // Get the JSON object for the logged in user.
-    const user = await supabase.auth.api.getUser(this.userAccessToken);
+    const user = await supabase.auth.api.getUser(process.env.VUE_APP_JWT_SECRET_SUPABASE);
     // If user is logged in, get their favorite locations list
     if (user.data) {
       // Get the user's favorite locations from the database

@@ -116,8 +116,8 @@ export default {
     if (this.myLocalStorage.getItem("supabase.auth.token"))
       this.getUserAccessToken();
     // Get the JSON object for the logged in user.
-    const user = await supabase.auth.api.getUser(this.userAccessToken);
-    console.log(user);
+    // const user = await supabase.auth.api.getUser(this.userAccessToken);
+    const user = await supabase.auth.user();
     // If user is logged in get their favorite locations list
     if (user.data) {
       // Get the user's favorite locations from the database
