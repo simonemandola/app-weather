@@ -2,7 +2,7 @@
   <div>
     <div class="screensplash">
       <img src="/img/weather-status/icons/dark/02d.svg" alt="icon app" />
-      <p class="text-center text-s">Weather APP</p>
+      <p class="text-center text-s text-bold">Weather APP</p>
     </div>
   </div>
 </template>

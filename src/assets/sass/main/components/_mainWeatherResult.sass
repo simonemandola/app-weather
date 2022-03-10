@@ -2,16 +2,21 @@
   width: 100%
   padding-top: $padding__s
   @include padding-inline-mobile
-  height: auto
+  height: 50%
+  display: grid
+  align-items: center
 
   &__wrap
     display: grid
-    grid-template-columns: 50% 50%
+    grid-template-columns: 1fr 1fr
     align-items: center
     justify-items: center
     z-index: 1
 
   &__text
+    width: 100%
+    display: grid
+    justify-items: center
     position: relative
 
   &__temperature
@@ -20,14 +25,12 @@
     font-weight: 300
     margin: $padding__xxxs 0
     line-height: 100%
-    padding-left: 2.2rem
     box-sizing: border-box
 
   &__state
     text-transform: capitalize
     margin: 0
     height: 1.5rem
-    padding-right: $padding__xs
     box-sizing: border-box
 
   &__state-info
@@ -38,7 +41,6 @@
     border-radius: 1rem
     padding:
       top: $padding__xxxs
-      right: $padding__xs
       bottom: $padding__xxxs
     column-gap: $gap__m
 
@@ -51,5 +53,7 @@
       margin-right: .25rem
 
   &__image
-    width: 80%
-    margin-bottom: $padding__xxs
+    width: 75%
+    margin:
+      top: $padding__xxs
+      bottom: auto

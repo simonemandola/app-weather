@@ -13,10 +13,15 @@
     justify-content: space-between
     align-items: center
     @include card-settings($padding__xxxs, $padding__xxs)
-    margin-top: $padding__xs
 
-  &__wrap:first-child
-    margin-top: 0
+  &__wrap
+    border-bottom: none
+
+    &:nth-child(2)
+      background-color: transparentize($color__white, .4)
+
+  &__wrap:last-child
+    border-bottom: $main-border
 
   &__day
     text-transform: capitalize
