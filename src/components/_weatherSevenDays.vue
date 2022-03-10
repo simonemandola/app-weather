@@ -15,7 +15,7 @@
       </p>
       <div class="weather-seven-days__image">
         <img
-          :src="'/img/weather-status/icons/' + day.weather[0].icon + '.svg'"
+          :src="`/img/weather-status/icons/${directory}/${day.weather[0].icon}.svg`"
           alt=""
         />
       </div>
@@ -30,6 +30,11 @@ export default {
     return {
       weatherByDays: this.$store.state.locationData[0].daily,
     };
+  },
+  computed: {
+    directory() {
+      return "dark";
+    },
   },
   mounted() {
     this.weatherByDays.forEach((day) => {

@@ -4,7 +4,7 @@
   @include padding-inline-mobile
 
   &__title
-    margin-bottom: 0
+    margin-bottom: $padding__xxs
     display: grid
     grid-template-columns: auto 4rem
     justify-items: end
@@ -16,6 +16,7 @@
     display: grid
     place-content: center
     pointer-events: none
+    @include card-settings(0,0)
 
   &__back
     width: 100%

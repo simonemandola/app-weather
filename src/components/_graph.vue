@@ -40,7 +40,7 @@ export default {
           offsetX: -6,
           type: "column",
           fontFamily: "Niramit, sans-serif",
-          foreColor: "#f5f5f5",
+          foreColor: "#202020",
           zoom: {
             enabled: false,
           },
@@ -53,6 +53,12 @@ export default {
         },
         stroke: {
           curve: "smooth",
+          width: 1.5,
+          colors: ["#202020"],
+          lineCap: "round"
+        },
+        fill: {
+          colors: ["#e2122a", "#6aa79f"],
         },
         xaxis: {
           type: "string",

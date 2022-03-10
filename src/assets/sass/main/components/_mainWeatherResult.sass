@@ -5,21 +5,14 @@
   height: auto
 
   &__wrap
-    @include flex(center, center, column)
+    display: grid
+    grid-template-columns: 50% 50%
+    align-items: center
+    justify-items: center
     z-index: 1
 
   &__text
-    width: 100%
     position: relative
-
-    & > h1 > span
-      text-transform: uppercase
-
-  &__text > h1
-    width: 100%
-    font-weight: 300
-    margin: 0
-    line-height: 100%
 
   &__temperature
     width: 100%
@@ -34,16 +27,18 @@
     text-transform: capitalize
     margin: 0
     height: 1.5rem
+    padding-right: $padding__xs
+    box-sizing: border-box
 
   &__state-info
-    width: 40%
     display: grid
     grid-template-columns: auto auto
-    justify-content: center
+    justify-content: end
     margin: 0 auto
     border-radius: 1rem
     padding:
       top: $padding__xxxs
+      right: $padding__xs
       bottom: $padding__xxxs
     column-gap: $gap__m
 
@@ -56,5 +51,5 @@
       margin-right: .25rem
 
   &__image
-    width: 30%
+    width: 80%
     margin-bottom: $padding__xxs

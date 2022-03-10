@@ -1,6 +1,7 @@
 <template>
   <main>
     <main-background />
+    <locatio-top-bar />
     <div class="top-bar">
       <div class="top-bar__wrap">
         <p class="text-xs text-bold">Ten un buen día.</p>
@@ -29,6 +30,7 @@
 
 <script>
 // components
+import LocationTopBar from "@/components/_locationTopBar.vue";
 import WeatherMainResult from "@/components/_weatherMainResult.vue";
 import MainBackground from "@/components/_mainBackground.vue";
 import WeatherByHour from "@/components/_weatherByHour.vue";
@@ -53,6 +55,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export default {
   name: "Home",
   components: {
+    locatioTopBar: LocationTopBar,
     mainResults: WeatherMainResult,
     mainBackground: MainBackground,
     weatherByHour: WeatherByHour,

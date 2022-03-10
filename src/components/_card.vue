@@ -26,7 +26,7 @@
       </div>
       <div class="card__image">
         <img
-          :src="'/img/weather-status/icons/' + iconWeather + '.svg'"
+          :src="`/img/weather-status/icons/${directory}/${iconWeather}.svg`"
           alt="weather"
         />
       </div>
@@ -54,6 +54,11 @@ export default {
     enableDelete: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    directory() {
+      return "dark";
     },
   },
 };

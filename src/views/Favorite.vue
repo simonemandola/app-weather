@@ -3,7 +3,7 @@
     <background />
     <return :title="title" />
     <div class="favorite">
-      <p v-if="favoriteLocations.length === 0" class="text-s text-center">
+      <p v-if="favoriteLocations.length === 0" class="text-s text-white text-center">
         ¡No tienes ubicaciones favoritas!
       </p>
       <card

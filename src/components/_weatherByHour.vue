@@ -9,7 +9,8 @@
       >
         <p class="text-xxs">{{ hour.dt }}</p>
         <div class="weather-by-hour__icon">
-          <img :src="'/img/weather-status/icons/' + hour.weather[0].icon + '.svg'" alt="">
+
+          <img :src="`/img/weather-status/icons/${directory}/${hour.weather[0].icon}.svg`" :alt="hour.weather[0].icon">
         </div>
         <p class="text-xxs">{{ hour.temp }}º</p>
       </div>
@@ -24,6 +25,11 @@ export default {
     return {
       weatherByHour: [],
     };
+  },
+  computed: {
+    directory() {
+      return "dark";
+    },
   },
   mounted() {
     this.weatherByHour = this.$store.state.locationData[0].hourly;

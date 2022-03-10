@@ -35,9 +35,9 @@
             <span class="weather-details-hour__table-item text-xs"
               >{{ hour.humidity }}%</span
             >
-            <span class="weather-details-hour__table-item text-xs">{{
-              hour.wind_speed
-            }}</span>
+            <span class="weather-details-hour__table-item text-xs"
+              >{{ hour.wind_speed }}km/h</span
+            >
             <span class="weather-details-hour__table-item text-xs"
               ><i
                 class="icon__arrow"

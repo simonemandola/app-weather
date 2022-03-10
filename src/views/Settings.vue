@@ -23,7 +23,7 @@
             </label>
           </form>
         </li>
-        <li class="settings__row" v-if="userIsLogged">
+        <li class="settings__row text-white" v-if="userIsLogged">
           <button class="settings__item-title" @click.prevent="showUserModal">
             Salir
           </button>
@@ -37,7 +37,7 @@
           </button>
         </li>
         <li class="settings__row" v-else>
-          <button class="settings__item-title" @click.prevent="showUserModal">
+          <button class="text-white settings__item-title" @click.prevent="showUserModal">
             Acceder
           </button>
         </li>

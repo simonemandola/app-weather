@@ -1,16 +1,13 @@
 <template>
   <div>
-    <main-background />
     <div class="screensplash">
-      <img src="/img/weather-status/icons/02d.svg" alt="icon app" />
+      <img src="/img/weather-status/icons/dark/02d.svg" alt="icon app" />
       <p class="text-center text-s">Weather APP</p>
     </div>
   </div>
 </template>
 
 <script>
-// components
-import MainBackground from "@/components/_mainBackground.vue";
 
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
@@ -29,9 +26,6 @@ const OPW_EXCLUDE = "&exclude=minutely,alerts";
 const OPW_KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 export default {
   name: "Screensplash",
-  components: {
-    mainBackground: MainBackground,
-  },
   data() {
     return {
       currentPosition: {
