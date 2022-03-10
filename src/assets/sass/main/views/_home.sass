@@ -8,7 +8,7 @@
   @include padding-inline-mobile
   height: $return__height
   display: grid
-  place-content: center
+  align-items: center
 
   & > h1
     margin: 0
@@ -127,14 +127,10 @@
   &__map
     height: 16rem
     border: $main-border
-    border-radius: $border-radius-s
     box-sizing: border-box
     margin:
       left: $padding__xxs
       right: $padding__xxs
-
-.mapboxgl-canvas
-  border-radius: $border-radius-s
 
 .mapboxgl-ctrl-bottom-left,
 .mapboxgl-ctrl-bottom-right

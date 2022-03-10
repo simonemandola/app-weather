@@ -68,12 +68,11 @@
   position: absolute
   @include pin(0,0,0,0)
   display: grid
-  place-content: center
-  background-color: transparentize($color__black, .2)
+  background-color: $color__black
 
   &__wrap
-    width: 18rem
-    height: auto
+    width: 100%
+    height: 100%
     background-color: $color__dark-blue
     @include card-settings($padding__xs, $padding__xs)
 

@@ -1,7 +1,7 @@
 .weather-by-hour
   width: 100%
   height: auto
-  margin-top: $padding__xl
+  margin-top: $padding__s
 
   &__title
     margin: 0
@@ -15,14 +15,25 @@
 
   &__item
     width: 4.5rem
-    margin-right: $padding__xxs
+    height: 6.5rem
     @include card-settings($padding__xxxs, $padding__xxs)
     margin:
       top: $padding__xxs
       bottom: $padding__xxs
+    border-right: none
+
+    &:first-child
+      height: 7rem
+      background-color: transparentize($color__white, .4)
+      position: relative
+      border-right: $main-border
+
+    &:nth-child(2)
+      border-left: none
 
     &:last-child
       margin-right: 0
+      border-right: $main-border
 
     & > p
       margin: .25rem 0

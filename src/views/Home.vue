@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main @scroll="isScrolled">
     <main-background />
     <locatio-top-bar />
     <div class="top-bar">
@@ -86,6 +86,9 @@ export default {
     };
   },
   methods: {
+    isScrolled() {
+      console.log(window.scrollY);
+    },
     async updateSupabaseData(userID) {
       const { error } = await this.supabase
         .from("user-favorite-locations")

@@ -5,7 +5,7 @@
       <div class="marker" ref="marker">
         <i
           class="icon__location"
-          :class="{ 'text-grey': !isNightCurrentDate }"
+          :class="iconColorMarker"
         ></i>
       </div>
     </div>
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       map: {},
-      key: "pk.eyJ1Ijoic2ltb25lbWFuZG9sYSIsImEiOiJja3djYTY3cmkzc3dtMzByb2NnaXFqdGd3In0.LkO9Y9a2d2o50nNLp476eQ",
+      key: process.env.VUE_APP_KEY_PUBLIC_MAPBOX,
       zoom: 12,
       refMap: "",
       refMarker: "",
@@ -41,6 +41,9 @@ export default {
       const currentDate = this.$store.state.locationData[0].current.dt;
       const sunset = this.$store.state.locationData[0].current.sunset;
       return isNight(currentDate, sunset);
+    },
+    iconColorMarker() {
+      return this.isNightCurrentDate ? "text-white" : "text-grey";
     },
   },
   mounted() {

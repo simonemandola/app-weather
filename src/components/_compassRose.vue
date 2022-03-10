@@ -35,9 +35,6 @@
 <script>
 export default {
   name: "CompassRose",
-  mounted() {
-    console.log("hey");
-  },
   data() {
     return {
       speedWind: this.$store.state.locationData[0].current.wind_speed,

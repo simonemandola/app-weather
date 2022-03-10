@@ -58,7 +58,7 @@ export default {
           lineCap: "round"
         },
         fill: {
-          colors: ["#e2122a", "#6aa79f"],
+          colors: ["#e87c1a", "#b4faf0"],
         },
         xaxis: {
           type: "string",
