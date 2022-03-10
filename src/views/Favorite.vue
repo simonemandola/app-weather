@@ -33,11 +33,8 @@ import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Card from "@/components/_card.vue";
 
-// supabase client
-import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = process.env.VUE_APP_URL_API_SUPABASE;
-const supabaseKey = process.env.VUE_APP_KEY_PUBLIC_SUPABASE;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// component mixins
+import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
 
 export default {
   name: "Favorite",
@@ -48,6 +45,7 @@ export default {
   },
   data() {
     return {
+      supabase: undefined,
       title: "Favoritos",
       favoriteLocations: [],
       sets: new Set(),
@@ -69,23 +67,21 @@ export default {
       };
     },
     getUserAccessToken() {
-      let supaTokenData = this.myLocalStorage.getItem("supabase.auth.token");
-      supaTokenData = JSON.parse(supaTokenData);
-      return (this.userAccessToken = supaTokenData.currentSession.access_token);
+      const userAccessToken = this.supabase.auth.session()?.access_token;
+      return (this.userAccessToken = userAccessToken);
     },
     async updateSupabaseData(userID) {
-      const { data, error } = await supabase
+      const { error } = await this.supabase
         .from("user-favorite-locations")
         .update({
           favorite_locations: this.favoriteLocations,
         })
         .eq("id", userID);
-      console.log(data);
       if (error) console.log(error);
     },
     updateLocalsStores(user) {
       // Update the list of favorite locations in the store
-      if (user.data) {
+      if (user.user) {
         this.$store.state.user.favoriteLocations = this.favoriteLocations;
       } else {
         this.$store.state.favoriteLocations = this.favoriteLocations;
@@ -98,8 +94,9 @@ export default {
       );
     },
     async deleteLocationFromFavorite(id) {
+      await this.getUserAccessToken();
       // Get the JSON object for the logged in user.
-      const user = await supabase.auth.api.getUser(this.userAccessToken);
+      const user = await this.supabase.auth.api.getUser(this.userAccessToken);
       // Return an updated list of favorite locations
       this.favoriteLocations = this.favoriteLocations.filter(
         (location) =>
@@ -108,20 +105,19 @@ export default {
       // Update local Store
       this.updateLocalsStores(user);
       // Update supabase data
-      if (user.data) this.updateSupabaseData(user.user.id);
+      if (user.user) this.updateSupabaseData(user.user.id);
     },
   },
   async mounted() {
     window.scrollTo(0, 0);
-    if (this.myLocalStorage.getItem("supabase.auth.token"))
-      this.getUserAccessToken();
+    this.supabase = SupabaseCli.methods.getSupabaseCli();
+    await this.getUserAccessToken();
     // Get the JSON object for the logged in user.
-    // const user = await supabase.auth.api.getUser(this.userAccessToken);
-    const user = await supabase.auth.user();
+    const user = await this.supabase.auth.api.getUser(this.userAccessToken);
     // If user is logged in get their favorite locations list
-    if (user.data) {
+    if (user.user) {
       // Get the user's favorite locations from the database
-      let { data: locationsDataFromDatabase, error } = await supabase
+      let { data: locationsDataFromDatabase, error } = await this.supabase
         .from("user-favorite-locations")
         .select("favorite_locations")
         .eq("id", user.user.id);
