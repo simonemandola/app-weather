@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     existArticles() {
-      return this.allArticles.length > 0;
+      return this.allArticles?.length > 0;
     },
   },
   methods: {

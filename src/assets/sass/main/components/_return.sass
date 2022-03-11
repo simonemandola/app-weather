@@ -7,7 +7,6 @@
   height: $return__height
   display: grid
   grid-template-columns: 4rem auto
-  backdrop-filter: blur(2px)
   transition: $main-transition
 
   &__btn
@@ -24,4 +23,6 @@
     margin: 0
 
 .background-return
-  background-color: transparentize($color__white, .7)
+  background-color: transparentize($color__white, .65)
+  backdrop-filter: blur(2px)
+  box-shadow: .1rem 0 1rem transparentize($color__black, .9)

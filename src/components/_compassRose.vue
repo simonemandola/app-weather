@@ -1,7 +1,7 @@
 <template>
   <div class="compass-rose">
     <h2 class="subtitle-xs compass-rose__title">
-      Viento <span class="text-xxs">{{ speedWind }}km/h</span>
+      Viento <span class="text-xxs">{{ windSpeed }}km/h</span>
     </h2>
     <div class="compass-rose__wrap">
       <img
@@ -21,11 +21,7 @@
           class="compass-rose__front"
           src="/img/compass-rose-3.svg"
           alt="compass-rose 3"
-          :style="
-            'transform: rotateZ(' +
-            $store.state.locationData[0].current.wind_deg +
-            'deg)'
-          "
+          :style="'transform: rotateZ(' + windDeg + 'deg)'"
         />
       </div>
     </div>
@@ -37,8 +33,26 @@ export default {
   name: "CompassRose",
   data() {
     return {
-      speedWind: this.$store.state.locationData[0].current.wind_speed,
+      windSpeed: this.$store.state.locationData[0].hourly[0].wind_speed,
+      windDeg: this.$store.state.locationData[0].hourly[0].wind_deg,
     };
+  },
+  methods: {
+    windDegAnimation() {
+      let add = false;
+      setInterval(() => {
+        if (add) {
+          this.windDeg = this.windDeg + 7;
+          add = false;
+        } else {
+          this.windDeg = this.windDeg - 7;
+          add = true;
+        }
+      }, 800);
+    },
+  },
+  mounted() {
+    this.windDegAnimation();
   },
 };
 </script>

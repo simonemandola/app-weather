@@ -1,5 +1,5 @@
 <template>
-  <main @scroll="isScrolled">
+  <main>
     <main-background />
     <locatio-top-bar />
     <div class="top-bar">
