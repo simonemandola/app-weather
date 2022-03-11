@@ -4,7 +4,7 @@
       <div class="main-weather-result__image">
         <img
           :src="`/img/weather-status/icons/${directory}/${weatherData.current.weather[0].icon}.svg`"
-          alt=""
+          alt="current weather forecast"
         />
       </div>
       <div class="main-weather-result__text">

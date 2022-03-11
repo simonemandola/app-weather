@@ -8,6 +8,7 @@
       <ul>
         <li v-for="(notification, i) in notificationsMessages" :key="i">
           <span class="text-xs text-white">{{ notification }}</span>
+          <i :class="iconType"></i>
         </li>
       </ul>
     </div>
@@ -21,6 +22,7 @@ export default {
   props: {
     showNotification: Boolean,
     notificationsMessages: Array,
+    iconType: String,
   },
   methods: {
     hideNotification() {

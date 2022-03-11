@@ -22,6 +22,7 @@
     <notification
       :show-notification="showNotification"
       :notifications-messages="notificationsMessages"
+      :icon-type="iconType"
       @hide-notification="showNotification = $event"
     />
     <bottom-menu />
@@ -83,6 +84,7 @@ export default {
       userAccessToken: "",
       showNotification: false,
       notificationsMessages: [],
+      iconType: "",
     };
   },
   methods: {
@@ -144,6 +146,7 @@ export default {
         this.showNotification = true;
         this.notificationsMessages = [];
         this.notificationsMessages.push("Ubicación añadida a favoritos.");
+        this.iconType = "icon__tick text-green";
       } else {
         // if already a favorite set the variable to false
         this.locationIsFavorite = false;
@@ -160,6 +163,7 @@ export default {
         this.showNotification = true;
         this.notificationsMessages = [];
         this.notificationsMessages.push("Ubicación eliminada de favoritos.");
+        this.iconType = "icon__cross text-red";
       }
     },
   },

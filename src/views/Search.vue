@@ -18,11 +18,7 @@
           </li>
         </ul>
       </div>
-      <div class="loader" v-if="loader">
-        <div class="loader__point"></div>
-        <div class="loader__point"></div>
-        <div class="loader__point"></div>
-      </div>
+      <loading :show-loading="showLoading" />
     </form>
   </main>
 </template>
@@ -31,6 +27,7 @@
 // components
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
+import Loading from "@/components/_loading.vue";
 
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
@@ -55,6 +52,7 @@ export default {
   components: {
     return: Return,
     background: GradientBackground,
+    loading: Loading,
   },
   data() {
     return {
@@ -70,7 +68,7 @@ export default {
       },
       minChars: 2,
       suggestions: [],
-      loader: false,
+      showLoading: false,
       weatherData: [],
     };
   },
@@ -101,7 +99,7 @@ export default {
     },
     async getWeatherData(lat, lon) {
       this.suggestions = [];
-      this.loader = true;
+      this.showLoading = true;
       try {
         const res = await fetch(
           API_URL_OPW_ONE_CALL +
@@ -120,10 +118,9 @@ export default {
         if (data.daily.length === 0) {
           throw new Error("No se encontró coincidencia de ciudad.");
         } else {
-          this.loader = false;
+          this.showLoading = false;
           this.weatherData = data;
           console.log(this.weatherData);
-          console.log("todo bien");
         }
       } catch (error) {
         console.warn(error);

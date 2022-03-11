@@ -28,6 +28,7 @@
 
 <script>
 // constants
+const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
 const API_URL = "https://newsapi.org/v2/everything?";
 const QUERY = "q=";
 const DATE_FROM = "&from=";
@@ -55,7 +56,8 @@ export default {
     async getNews() {
       try {
         const res = await fetch(
-          API_URL +
+          PROXY_URL +
+            API_URL +
             QUERY +
             this.query +
             COUNTRY +

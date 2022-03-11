@@ -3,9 +3,17 @@
     <background />
     <return :title="title" />
     <div class="favorite">
-      <p v-if="favoriteLocations.length === 0" class="text-s text-white text-center">
-        ¡No tienes ubicaciones favoritas!
-      </p>
+      <div class="favorite__no-results" v-if="favoriteLocations.length === 0">
+        <div class="favorite__no-results-img">
+          <img src="/img/weather-status/icons/light/11d.svg" alt="" />
+        </div>
+        <p class="text-s text-white text-center">
+          ¡No tienes ubicaciones favoritas!
+        </p>
+        <p class="text-s text-white text-center">
+          Haz click en el icono <i class="icon__favorite"></i> para añadir.
+        </p>
+      </div>
       <card
         v-else
         v-touch:swipe="toggleAllowToDelete(location.locations.id)"
@@ -17,13 +25,17 @@
         :wind-speed="location.locations.current.wind_speed"
         :humidity="location.locations.current.humidity"
         :icon-weather="location.locations.current.weather[0].icon"
-        :class="{ 'allow-delete-favorite': sets.has(location.locations.id) }"
+        :class="{
+          'allow-delete-favorite':
+            sets.has(location.locations.id) || (shakeCard && i === 0),
+        }"
         :enable-delete="true"
         @delete-from-favorite="
           deleteLocationFromFavorite(location.locations.id)
         "
       />
     </div>
+    <loading :show-loading="showLoading" />
   </main>
 </template>
 
@@ -32,6 +44,7 @@
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Card from "@/components/_card.vue";
+import Loading from "@/components/_loading.vue";
 
 // component mixins
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
@@ -42,15 +55,18 @@ export default {
     return: Return,
     background: GradientBackground,
     card: Card,
+    loading: Loading,
   },
   data() {
     return {
       supabase: undefined,
-      title: "Favoritos",
+      title: "Ubicaciones favoritas",
       favoriteLocations: [],
       sets: new Set(),
       myLocalStorage: window.localStorage,
       userAccessToken: "",
+      showLoading: false,
+      shakeCard: false,
     };
   },
   methods: {
@@ -99,8 +115,7 @@ export default {
       const user = await this.supabase.auth.api.getUser(this.userAccessToken);
       // Return an updated list of favorite locations
       this.favoriteLocations = this.favoriteLocations.filter(
-        (location) =>
-          location.locations.id !== id
+        (location) => location.locations.id !== id
       );
       // Update local Store
       this.updateLocalsStores(user);
@@ -109,6 +124,7 @@ export default {
     },
   },
   async mounted() {
+    this.showLoading = true;
     window.scrollTo(0, 0);
     this.supabase = SupabaseCli.methods.getSupabaseCli();
     await this.getUserAccessToken();
@@ -134,9 +150,11 @@ export default {
         "favorite-locations",
         JSON.stringify(this.favoriteLocations)
       );
+      this.showLoading = false;
     } else {
       // Get data from the local store
       this.favoriteLocations = this.$store.state.favoriteLocations;
+      this.showLoading = false;
     }
     this.favoriteLocations.forEach((location) => {
       location.locations.current.temp = parseInt(
@@ -146,6 +164,10 @@ export default {
         location.locations.current.temp.toString();
       return location.locations.current.temp;
     });
+    setTimeout(() => {
+      this.shakeCard = true;
+      setTimeout(() => (this.shakeCard = false), 140);
+    }, 600);
   },
 };
 </script>

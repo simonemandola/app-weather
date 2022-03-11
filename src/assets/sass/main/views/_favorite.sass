@@ -3,12 +3,17 @@
   padding:
     top: $return__height * 2
     bottom: $padding__xl
-  box-sizing: border-box
   @include padding-inline-mobile
   overflow-x: hidden
 
   & > article:first-child
     margin-top: 0
+
+  &__no-results
+
+    &-img
+      width: 15%
+      @include centerX
 
 .allow-delete-favorite
   transform: translateX(-16%)

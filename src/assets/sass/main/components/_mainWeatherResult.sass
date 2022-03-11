@@ -1,12 +1,12 @@
 .main-weather-result
   width: 100%
-  padding-top: $padding__s
   @include padding-inline-mobile
-  height: 50%
+  height: 50vh
   display: grid
   align-items: center
 
   &__wrap
+    height: 100%
     display: grid
     grid-template-columns: 1fr 1fr
     align-items: center
@@ -54,6 +54,4 @@
 
   &__image
     width: 75%
-    margin:
-      top: $padding__xxs
-      bottom: auto
+    @include flex(center,center,row)
