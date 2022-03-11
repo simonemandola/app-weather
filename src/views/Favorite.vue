@@ -7,11 +7,12 @@
         <div class="favorite__no-results-img">
           <img src="/img/weather-status/icons/light/11d.svg" alt="" />
         </div>
+        <p class="text-s text-white text-center">¡Oops!</p>
         <p class="text-s text-white text-center">
-          ¡No tienes ubicaciones favoritas!
+          Parece que tienes ubicaciones favoritas.
         </p>
         <p class="text-s text-white text-center">
-          Haz click en el icono <i class="icon__favorite"></i> para añadir.
+          Pulsa el icono <i class="icon__favorite"></i> para añadir.
         </p>
       </div>
       <card

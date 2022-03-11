@@ -1,5 +1,5 @@
 <template>
-  <div class="return" :class="{ 'background-return': backgroundStyle }">
+  <div class="return" :class="{ 'background-top-bar': backgroundStyle }">
     <button type="button" class="return__btn" @click.prevent="goBack">
       <i class="icon__return"></i>
     </button>

@@ -8,16 +8,37 @@
   @include padding-inline-mobile
   height: $return__height
   display: grid
+  grid-template-columns: 1fr 2rem
   align-items: center
-  transition: $main-transition
+  transition: $transition-bezier
 
   & > h1
     margin: 0
+    padding-left: 2rem
 
   & > h1 > span
     text-transform: uppercase
 
-.top-bar
+  & > button
+    height: 100%
+
+  & > button > i
+    transform: rotateZ(90deg)
+    font-size: .9rem
+
+.background-top-bar
+  background-color: transparentize($color__white, .65)
+  backdrop-filter: blur(2px)
+  box-shadow: .1rem 0 1rem transparentize($color__black, .9)
+
+.top-bar-min-height
+  height: 2rem
+  background-color: transparentize($color__white, .3)
+
+  & > h1
+    font-size: 1rem
+
+.favorite-bar
   width: 100%
   height: $return__height
   box-sizing: border-box

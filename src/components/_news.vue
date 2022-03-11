@@ -1,7 +1,7 @@
 <template>
   <div class="article-news">
     <div v-if="existArticles">
-      <h2 class="subtitle-xs">Últimas noticias</h2>
+      <h2 class="subtitle-xs article-news__main-title">Últimas noticias</h2>
       <article
         class="article-news__article"
         v-for="(singleArticle, i) in allArticles"
@@ -28,14 +28,14 @@
 
 <script>
 // constants
-const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
-const API_URL = "https://newsapi.org/v2/everything?";
+const PROXY_URL = process.env.VUE_APP_PROXY_URL;
+const API_URL = process.env.VUE_APP_NEWS_API_URL;
 const QUERY = "q=";
 const DATE_FROM = "&from=";
 const SORT_BY = "&sortBy=publishedAt";
 const COUNTRY = "&language=es";
 const PAGE_SIZE = "&pageSize=10";
-const API_KEY = "&apiKey=a515538b10f84c498a02f9cb900f7035";
+const API_KEY = `&apiKey=${process.env.VUE_APP_API_KEY_NEWS}`;
 export default {
   name: "News",
   data() {
@@ -68,15 +68,26 @@ export default {
             API_KEY
         );
         this.allArticles = await res.json();
+        console.log("News data downloaded successfully!");
       } catch (e) {
         console.warn(e);
       }
       this.allArticles = this.allArticles.articles;
+      this.$store.state.newsArticles = this.allArticles;
     },
   },
   mounted() {
+    this.allArticles = this.$store.state.newsArticles;
     this.query = this.$store.state.locationData[0].name;
-    this.getNews();
+    if (
+      this.$store.state.previuosLocationId !==
+      this.$store.state.locationData[0].id
+    ) {
+      this.getNews();
+      // update previous location id
+      this.$store.state.previuosLocationId =
+        this.$store.state.locationData[0].id;
+    }
   },
 };
 </script>

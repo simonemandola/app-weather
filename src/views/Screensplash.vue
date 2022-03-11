@@ -8,7 +8,6 @@
 </template>
 
 <script>
-
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
 const FORMAT = ".json?";
@@ -65,7 +64,7 @@ export default {
             OPW_KEY
         );
         this.weatherData = await res.json();
-        console.log("Weather data getted successfully!");
+        console.log("Current weather data downloaded successfully!");
       } catch (error) {
         console.warn(error);
       }

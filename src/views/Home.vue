@@ -2,9 +2,9 @@
   <main>
     <main-background />
     <locatio-top-bar />
-    <div class="top-bar">
-      <div class="top-bar__wrap">
-        <p class="text-xs text-bold">Ten un buen día.</p>
+    <div class="favorite-bar">
+      <div class="favorite-bar__wrap">
+        <p class="text-xs text-bold">Feliz día.</p>
         <button @click.prevent="addToFavorite">
           <i :class="locationIsFavorite ? icon.checked : icon.unchecked"></i>
         </button>
@@ -168,7 +168,7 @@ export default {
     },
   },
   created() {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (!window.localStorage.getItem("user-weather-data")) {
       window.localStorage.setItem(
         "user-weather-data",
