@@ -3,9 +3,13 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     newsArticles: [],
+    previousData: {
+      id: "",
+    },
     previuosLocationId: "",
     locationData: [
       {
+        alerts: [],
         id: "",
         name: "",
         country: "",

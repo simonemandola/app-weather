@@ -21,7 +21,7 @@ const OPW_LAT = "lat=";
 const OPW_LON = "&lon=";
 const OPW_UNITS = "&units=";
 const OPW_LANG = "&lang=es";
-const OPW_EXCLUDE = "&exclude=minutely,alerts";
+const OPW_EXCLUDE = "&exclude=minutely";
 const OPW_KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 export default {
   name: "Screensplash",
@@ -65,6 +65,7 @@ export default {
         );
         this.weatherData = await res.json();
         console.log("Current weather data downloaded successfully!");
+        console.log(this.weatherData);
       } catch (error) {
         console.warn(error);
       }
@@ -79,6 +80,7 @@ export default {
       this.$store.state.locationData[0].hourly = this.weatherData.hourly;
       this.$store.state.locationData[0].daily = this.weatherData.daily;
       this.$store.state.locationData[0].favorite = false;
+      this.$store.state.locationData[0].alerts = this.weatherData.alerts;
     },
     async showResult() {
       await this.getWeatherData(

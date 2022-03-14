@@ -12,11 +12,11 @@
     </div>
     <main-results />
     <weather-by-hour />
-    <air-pollution />
-    <compass-rose />
-    <w-table-hour />
-    <v-apexchart />
-    <map-location />
+    <air-pollution class="fade-up" />
+    <compass-rose class="fade-up" />
+    <w-table-hour class="fade-up" />
+    <v-apexchart class="fade-up" />
+    <map-location class="fade-up" />
     <weather-seven-days />
     <news />
     <notification
@@ -26,6 +26,7 @@
       @hide-notification="showNotification = $event"
     />
     <bottom-menu />
+    <animations />
   </main>
 </template>
 
@@ -45,6 +46,7 @@ import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 import NotificationMessage from "@/components/_notificationMessage.vue";
 
 // component mixins
+import Animations from "@/components-mixins/_animations.vue";
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
 
 // graph
@@ -53,6 +55,7 @@ import Graph from "@/components/_graph.vue";
 export default {
   name: "Home",
   components: {
+    animations: Animations,
     locatioTopBar: LocationTopBar,
     mainResults: WeatherMainResult,
     mainBackground: MainBackground,
@@ -180,6 +183,9 @@ export default {
     }
   },
   async mounted() {
+    window.addEventListener('devicemotion', (e) => {
+      console.log(e);
+    });
     this.supabase = SupabaseCli.methods.getSupabaseCli();
     await this.getUserAccessToken();
     // Get the JSON object for the logged in user.

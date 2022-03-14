@@ -9,7 +9,7 @@
         </div>
         <p class="text-s text-white text-center">¡Oops!</p>
         <p class="text-s text-white text-center">
-          Parece que tienes ubicaciones favoritas.
+          Parece que no tienes ubicaciones favoritas.
         </p>
         <p class="text-s text-white text-center">
           Pulsa el icono <i class="icon__favorite"></i> para añadir.

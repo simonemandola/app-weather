@@ -44,7 +44,7 @@ const OPW_LAT = "lat=";
 const OPW_LON = "&lon=";
 const OPW_UNITS = "&units=";
 const OPW_LANG = "&lang=es";
-const OPW_EXCLUDE = "&exclude=minutely,alerts";
+const OPW_EXCLUDE = "&exclude=minutely";
 const OPW_KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 
 export default {
@@ -139,6 +139,7 @@ export default {
       this.$store.state.locationData[0].current = this.weatherData.current;
       this.$store.state.locationData[0].hourly = this.weatherData.hourly;
       this.$store.state.locationData[0].daily = this.weatherData.daily;
+      this.$store.state.locationData[0].alerts = this.weatherData.alerts;
     },
     async showResult(citySelected) {
       this.suggestions = [];

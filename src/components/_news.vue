@@ -29,7 +29,8 @@
 <script>
 // constants
 const PROXY_URL = process.env.VUE_APP_PROXY_URL;
-const API_URL = process.env.VUE_APP_NEWS_API_URL;
+// const API_URL = process.env.VUE_APP_NEWS_API_URL;
+const API_URL = "";
 const QUERY = "q=";
 const DATE_FROM = "&from=";
 const SORT_BY = "&sortBy=publishedAt";
@@ -80,13 +81,11 @@ export default {
     this.allArticles = this.$store.state.newsArticles;
     this.query = this.$store.state.locationData[0].name;
     if (
-      this.$store.state.previuosLocationId !==
-      this.$store.state.locationData[0].id
+      this.$store.state.previousData.id !== this.$store.state.locationData[0].id
     ) {
       this.getNews();
       // update previous location id
-      this.$store.state.previuosLocationId =
-        this.$store.state.locationData[0].id;
+      this.$store.state.previousData.id = this.$store.state.locationData[0].id;
     }
   },
 };

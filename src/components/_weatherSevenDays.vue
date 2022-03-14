@@ -2,9 +2,10 @@
   <div class="weather-seven-days">
     <h2 class="subtitle-xs weather-seven-days__title">Previsión 7 días</h2>
     <div
-      v-for="(day, key, i) in weatherByDays"
+      v-for="(day, i) in weatherByDays"
       :key="i"
-      class="weather-seven-days__wrap"
+      class="weather-seven-days__wrap fade-up"
+      :style="{ 'animation-delay': i * 2 + '00ms' }"
     >
       <p class="weather-seven-days__day text-xs">{{ day.dt }}</p>
       <p class="weather-seven-days__temperature text-xs">
