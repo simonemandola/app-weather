@@ -109,7 +109,10 @@ export default {
       });
       if (user) {
         this.$store.state.user.isLogged = true;
-        this.$router.push({ name: "Home" });
+        this.$router.push({
+          name: "Home",
+          query: { active: "home", isLogged: 1 },
+        });
       } else {
         console.log(error);
       }
@@ -148,7 +151,10 @@ export default {
       if (error) console.log(error);
       this.$store.state.user.isLogged = false;
       this.updateLocalsStores();
-      this.$router.push({ name: "Home" });
+      this.$router.push({
+        name: "Home",
+        query: { active: "home", isLogged: 0 },
+      });
     },
     showAddNewUserForm() {
       console.log("Show create new user.");
@@ -158,6 +164,7 @@ export default {
     hideUserForm() {
       console.log("User form closed.");
       this.$emit("showUserForm", this.closeForm);
+      this.isAddNewUser = false;
     },
     updateLocalsStores() {
       // Update the list of favorite locations in the store

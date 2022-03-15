@@ -34,7 +34,7 @@ export default {
       if (newValue)
         setTimeout(() => {
           this.hideNotification();
-        }, 2500);
+        }, 3000);
     },
   },
 };
