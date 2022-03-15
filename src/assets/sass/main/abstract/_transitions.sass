@@ -34,14 +34,54 @@
   transform: translateY(-100%)
 
 // Fade in
-.fade-id-enter-from,
-.fade-id-leave-to
+.fade-in-enter-from,
+.fade-in-leave-to
   opacity: 0
 
-.fade-id-enter-active,
-.fade-id-leave-active
+.fade-in-enter-active,
+.fade-in-leave-active
   transition: all .2s ease-in-out
 
-.fade-id-enter-to,
-.fade-id-leave-from
+.fade-in-enter-to,
+.fade-in-leave-from
   opacity: 1
+
+// Fade up
+
+@keyframes fadeUp
+  from
+    opacity: 0
+    transform: translateY(1rem)
+  to
+    opacity: 1
+    transform: translateY(0)
+
+.fade-up
+  opacity: 0
+
+.fade-up-active
+  animation-name: fadeUp
+  animation-duration: 600ms
+  animation-delay: 100ms
+  animation-timing-function: $transition-bezier
+  animation-fill-mode: both
+
+// Fade right
+
+@keyframes fadeRight
+  from
+    opacity: 0
+    transform: translateX(1rem)
+  to
+    opacity: 1
+    transform: translateX(0)
+
+.fade-right
+  opacity: 0
+
+.fade-right-active
+  animation-name: fadeRight
+  animation-duration: 600ms
+  animation-delay: 100ms
+  animation-timing-function: $transition-bezier
+  animation-fill-mode: both

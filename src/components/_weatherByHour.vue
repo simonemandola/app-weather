@@ -1,11 +1,12 @@
 <template>
   <div class="weather-by-hour">
     <h2 class="subtitle-xs weather-by-hour__title">Previsión 48 horas</h2>
-    <div class="weather-by-hour__items-wrap">
+    <div class="weather-by-hour__items-wrap fade-right">
       <div
         class="weather-by-hour__item"
-        v-for="(hour, key) in weatherByHour"
-        :key="key"
+        v-for="(hour, i) in weatherByHour"
+        :key="i"
+        :style="{ 'animation-delay': i * 2 + '00ms' }"
       >
         <p class="text-xxs">{{ hour.dt }}</p>
         <div class="weather-by-hour__icon">

@@ -9,7 +9,7 @@
         </div>
         <p class="text-s text-white text-center">¡Oops!</p>
         <p class="text-s text-white text-center">
-          Parece que tienes ubicaciones favoritas.
+          Parece que no tienes ubicaciones favoritas.
         </p>
         <p class="text-s text-white text-center">
           Pulsa el icono <i class="icon__favorite"></i> para añadir.
@@ -37,6 +37,7 @@
       />
     </div>
     <loading :show-loading="showLoading" />
+    <bottom-menu />
   </main>
 </template>
 
@@ -46,6 +47,7 @@ import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Card from "@/components/_card.vue";
 import Loading from "@/components/_loading.vue";
+import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // component mixins
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
@@ -57,6 +59,7 @@ export default {
     background: GradientBackground,
     card: Card,
     loading: Loading,
+    bottomMenu: BottomMenuFixed,
   },
   data() {
     return {

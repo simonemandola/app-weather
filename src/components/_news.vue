@@ -80,13 +80,11 @@ export default {
     this.allArticles = this.$store.state.newsArticles;
     this.query = this.$store.state.locationData[0].name;
     if (
-      this.$store.state.previuosLocationId !==
-      this.$store.state.locationData[0].id
+      this.$store.state.previousData.id !== this.$store.state.locationData[0].id
     ) {
       this.getNews();
       // update previous location id
-      this.$store.state.previuosLocationId =
-        this.$store.state.locationData[0].id;
+      this.$store.state.previousData.id = this.$store.state.locationData[0].id;
     }
   },
 };

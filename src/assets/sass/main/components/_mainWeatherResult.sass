@@ -4,11 +4,13 @@
   height: 50vh
   display: grid
   align-items: center
+  margin-top: $padding__m
 
   &__wrap
     height: 100%
     display: grid
     grid-template-columns: 1fr 1fr
+    grid-template-rows: 1fr auto
     align-items: center
     justify-items: center
     z-index: 1
@@ -17,6 +19,7 @@
     width: 100%
     display: grid
     justify-items: center
+    align-self: end
     position: relative
 
   &__temperature
@@ -55,3 +58,22 @@
   &__image
     width: 75%
     @include flex(center,center,row)
+    align-self: end
+    padding-bottom: 2rem
+
+  &__alert
+    width: 100%
+    opacity: .8
+    grid-column: 1/3
+    align-self: end
+
+    &-body
+      margin:
+        top: $padding__xxxs
+        bottom: 0
+
+      & > i
+        font-size: .8rem
+
+    &-source
+      margin: 0
