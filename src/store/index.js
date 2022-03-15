@@ -3,6 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     newsArticles: [],
+    isNight: false,
     previousData: {
       id: "",
     },
@@ -33,9 +34,7 @@ export default createStore({
         value: "imperial",
       },
     },
-    // Favorites locations
     favoriteLocations: [],
-    // User
     user: {
       isLogged: false,
       favoriteLocations: [],

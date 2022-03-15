@@ -1,6 +1,9 @@
 <template>
-  <div>
-    <div class="main-background" :class="{ 'bg-night': currentIsNight }"></div>
+  <div class="main-background">
+    <div
+      class="main-background__wrap"
+      :class="{ 'bg-night': currentIsNight }"
+    ></div>
   </div>
 </template>
 

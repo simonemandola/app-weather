@@ -90,7 +90,7 @@ export default {
       await this.getGeocoding(this.weatherData.lon, this.weatherData.lat);
       await this.setNewData();
       setTimeout(() => {
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "Home", query: { active: "home" } });
       }, 1200);
     },
   },

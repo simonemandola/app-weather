@@ -20,6 +20,7 @@
       </div>
       <loading :show-loading="showLoading" />
     </form>
+    <bottom-menu />
   </main>
 </template>
 
@@ -28,6 +29,7 @@
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Loading from "@/components/_loading.vue";
+import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
@@ -53,6 +55,7 @@ export default {
     return: Return,
     background: GradientBackground,
     loading: Loading,
+    bottomMenu: BottomMenuFixed,
   },
   data() {
     return {
@@ -150,7 +153,7 @@ export default {
       await this.getWeatherData(this.locationCoord.lat, this.locationCoord.lon);
       await this.setNewData(citySelected);
       window.localStorage.removeItem("user-weather-data");
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "Home", query: { active: "home" } });
     },
   },
   watch: {
