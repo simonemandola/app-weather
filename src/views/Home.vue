@@ -172,19 +172,6 @@ export default {
   },
   created() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if (this.$route.query.isLogged !== undefined) {
-      if (this.$route.query.isLogged === 1) {
-        this.showNotification = true;
-        this.notificationsMessages = [];
-        this.notificationsMessages.push("Has iniciado sesión.");
-        this.iconType = "icon__login text-green";
-      } else {
-        this.showNotification = true;
-        this.notificationsMessages = [];
-        this.notificationsMessages.push("Has cerrado sesión.");
-        this.iconType = "icon__logout text-red";
-      }
-    }
     if (!window.localStorage.getItem("user-weather-data")) {
       window.localStorage.setItem(
         "user-weather-data",
@@ -196,6 +183,19 @@ export default {
     }
   },
   async mounted() {
+    if (this.$route.query.isLogged !== undefined) {
+      if (this.$route.query.isLogged === "1") {
+        this.showNotification = true;
+        this.notificationsMessages = [];
+        this.notificationsMessages.push("Has iniciado sesión.");
+        this.iconType = "icon__login text-green";
+      } else {
+        this.showNotification = true;
+        this.notificationsMessages = [];
+        this.notificationsMessages.push("Has cerrado sesión.");
+        this.iconType = "icon__logout text-red";
+      }
+    }
     this.supabase = SupabaseCli.methods.getSupabaseCli();
     await this.getUserAccessToken();
     // Get the JSON object for the logged in user.

@@ -30,8 +30,8 @@ export default {
     },
   },
   watch: {
-    showNotification(newValue) {
-      if (newValue)
+    showNotification() {
+      if (this.showNotification)
         setTimeout(() => {
           this.hideNotification();
         }, 3000);
