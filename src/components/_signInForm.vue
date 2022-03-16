@@ -198,7 +198,11 @@ export default {
     hideUserForm() {
       console.log("User form closed.");
       this.isAddNewUser = false;
-      this.titleForm = this.title.signIn;
+      if (this.isLogged) {
+        this.titleForm = this.title.logOut;
+      } else {
+        this.titleForm = this.title.signIn;
+      }
       this.$emit("showUserForm", this.closeForm);
     },
     updateLocalsStores() {
@@ -213,7 +217,6 @@ export default {
     if (this.isLogged) {
       this.titleForm = this.title.logOut;
       this.illustrationName = this.illustrations.logout;
-      console.log(this.illustrationName);
     } else {
       this.titleForm = this.title.signIn;
       this.illustrationName = this.illustrations.login;
