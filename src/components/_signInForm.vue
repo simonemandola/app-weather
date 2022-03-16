@@ -1,21 +1,32 @@
 <template>
   <div class="user-account-modal" v-if="showUserForm">
-    <div class="user-account-modal__wrap modal-sign-in">
-      <div class="user-account-modal__img">
-        <img :src="`/img/${illustrationName}.png`" alt="login illustration" />
+    <div class="user-account-modal__wrap">
+      <div class="user-account-modal__img fade-up">
+        <img :src="`/img/${illustrationName}.png`" :alt="illustrationName" />
       </div>
-      <h1 class="user-account-modal__title title-xxs text-center">
+      <h1
+        class="user-account-modal__title title-xxs text-center fade-up delay-2"
+      >
         {{ titleForm }}
       </h1>
       <form class="user-account-modal__form">
-        <div class="user-account-modal__form-not-logged" v-if="!isLogged">
+        <div v-if="isLogged">
+          <button
+            class="user-account-modal__btn fade-up delay-4"
+            type="submit"
+            @click.prevent="doLogOut"
+          >
+            Sí, quiero salir
+          </button>
+        </div>
+        <div class="user-account-modal__form-not-logged fade-up delay-4" v-else>
           <label>
             <span class="text-xxxs">Username</span>
             <input type="text" v-model="user.username" placeholder="Username" />
           </label>
           <label>
             <span class="text-xxxs">Correo</span>
-            <input type="email" v-model="user.email" placeholder="@" />
+            <input type="email" v-model="user.email" placeholder="mi@correo.com" />
           </label>
           <label>
             <span class="text-xxxs">Password</span>
@@ -60,28 +71,17 @@
               Registrarse.
             </button>
           </div>
-          <div>
-            <button
-              class="user-account-modal__btn-close"
-              type="button"
-              @click.prevent="hideUserForm"
-            >
-              <i class="icon__return"></i>
-            </button>
-          </div>
         </div>
-        <div v-else>
-          <button type="button" @click.prevent="hideUserForm">No</button>
-          <button
-            class="user-account-modal__btn"
-            type="submit"
-            @click.prevent="doLogOut"
-          >
-            Sí, quiero salir
-          </button>
-        </div>
+        <button
+          class="user-account-modal__btn-close"
+          type="button"
+          @click.prevent="hideUserForm"
+        >
+          <i class="icon__return"></i>
+        </button>
       </form>
     </div>
+    <animations />
   </div>
 </template>
 
@@ -93,6 +93,9 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkeXl6a3l1b2pmcXFldXlhYWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYzODYxNjksImV4cCI6MTk2MTk2MjE2OX0.2zTcwxb_-8jB0dK6wySOItJI2gXdCo3hhazbiYfalRY";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// components
+import Animations from "@/components-mixins/_animations.vue";
+
 export default {
   name: "SignInForm",
   props: {
@@ -100,6 +103,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    animations: Animations,
   },
   data() {
     return {
@@ -122,15 +128,10 @@ export default {
       illustrations: {
         login: "login-illustration",
         newUser: "new-user-illustration",
+        logout: "logout-illustration",
       },
+      illustrationName: "",
     };
-  },
-  computed: {
-    illustrationName() {
-      return this.isAddNewUser
-        ? this.illustrations.newUser
-        : this.illustrations.login;
-    },
   },
   methods: {
     async doSignIn() {
@@ -143,7 +144,7 @@ export default {
         this.$store.state.user.isLogged = true;
         this.$router.push({
           name: "Home",
-          query: { active: "home", isLogged: 1 },
+          query: { active: "home", isLogged: "1" },
         });
       } else {
         console.log(error);
@@ -185,13 +186,14 @@ export default {
       this.updateLocalsStores();
       this.$router.push({
         name: "Home",
-        query: { active: "home", isLogged: 0 },
+        query: { active: "home", isLogged: "0" },
       });
     },
     showAddNewUserForm() {
       console.log("Show create new user.");
       this.isAddNewUser = true;
       this.titleForm = this.title.createNewUser;
+      this.illustrationName = this.illustrations.newUser;
     },
     hideUserForm() {
       console.log("User form closed.");
@@ -208,10 +210,13 @@ export default {
     },
   },
   mounted() {
-    if (this.myLocalStorage.getItem("supabase.auth.token")) {
+    if (this.isLogged) {
       this.titleForm = this.title.logOut;
+      this.illustrationName = this.illustrations.logout;
+      console.log(this.illustrationName);
     } else {
       this.titleForm = this.title.signIn;
+      this.illustrationName = this.illustrations.login;
     }
   },
 };
