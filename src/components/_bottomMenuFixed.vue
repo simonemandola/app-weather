@@ -66,7 +66,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route.query.active);
     if (this.$route.query.active !== undefined) {
       switch (this.$route.query.active) {
         case this.menu.home.link.toLowerCase():

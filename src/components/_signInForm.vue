@@ -1,6 +1,9 @@
 <template>
   <div class="user-account-modal" v-if="showUserForm">
     <div class="user-account-modal__wrap modal-sign-in">
+      <div class="user-account-modal__img">
+        <img :src="`/img/${illustrationName}.png`" alt="login illustration" />
+      </div>
       <h1 class="user-account-modal__title title-xxs text-center">
         {{ titleForm }}
       </h1>
@@ -23,41 +26,59 @@
             />
           </label>
           <button
+            class="user-account-modal__btn"
             v-if="isAddNewUser"
             type="submit"
             @click.prevent="doAddNewUser"
           >
             Crear cuenta
           </button>
-          <button type="submit" @click.prevent="doSignIn" v-else>Entrar</button>
+          <button
+            class="user-account-modal__btn"
+            type="submit"
+            @click.prevent="doSignIn"
+            v-else
+          >
+            Acceder
+          </button>
           <div
-            class="user-account-modal__form-not-logged-no-user"
+            v-if="!isAddNewUser"
+            class="text-xs text-center user-account-modal__divider-line"
+          >
+            o
+          </div>
+          <div
+            class="user-account-modal__form-not-logged-no-user text-center"
             v-if="!isAddNewUser"
           >
-            <span class="text-xxs">¿No tienes una cuenta?</span>
+            <span class="text-xxs">¿Eres nuevo?</span>
             <button
               class="text-xxs"
               type="button"
               @click.prevent="showAddNewUserForm"
             >
-              Crear nueva cuenta.
+              Registrarse.
             </button>
           </div>
           <div>
             <button
-              class="text-xxs"
+              class="user-account-modal__btn-close"
               type="button"
               @click.prevent="hideUserForm"
             >
-              Cerrar
+              <i class="icon__return"></i>
             </button>
           </div>
         </div>
         <div v-else>
-          <button type="submit" @click.prevent="doLogOut">
+          <button type="button" @click.prevent="hideUserForm">No</button>
+          <button
+            class="user-account-modal__btn"
+            type="submit"
+            @click.prevent="doLogOut"
+          >
             Sí, quiero salir
           </button>
-          <button type="button" @click.prevent="hideUserForm">No</button>
         </div>
       </form>
     </div>
@@ -88,7 +109,7 @@ export default {
         password: "",
       },
       title: {
-        signIn: "Acceder",
+        signIn: "¡Hola! Bienvenido de nuevo.",
         createNewUser: "Crear una nueva cuenta",
         logOut: "¿Seguro que quieres salir?",
       },
@@ -98,7 +119,18 @@ export default {
       showForm: true,
       myLocalStorage: window.localStorage,
       userFavoriteLocations: [],
+      illustrations: {
+        login: "login-illustration",
+        newUser: "new-user-illustration",
+      },
     };
+  },
+  computed: {
+    illustrationName() {
+      return this.isAddNewUser
+        ? this.illustrations.newUser
+        : this.illustrations.login;
+    },
   },
   methods: {
     async doSignIn() {
@@ -109,7 +141,10 @@ export default {
       });
       if (user) {
         this.$store.state.user.isLogged = true;
-        this.$router.push({ name: "Home" });
+        this.$router.push({
+          name: "Home",
+          query: { active: "home", isLogged: 1 },
+        });
       } else {
         console.log(error);
       }
@@ -148,7 +183,10 @@ export default {
       if (error) console.log(error);
       this.$store.state.user.isLogged = false;
       this.updateLocalsStores();
-      this.$router.push({ name: "Home" });
+      this.$router.push({
+        name: "Home",
+        query: { active: "home", isLogged: 0 },
+      });
     },
     showAddNewUserForm() {
       console.log("Show create new user.");
@@ -157,6 +195,8 @@ export default {
     },
     hideUserForm() {
       console.log("User form closed.");
+      this.isAddNewUser = false;
+      this.titleForm = this.title.signIn;
       this.$emit("showUserForm", this.closeForm);
     },
     updateLocalsStores() {
