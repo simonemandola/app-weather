@@ -1,8 +1,5 @@
 <template>
   <div class="return" :class="{ 'background-top-bar': backgroundStyle }">
-    <button type="button" class="return__btn" @click.prevent="goBack">
-      <i class="icon__return"></i>
-    </button>
     <p class="return__title text-s text-white" v-if="title">
       {{ title }}
       <span class="text-xxs" v-if="location">{{ location }}</span>
@@ -21,11 +18,6 @@ export default {
     return {
       backgroundStyle: false,
     };
-  },
-  methods: {
-    goBack() {
-      return this.$router.go(-1);
-    },
   },
   mounted() {
     document.addEventListener("scroll", () => {

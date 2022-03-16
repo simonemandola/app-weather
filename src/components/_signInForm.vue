@@ -202,6 +202,7 @@ export default {
         this.titleForm = this.title.logOut;
       } else {
         this.titleForm = this.title.signIn;
+        this.illustrationName = this.illustrations.login;
       }
       this.$emit("showUserForm", this.closeForm);
     },
