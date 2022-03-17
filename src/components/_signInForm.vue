@@ -215,7 +215,7 @@ export default {
     },
   },
   mounted() {
-    if (this.isLogged) {
+    if (this.myLocalStorage.getItem("supabase.auth.token")) {
       this.titleForm = this.title.logOut;
       this.illustrationName = this.illustrations.logout;
     } else {

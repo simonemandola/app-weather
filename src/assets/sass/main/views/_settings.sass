@@ -64,7 +64,8 @@
   width: 100%
   text-align: center
 
-.user-account-modal
+.user-account-modal,
+.geolocation-error
   position: fixed
   @include pin(0,0,0,0)
   display: grid
@@ -86,6 +87,9 @@
 
   &__title
     margin: 0
+
+  &__text
+    @include padding-inline-mobile
 
   &__form
     padding-top: $padding__xs

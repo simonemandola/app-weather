@@ -4,10 +4,13 @@
       <img src="/img/weather-status/icons/dark/02d.svg" alt="icon app" />
       <p class="text-center text-s text-bold">Weather APP</p>
     </div>
+    <geolocation-error :show-geolocation-error="showGeolocationError" />
   </div>
 </template>
 
 <script>
+import GeolocationError from "@/components/_geolocationError.vue";
+
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
 const FORMAT = ".json?";
@@ -25,6 +28,9 @@ const OPW_EXCLUDE = "&exclude=minutely";
 const OPW_KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 export default {
   name: "Screensplash",
+  components: {
+    geolocationError: GeolocationError,
+  },
   data() {
     return {
       currentPosition: {
@@ -32,6 +38,11 @@ export default {
         lon: 0,
       },
       weatherData: [],
+      showGeolocationError: false,
+      geolocationOptions: {
+        enableHighAccuracy: true,
+        timeout: 5000,
+      },
     };
   },
   methods: {
@@ -93,14 +104,30 @@ export default {
         this.$router.push({ name: "Home", query: { active: "home" } });
       }, 1200);
     },
-  },
-  async created() {
-    window.localStorage.removeItem("user-weather-data");
-    navigator.geolocation.getCurrentPosition((position) => {
+    getPosition(position) {
       this.currentPosition.lat = position.coords.latitude;
       this.currentPosition.lon = position.coords.longitude;
       this.showResult();
-    });
+    },
+    geolocationError(error) {
+      if (error) {
+        console.log(error);
+        this.showGeolocationError = true;
+      }
+    },
+  },
+  async created() {
+    window.localStorage.removeItem("user-weather-data");
+    // navigator.geolocation.getCurrentPosition((position) => {
+    //   this.currentPosition.lat = position.coords.latitude;
+    //   this.currentPosition.lon = position.coords.longitude;
+    //   this.showResult();
+    // }, this.geolocationError());
+    navigator.geolocation.getCurrentPosition(
+      this.getPosition,
+      this.geolocationError,
+      this.geolocationOptions
+    );
   },
 };
 </script>
