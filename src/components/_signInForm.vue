@@ -26,7 +26,11 @@
           </label>
           <label>
             <span class="text-xxxs">Correo</span>
-            <input type="email" v-model="user.email" placeholder="mi@correo.com" />
+            <input
+              type="email"
+              v-model="user.email"
+              placeholder="mi@correo.com"
+            />
           </label>
           <label>
             <span class="text-xxxs">Password</span>
@@ -34,6 +38,14 @@
               type="password"
               v-model="user.password"
               placeholder="Password"
+            />
+          </label>
+          <label v-if="isAddNewUser">
+            <span class="text-xxxs">Repetir password</span>
+            <input
+              type="password"
+              v-model="user.rePassword"
+              placeholder="Repetir password"
             />
           </label>
           <button
@@ -95,6 +107,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // components
 import Animations from "@/components-mixins/_animations.vue";
+import { isEmpty, areEqual } from "@/mixins/mixins.js";
+import { checkRegExpPattern, emailPattern } from "@/mixins/_regExPattern.js";
 
 export default {
   name: "SignInForm",
@@ -113,7 +127,9 @@ export default {
         username: "",
         email: "",
         password: "",
+        rePassword: "",
       },
+      passwordMinLength: 6,
       title: {
         signIn: "¡Hola! Bienvenido de nuevo.",
         createNewUser: "Crear una nueva cuenta",
@@ -133,49 +149,90 @@ export default {
       illustrationName: "",
     };
   },
+  computed: {
+    isEmptyUsername() {
+      return isEmpty(this.user.username);
+    },
+    isEmptyEmail() {
+      return isEmpty(this.user.email);
+    },
+    passwordHasMinLength() {
+      return this.user.password >= this.passwordMinLength;
+    },
+    isEmptyPassword() {
+      return isEmpty(this.user.password);
+    },
+    emailIsValidPattern() {
+      return checkRegExpPattern(emailPattern, this.user.email);
+    },
+    passwordsAreEquals() {
+      return areEqual(this.user.password, this.user.rePassword);
+    },
+    fieldsHaveErrors() {
+      return (
+        this.isEmptyUsername ||
+        this.isEmptyEmail ||
+        !this.passwordHasMinLength ||
+        this.isEmptyPassword ||
+        !this.emailIsValidPattern ||
+        !this.passwordsAreEquals
+      );
+    },
+  },
   methods: {
+    manageErrors() {
+      console.log("ERROR");
+    },
     async doSignIn() {
-      console.log("Signing in...");
-      let { user, error } = await supabase.auth.signIn({
-        email: this.user.email,
-        password: this.user.password,
-      });
-      if (user) {
-        this.$store.state.user.isLogged = true;
-        this.$router.push({
-          name: "Home",
-          query: { active: "home", isLogged: "1" },
-        });
+      if (this.fieldsHaveErrors) {
+        this.manageErrors();
       } else {
-        console.log(error);
+        console.log("Signing in...");
+        let { user, error } = await supabase.auth.signIn({
+          email: this.user.email,
+          password: this.user.password,
+        });
+        if (user) {
+          this.$store.state.user.isLogged = true;
+          this.$router.push({
+            name: "Home",
+            query: { active: "home", isLogged: "1" },
+          });
+        } else {
+          console.log(error);
+        }
+        this.updateLocalsStores();
       }
-      this.updateLocalsStores();
     },
     async doAddNewUser() {
-      console.log("Creating new user...");
-      if (this.myLocalStorage.getItem("favorite-locations")) {
-        this.userFavoriteLocations =
-          this.myLocalStorage.getItem("favorite-locations");
-      }
-      // SignUp
-      let { user, error } = await supabase.auth.signUp({
-        email: this.user.email,
-        password: this.user.password,
-      });
-      if (user) {
-        this.titleForm = this.title.signIn;
-        this.isAddNewUser = false;
-        const { data, error } = await supabase
-          .from("user-favorite-locations")
-          .insert([
-            {
-              id: user.id,
-              favorite_locations: this.userFavoriteLocations,
-            },
-          ]);
-        data ? console.log("Favorite locations saved") : console.log(error);
+      if (this.fieldsHaveErrors) {
+        this.manageErrors();
       } else {
-        console.log(error);
+        console.log("Creating new user...");
+        if (this.myLocalStorage.getItem("favorite-locations")) {
+          this.userFavoriteLocations =
+            this.myLocalStorage.getItem("favorite-locations");
+        }
+        // SignUp
+        let { user, error } = await supabase.auth.signUp({
+          email: this.user.email,
+          password: this.user.password,
+        });
+        if (user) {
+          this.titleForm = this.title.signIn;
+          this.isAddNewUser = false;
+          const { data, error } = await supabase
+            .from("user-favorite-locations")
+            .insert([
+              {
+                id: user.id,
+                favorite_locations: this.userFavoriteLocations,
+              },
+            ]);
+          data ? console.log("Favorite locations saved") : console.log(error);
+        } else {
+          console.log(error);
+        }
       }
     },
     async doLogOut() {
