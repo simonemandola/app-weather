@@ -95,7 +95,7 @@
     padding-top: $padding__xs
     box-sizing: border-box
 
-    & label
+    &-label
       width: 100%
       height: 3rem
       margin-top: $padding__xxxs
@@ -105,11 +105,12 @@
         left: $padding__xxs
         right: $padding__xxs
       border-bottom: 1px solid $color__grey
+      position: relative
 
-    & > label:focus
-      border-bottom: 2px solid $color__grey
+    &-label:focus
+      border-bottom-width: 2px
 
-    & label > input
+    &-label > input
       width: 100%
       height: 100%
       background-color: transparent
@@ -165,3 +166,17 @@
 
     &::after
       left: 0
+
+.input-error
+  border-bottom: 1px solid $color__red
+
+.input-success
+  border-bottom: 1px solid $color__green
+
+.form-icon-field
+  position: absolute
+  top: 1.5rem
+  right: 1rem
+  z-index: 500
+  pointer-events: none
+  font-size: .8rem

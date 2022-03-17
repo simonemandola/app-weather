@@ -20,33 +20,78 @@
           </button>
         </div>
         <div class="user-account-modal__form-not-logged fade-up delay-4" v-else>
-          <label>
+          <label
+            class="user-account-modal__form-label"
+            :class="{ 'input-error': errors.username }"
+          >
             <span class="text-xxxs">Username</span>
             <input type="text" v-model="user.username" placeholder="Username" />
+            <i
+              v-if="errors.username"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.username"
+              class="icon__tick text-green form-icon-field"
+            ></i>
           </label>
-          <label>
+          <label
+            class="user-account-modal__form-label"
+            :class="{ 'input-error': errors.email }"
+          >
             <span class="text-xxxs">Correo</span>
             <input
               type="email"
               v-model="user.email"
               placeholder="mi@correo.com"
             />
+            <i
+              v-if="errors.email"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.email"
+              class="icon__tick text-green form-icon-field"
+            ></i>
           </label>
-          <label>
+          <label
+            class="user-account-modal__form-label"
+            :class="{ 'input-error': errors.password }"
+          >
             <span class="text-xxxs">Password</span>
             <input
               type="password"
               v-model="user.password"
               placeholder="Password"
             />
+            <i
+              v-if="errors.password"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.password"
+              class="icon__tick text-green form-icon-field"
+            ></i>
           </label>
-          <label v-if="isAddNewUser">
+          <label
+            class="user-account-modal__form-label"
+            v-if="isAddNewUser"
+            :class="{ 'input-error': errors.rePassword }"
+          >
             <span class="text-xxxs">Repetir password</span>
             <input
               type="password"
               v-model="user.rePassword"
               placeholder="Repetir password"
             />
+            <i
+              v-if="errors.rePassword"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.rePassword"
+              class="icon__tick text-green form-icon-field"
+            ></i>
           </label>
           <button
             class="user-account-modal__btn"
@@ -129,7 +174,7 @@ export default {
         password: "",
         rePassword: "",
       },
-      passwordMinLength: 6,
+      fieldMinLength: 6,
       title: {
         signIn: "¡Hola! Bienvenido de nuevo.",
         createNewUser: "Crear una nueva cuenta",
@@ -147,17 +192,32 @@ export default {
         logout: "logout-illustration",
       },
       illustrationName: "",
+      errors: {
+        username: false,
+        email: false,
+        password: false,
+        rePassword: false,
+      },
+      showIcon: {
+        username: false,
+        email: false,
+        password: false,
+        rePassword: false,
+      },
     };
   },
   computed: {
     isEmptyUsername() {
       return isEmpty(this.user.username);
     },
+    usernameHasMinLength() {
+      return this.user.username.length > this.fieldMinLength;
+    },
     isEmptyEmail() {
       return isEmpty(this.user.email);
     },
     passwordHasMinLength() {
-      return this.user.password >= this.passwordMinLength;
+      return this.user.password.length >= this.fieldMinLength;
     },
     isEmptyPassword() {
       return isEmpty(this.user.password);
@@ -174,8 +234,7 @@ export default {
         this.isEmptyEmail ||
         !this.passwordHasMinLength ||
         this.isEmptyPassword ||
-        !this.emailIsValidPattern ||
-        !this.passwordsAreEquals
+        !this.emailIsValidPattern
       );
     },
   },
@@ -251,6 +310,12 @@ export default {
       this.isAddNewUser = true;
       this.titleForm = this.title.createNewUser;
       this.illustrationName = this.illustrations.newUser;
+      this.user.username = "";
+      this.user.email = "";
+      this.user.password = "";
+      this.showIcon.username = false;
+      this.showIcon.email = false;
+      this.showIcon.password = false;
     },
     hideUserForm() {
       console.log("User form closed.");
@@ -279,6 +344,37 @@ export default {
       this.titleForm = this.title.signIn;
       this.illustrationName = this.illustrations.login;
     }
+  },
+  watch: {
+    user: {
+      handler(newValue) {
+        if (newValue.username) {
+          this.showIcon.username = true;
+          this.isEmptyUsername || !this.usernameHasMinLength
+            ? (this.errors.username = true)
+            : (this.errors.username = false);
+        }
+        if (newValue.email) {
+          this.showIcon.email = true;
+          this.isEmptyEmail || !this.emailIsValidPattern
+            ? (this.errors.email = true)
+            : (this.errors.email = false);
+        }
+        if (newValue.password) {
+          this.showIcon.password = true;
+          !this.passwordHasMinLength || this.isEmptyPassword
+            ? (this.errors.password = true)
+            : (this.errors.password = false);
+          if (this.isAddNewUser) {
+            this.showIcon.rePassword = true;
+            this.passwordsAreEquals
+              ? (this.errors.rePassword = false)
+              : (this.errors.rePassword = true);
+          }
+        }
+      },
+      deep: true,
+    },
   },
 };
 </script>
