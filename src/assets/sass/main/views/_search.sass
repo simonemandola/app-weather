@@ -37,12 +37,8 @@
 
 @keyframes loader
   0%
-    transform: translateY(-1rem)
-  50%
-    transform: translateY(0)
     opacity: .3
   100%
-    transform: translateY(0)
     opacity: 1
 
 .loader
@@ -50,17 +46,33 @@
   height: 100vh
   position: fixed
   @include pin(0,0,0,0)
-  @include flex(center,center,row)
-  background-color: transparentize($color__black, .1)
-  backdrop-filter: blur(1px)
+  display: grid
+  grid-template-rows: auto 1fr
+  background-image: linear-gradient(0deg, $color__light-blue, $color__water-blu)
+  z-index: 9999999
+
+  &__img
+    width: 100%
+    margin-top: $padding__s
+    padding: $padding__xxs $padding__xs
+    box-sizing: border-box
+
+  &__points
+    @include flex(center, flex-start, row)
+    margin-top: $padding__xs
+
+    & > h1
+      margin: 0
+      position: relative
+      top: -.5rem
+      margin-right: $padding__xxxs
 
   &__point
-    background-color: $color__white
-    width: .5rem
-    height: .5rem
+    background-color: $color__black
+    width: .4rem
+    height: .4rem
     border-radius: 1rem
     @include animation(loader, 1s, both)
-    animation-direction: alternate
     animation-iteration-count: infinite
     margin: 0 .25rem
 
