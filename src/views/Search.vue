@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       title: "Buscar",
-      placeholder: "Introduce una ciudad...",
+      placeholder: "¿Qué tiempo hace en...",
       city: {
         selected: "",
         value: "",
