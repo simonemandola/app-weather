@@ -138,6 +138,11 @@
         </button>
       </form>
     </div>
+    <error-notification
+      :show-error="showErrorMessage"
+      :errors-messages="errorsMessages"
+      @hide-notification="showErrorMessage = $event"
+    />
     <animations />
   </div>
 </template>
@@ -152,6 +157,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // components
 import Animations from "@/components-mixins/_animations.vue";
+import ErrorNotification from "@/components/_errorNotification";
+
+// mixins
 import { isEmpty, areEqual } from "@/mixins/mixins.js";
 import { checkRegExpPattern, emailPattern } from "@/mixins/_regExPattern.js";
 
@@ -165,6 +173,7 @@ export default {
   },
   components: {
     animations: Animations,
+    errorNotification: ErrorNotification,
   },
   data() {
     return {
@@ -204,6 +213,8 @@ export default {
         password: false,
         rePassword: false,
       },
+      showErrorMessage: false,
+      errorsMessages: [],
     };
   },
   computed: {
@@ -240,7 +251,24 @@ export default {
   },
   methods: {
     manageErrors() {
-      console.log("ERROR");
+      this.showErrorMessage = true;
+      this.errorsMessages = [];
+      if (this.isEmptyUsername || this.isEmptyEmail || this.isEmptyPassword) {
+        this.errorsMessages.push("Rellena todos los campos.");
+      }
+      if (!this.passwordHasMinLength) {
+        this.errorsMessages.push(
+          "La password debe contener mínimo 6 caracteres."
+        );
+      }
+      if (!this.emailIsValidPattern) {
+        this.errorsMessages.push("El formato del email no es valido.");
+      }
+      if (this.isAddNewUser) {
+        if (!this.passwordsAreEquals) {
+          this.errorsMessages.push("Las contraseñas no coinciden.");
+        }
+      }
     },
     async doSignIn() {
       if (this.fieldsHaveErrors) {
@@ -264,7 +292,7 @@ export default {
       }
     },
     async doAddNewUser() {
-      if (this.fieldsHaveErrors) {
+      if (this.fieldsHaveErrors || !this.passwordsAreEquals) {
         this.manageErrors();
       } else {
         console.log("Creating new user...");
@@ -313,6 +341,9 @@ export default {
       this.user.username = "";
       this.user.email = "";
       this.user.password = "";
+      this.errors.username = false;
+      this.errors.email = false;
+      this.errors.password = false;
       this.showIcon.username = false;
       this.showIcon.email = false;
       this.showIcon.password = false;
@@ -326,6 +357,18 @@ export default {
         this.titleForm = this.title.signIn;
         this.illustrationName = this.illustrations.login;
       }
+      this.user.username = "";
+      this.user.email = "";
+      this.user.password = "";
+      this.user.rePassword = "";
+      this.errors.username = false;
+      this.errors.email = false;
+      this.errors.password = false;
+      this.errors.rePassword = false;
+      this.showIcon.username = false;
+      this.showIcon.email = false;
+      this.showIcon.password = false;
+      this.showIcon.rePassword = false;
       this.$emit("showUserForm", this.closeForm);
     },
     updateLocalsStores() {

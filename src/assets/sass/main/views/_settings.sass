@@ -106,6 +106,7 @@
         right: $padding__xxs
       border-bottom: 1px solid $color__grey
       position: relative
+      overflow: hidden
 
     &-label:focus
       border-bottom-width: 2px
@@ -180,3 +181,6 @@
   z-index: 500
   pointer-events: none
   font-size: .8rem
+  animation-name: fadeUp
+  animation-duration: 400ms
+  animation-timing-function: $transition-bezier
