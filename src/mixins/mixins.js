@@ -17,3 +17,15 @@
 export const isNight = (date, sunsetDate) => {
   return date > sunsetDate;
 }
+
+/*
+  Field validations
+ */
+
+export const isEmpty = (value) => {
+  return !value || value.toString().trim().length === 0;
+};
+
+export const areEqual = (valueA, valueB) => {
+  return valueA === valueB;
+};

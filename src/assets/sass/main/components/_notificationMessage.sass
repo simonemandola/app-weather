@@ -1,4 +1,5 @@
-.notification
+.notification,
+.error-notification
   position: fixed
   top: 1.5rem
   left: 0
@@ -6,9 +7,6 @@
   @include padding-inline-mobile
   height: 4rem
   @include flex(flex-start,center,row)
-  background-color: transparentize($color__grey, .1)
-  margin: 0 $padding__xxs
-  border-radius: $border-radius-xxs
   z-index: 9999999
 
   & > ul
@@ -22,3 +20,13 @@
       grid-template-columns: auto 3rem
       align-items: center
       column-gap: $gap__xxs
+      margin-top: $padding__xxs
+      border-radius: $border-radius-xxs
+      background-color: transparentize($color__grey, .1)
+      @include padding-inline-mobile
+
+      & > i
+        font-size: 1rem
+
+.error-notification > ul > li
+  background-color: transparentize($color__red, .2)

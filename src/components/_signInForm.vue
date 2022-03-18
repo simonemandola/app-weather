@@ -20,21 +20,78 @@
           </button>
         </div>
         <div class="user-account-modal__form-not-logged fade-up delay-4" v-else>
-          <label>
+          <label
+            class="user-account-modal__form-label"
+            :class="{ 'input-error': errors.username }"
+          >
             <span class="text-xxxs">Username</span>
             <input type="text" v-model="user.username" placeholder="Username" />
+            <i
+              v-if="errors.username"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.username"
+              class="icon__tick text-green form-icon-field"
+            ></i>
           </label>
-          <label>
+          <label
+            class="user-account-modal__form-label"
+            :class="{ 'input-error': errors.email }"
+          >
             <span class="text-xxxs">Correo</span>
-            <input type="email" v-model="user.email" placeholder="mi@correo.com" />
+            <input
+              type="email"
+              v-model="user.email"
+              placeholder="mi@correo.com"
+            />
+            <i
+              v-if="errors.email"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.email"
+              class="icon__tick text-green form-icon-field"
+            ></i>
           </label>
-          <label>
+          <label
+            class="user-account-modal__form-label"
+            :class="{ 'input-error': errors.password }"
+          >
             <span class="text-xxxs">Password</span>
             <input
               type="password"
               v-model="user.password"
               placeholder="Password"
             />
+            <i
+              v-if="errors.password"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.password"
+              class="icon__tick text-green form-icon-field"
+            ></i>
+          </label>
+          <label
+            class="user-account-modal__form-label"
+            v-if="isAddNewUser"
+            :class="{ 'input-error': errors.rePassword }"
+          >
+            <span class="text-xxxs">Repetir password</span>
+            <input
+              type="password"
+              v-model="user.rePassword"
+              placeholder="Repetir password"
+            />
+            <i
+              v-if="errors.rePassword"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.rePassword"
+              class="icon__tick text-green form-icon-field"
+            ></i>
           </label>
           <button
             class="user-account-modal__btn"
@@ -81,6 +138,11 @@
         </button>
       </form>
     </div>
+    <error-notification
+      :show-error="showErrorMessage"
+      :errors-messages="errorsMessages"
+      @hide-notification="showErrorMessage = $event"
+    />
     <animations />
   </div>
 </template>
@@ -95,6 +157,11 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // components
 import Animations from "@/components-mixins/_animations.vue";
+import ErrorNotification from "@/components/_errorNotification";
+
+// mixins
+import { isEmpty, areEqual } from "@/mixins/mixins.js";
+import { checkRegExpPattern, emailPattern } from "@/mixins/_regExPattern.js";
 
 export default {
   name: "SignInForm",
@@ -106,6 +173,7 @@ export default {
   },
   components: {
     animations: Animations,
+    errorNotification: ErrorNotification,
   },
   data() {
     return {
@@ -113,7 +181,9 @@ export default {
         username: "",
         email: "",
         password: "",
+        rePassword: "",
       },
+      fieldMinLength: 6,
       title: {
         signIn: "¡Hola! Bienvenido de nuevo.",
         createNewUser: "Crear una nueva cuenta",
@@ -131,51 +201,125 @@ export default {
         logout: "logout-illustration",
       },
       illustrationName: "",
+      errors: {
+        username: false,
+        email: false,
+        password: false,
+        rePassword: false,
+      },
+      showIcon: {
+        username: false,
+        email: false,
+        password: false,
+        rePassword: false,
+      },
+      showErrorMessage: false,
+      errorsMessages: [],
     };
   },
+  computed: {
+    isEmptyUsername() {
+      return isEmpty(this.user.username);
+    },
+    usernameHasMinLength() {
+      return this.user.username.length > this.fieldMinLength;
+    },
+    isEmptyEmail() {
+      return isEmpty(this.user.email);
+    },
+    passwordHasMinLength() {
+      return this.user.password.length >= this.fieldMinLength;
+    },
+    isEmptyPassword() {
+      return isEmpty(this.user.password);
+    },
+    emailIsValidPattern() {
+      return checkRegExpPattern(emailPattern, this.user.email);
+    },
+    passwordsAreEquals() {
+      return areEqual(this.user.password, this.user.rePassword);
+    },
+    fieldsHaveErrors() {
+      return (
+        this.isEmptyUsername ||
+        this.isEmptyEmail ||
+        !this.passwordHasMinLength ||
+        this.isEmptyPassword ||
+        !this.emailIsValidPattern
+      );
+    },
+  },
   methods: {
-    async doSignIn() {
-      console.log("Signing in...");
-      let { user, error } = await supabase.auth.signIn({
-        email: this.user.email,
-        password: this.user.password,
-      });
-      if (user) {
-        this.$store.state.user.isLogged = true;
-        this.$router.push({
-          name: "Home",
-          query: { active: "home", isLogged: "1" },
-        });
-      } else {
-        console.log(error);
+    manageErrors() {
+      this.showErrorMessage = true;
+      this.errorsMessages = [];
+      if (this.isEmptyUsername || this.isEmptyEmail || this.isEmptyPassword) {
+        this.errorsMessages.push("Rellena todos los campos.");
       }
-      this.updateLocalsStores();
+      if (!this.passwordHasMinLength) {
+        this.errorsMessages.push(
+          "La password debe contener mínimo 6 caracteres."
+        );
+      }
+      if (!this.emailIsValidPattern) {
+        this.errorsMessages.push("El formato del email no es valido.");
+      }
+      if (this.isAddNewUser) {
+        if (!this.passwordsAreEquals) {
+          this.errorsMessages.push("Las contraseñas no coinciden.");
+        }
+      }
+    },
+    async doSignIn() {
+      if (this.fieldsHaveErrors) {
+        this.manageErrors();
+      } else {
+        console.log("Signing in...");
+        let { user, error } = await supabase.auth.signIn({
+          email: this.user.email,
+          password: this.user.password,
+        });
+        if (user) {
+          this.$store.state.user.isLogged = true;
+          this.$router.push({
+            name: "Home",
+            query: { active: "home", isLogged: "1" },
+          });
+        } else {
+          console.log(error);
+        }
+        this.updateLocalsStores();
+      }
     },
     async doAddNewUser() {
-      console.log("Creating new user...");
-      if (this.myLocalStorage.getItem("favorite-locations")) {
-        this.userFavoriteLocations =
-          this.myLocalStorage.getItem("favorite-locations");
-      }
-      // SignUp
-      let { user, error } = await supabase.auth.signUp({
-        email: this.user.email,
-        password: this.user.password,
-      });
-      if (user) {
-        this.titleForm = this.title.signIn;
-        this.isAddNewUser = false;
-        const { data, error } = await supabase
-          .from("user-favorite-locations")
-          .insert([
-            {
-              id: user.id,
-              favorite_locations: this.userFavoriteLocations,
-            },
-          ]);
-        data ? console.log("Favorite locations saved") : console.log(error);
+      if (this.fieldsHaveErrors || !this.passwordsAreEquals) {
+        this.manageErrors();
       } else {
-        console.log(error);
+        console.log("Creating new user...");
+        if (this.myLocalStorage.getItem("favorite-locations")) {
+          this.userFavoriteLocations =
+            this.myLocalStorage.getItem("favorite-locations");
+        }
+        // SignUp
+        let { user, error } = await supabase.auth.signUp({
+          email: this.user.email,
+          password: this.user.password,
+        });
+        if (user) {
+          this.titleForm = this.title.signIn;
+          this.isAddNewUser = false;
+          const { data, error } = await supabase
+            .from("user-favorite-locations")
+            .insert([
+              {
+                id: user.id,
+                favorite_locations: this.userFavoriteLocations,
+              },
+            ]);
+          data ? console.log("Favorite locations saved") : console.log(error);
+        } else {
+          console.log(error);
+        }
       }
     },
     async doLogOut() {
@@ -194,6 +338,15 @@ export default {
       this.isAddNewUser = true;
       this.titleForm = this.title.createNewUser;
       this.illustrationName = this.illustrations.newUser;
+      this.user.username = "";
+      this.user.email = "";
+      this.user.password = "";
+      this.errors.username = false;
+      this.errors.email = false;
+      this.errors.password = false;
+      this.showIcon.username = false;
+      this.showIcon.email = false;
+      this.showIcon.password = false;
     },
     hideUserForm() {
       console.log("User form closed.");
@@ -204,6 +357,18 @@ export default {
         this.titleForm = this.title.signIn;
         this.illustrationName = this.illustrations.login;
       }
+      this.user.username = "";
+      this.user.email = "";
+      this.user.password = "";
+      this.user.rePassword = "";
+      this.errors.username = false;
+      this.errors.email = false;
+      this.errors.password = false;
+      this.errors.rePassword = false;
+      this.showIcon.username = false;
+      this.showIcon.email = false;
+      this.showIcon.password = false;
+      this.showIcon.rePassword = false;
       this.$emit("showUserForm", this.closeForm);
     },
     updateLocalsStores() {
@@ -222,6 +387,37 @@ export default {
       this.titleForm = this.title.signIn;
       this.illustrationName = this.illustrations.login;
     }
+  },
+  watch: {
+    user: {
+      handler(newValue) {
+        if (newValue.username) {
+          this.showIcon.username = true;
+          this.isEmptyUsername || !this.usernameHasMinLength
+            ? (this.errors.username = true)
+            : (this.errors.username = false);
+        }
+        if (newValue.email) {
+          this.showIcon.email = true;
+          this.isEmptyEmail || !this.emailIsValidPattern
+            ? (this.errors.email = true)
+            : (this.errors.email = false);
+        }
+        if (newValue.password) {
+          this.showIcon.password = true;
+          !this.passwordHasMinLength || this.isEmptyPassword
+            ? (this.errors.password = true)
+            : (this.errors.password = false);
+          if (this.isAddNewUser) {
+            this.showIcon.rePassword = true;
+            this.passwordsAreEquals
+              ? (this.errors.rePassword = false)
+              : (this.errors.rePassword = true);
+          }
+        }
+      },
+      deep: true,
+    },
   },
 };
 </script>
