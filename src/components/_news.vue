@@ -1,33 +1,30 @@
 <template>
-  <div class="article-news">
-    <div v-if="existArticles">
-      <h2 class="subtitle-xs article-news__main-title fade-up">
-        Entérate de lo más nuevo
-      </h2>
-      <article
-        class="article-news__article fade-up"
-        v-for="(singleArticle, i) in allArticles"
-        :key="i"
-        :style="{ 'animation-delay': i * 2 + '00ms' }"
-      >
-        <div class="article-news__image">
-          <img :src="singleArticle.urlToImage" :alt="singleArticle.title" />
-        </div>
-        <div class="article-news__text">
-          <h1 class="title-xxs text-bold article-news__title">
-            {{ singleArticle.title }}
-          </h1>
-          <p class="text-xxs article-news__description">
-            {{ singleArticle.description }}
-          </p>
-        </div>
-        <div class="text-xs article-news__link">
-          <a :href="singleArticle.url" target="_blank"
-            >Ir a la noticia <i class="icon__logout"></i
-          ></a>
-        </div>
-      </article>
-    </div>
+  <div class="article-news" v-if="existArticles">
+    <h2 class="subtitle-xs article-news__main-title">
+      Entérate de lo más nuevo
+    </h2>
+    <article
+      class="article-news__article"
+      v-for="(singleArticle, i) in allArticles"
+      :key="i"
+    >
+      <div class="article-news__image">
+        <img :src="singleArticle.urlToImage" :alt="singleArticle.title" />
+      </div>
+      <div class="article-news__text">
+        <h1 class="title-xxs text-bold article-news__title">
+          {{ singleArticle.title }}
+        </h1>
+        <p class="text-xxs article-news__description">
+          {{ singleArticle.description }}
+        </p>
+      </div>
+      <div class="text-xs article-news__link">
+        <a :href="singleArticle.url" target="_blank"
+          >Ir a la noticia <i class="icon__logout"></i
+        ></a>
+      </div>
+    </article>
   </div>
 </template>
 

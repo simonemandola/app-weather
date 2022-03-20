@@ -13,7 +13,7 @@
         <div class="weather-details-grid__sun-arc-line"></div>
       </div>
       <div class="weather-details-grid__sun-icon">
-        <h3 class="text-xxs">Puesta de sol</h3>
+        <h3 class="text-xxs sunset-text">Puesta de sol</h3>
         <i class="icon__sunset"></i>
         <p class="text-xxs text-center">{{ sunsetHour }}:{{ sunsetMinutes }}</p>
       </div>
