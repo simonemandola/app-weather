@@ -148,18 +148,12 @@
 </template>
 
 <script>
-// supabase client
-import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = "https://ydyyzkyuojfqqeuyaagh.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkeXl6a3l1b2pmcXFldXlhYWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYzODYxNjksImV4cCI6MTk2MTk2MjE2OX0.2zTcwxb_-8jB0dK6wySOItJI2gXdCo3hhazbiYfalRY";
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 // components
 import Animations from "@/components-mixins/_animations.vue";
 import ErrorNotification from "@/components/_errorNotification";
 
 // mixins
+import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
 import { isEmpty, areEqual } from "@/mixins/mixins.js";
 import { checkRegExpPattern, emailPattern } from "@/mixins/_regExPattern.js";
 
@@ -177,6 +171,7 @@ export default {
   },
   data() {
     return {
+      supabase: undefined,
       user: {
         username: "",
         email: "",
@@ -275,7 +270,7 @@ export default {
         this.manageErrors();
       } else {
         console.log("Signing in...");
-        let { user, error } = await supabase.auth.signIn({
+        let { user, error } = await this.supabase.auth.signIn({
           email: this.user.email,
           password: this.user.password,
         });
@@ -301,14 +296,14 @@ export default {
             this.myLocalStorage.getItem("favorite-locations");
         }
         // SignUp
-        let { user, error } = await supabase.auth.signUp({
+        let { user, error } = await this.supabase.auth.signUp({
           email: this.user.email,
           password: this.user.password,
         });
         if (user) {
           this.titleForm = this.title.signIn;
           this.isAddNewUser = false;
-          const { data, error } = await supabase
+          const { data, error } = await this.supabase
             .from("user-favorite-locations")
             .insert([
               {
@@ -324,7 +319,7 @@ export default {
     },
     async doLogOut() {
       console.log("Log out...");
-      let { error } = await supabase.auth.signOut();
+      let { error } = await this.supabase.auth.signOut();
       if (error) console.log(error);
       this.$store.state.user.isLogged = false;
       this.updateLocalsStores();
@@ -380,6 +375,7 @@ export default {
     },
   },
   mounted() {
+    this.supabase = SupabaseCli.methods.getSupabaseCli();
     if (this.myLocalStorage.getItem("supabase.auth.token")) {
       this.titleForm = this.title.logOut;
       this.illustrationName = this.illustrations.logout;

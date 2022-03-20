@@ -16,7 +16,11 @@
 
 export const isNight = (date, sunsetDate) => {
   return date > sunsetDate;
-}
+};
+
+export const addZeroToNumberIfSmallerThenTen = (myNumber) => {
+  return myNumber < 10 ? `0${myNumber.toString()}` : myNumber;
+};
 
 /*
   Field validations
