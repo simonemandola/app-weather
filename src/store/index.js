@@ -18,6 +18,7 @@ export default createStore({
           lat: 0,
           lon: 0,
         },
+        timeZoneOffset: 0,
         current: {},
         hourly: [],
         daily: [],

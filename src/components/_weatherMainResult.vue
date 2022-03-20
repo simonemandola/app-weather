@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     directory() {
-      return "dark";
+      return this.$store.state.isNight ? "dark" : "light";
     },
   },
   mounted() {

@@ -10,8 +10,10 @@
       >
         <p class="text-xxs">{{ hour.dt }}</p>
         <div class="weather-by-hour__icon">
-
-          <img :src="`/img/weather-status/icons/${directory}/${hour.weather[0].icon}.svg`" :alt="hour.weather[0].icon">
+          <img
+            :src="`/img/weather-status/icons/${directory}/${hour.weather[0].icon}.svg`"
+            :alt="hour.weather[0].icon"
+          />
         </div>
         <p class="text-xxs">{{ hour.temp }}º</p>
       </div>
@@ -25,17 +27,20 @@ export default {
   data() {
     return {
       weatherByHour: [],
+      timeZoneOffset: 0,
     };
   },
   computed: {
     directory() {
-      return "dark";
+      return this.$store.state.isNight ? "dark" : "light";
     },
   },
   mounted() {
+    this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
     this.weatherByHour = this.$store.state.locationData[0].hourly;
     this.weatherByHour.forEach((hour) => {
-      hour.dt = new Date(hour.dt * 1000).getHours();
+      hour.dt = hour.dt + this.timeZoneOffset;
+      hour.dt = new Date(new Date(hour.dt * 1000)).getHours();
       if (hour.dt < 10) {
         hour.dt = "0" + hour.dt;
       }

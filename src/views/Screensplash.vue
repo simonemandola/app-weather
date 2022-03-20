@@ -92,6 +92,8 @@ export default {
       this.$store.state.locationData[0].daily = this.weatherData.daily;
       this.$store.state.locationData[0].favorite = false;
       this.$store.state.locationData[0].alerts = this.weatherData.alerts;
+      this.$store.state.locationData[0].timeZoneOffset =
+        this.weatherData.timezone_offset;
     },
     async showResult() {
       await this.getWeatherData(

@@ -30,15 +30,18 @@ export default {
   data() {
     return {
       weatherByDays: this.$store.state.locationData[0].daily,
+      timeZoneOffset: 0,
     };
   },
   computed: {
     directory() {
-      return "dark";
+      return this.$store.state.isNight ? "dark" : "light";
     },
   },
   mounted() {
+    this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
     this.weatherByDays.forEach((day) => {
+      day.dt = day.dt + this.timeZoneOffset;
       day.dt = new Date(day.dt * 1000).toLocaleDateString("es-ES", {
         weekday: "long",
       });

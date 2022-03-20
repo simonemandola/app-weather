@@ -143,6 +143,8 @@ export default {
       this.$store.state.locationData[0].hourly = this.weatherData.hourly;
       this.$store.state.locationData[0].daily = this.weatherData.daily;
       this.$store.state.locationData[0].alerts = this.weatherData.alerts;
+      this.$store.state.locationData[0].timeZoneOffset =
+        this.weatherData.timezone_offset;
     },
     async showResult(citySelected) {
       this.suggestions = [];
