@@ -18,6 +18,16 @@
     <v-apexchart class="fade-up" />
     <map-location class="fade-up" />
     <weather-seven-days />
+    <w-details-grid
+      :sunrise="sunrise"
+      :sunset="sunset"
+      :feelsLike="feelsLike"
+      :pressure="pressure"
+      :humidity="humidity"
+      :cloudiness="cloudiness"
+      :uvi="uvi"
+      :visibility="visibility"
+    />
     <news />
     <notification
       :show-notification="showNotification"
@@ -32,18 +42,19 @@
 
 <script>
 // components
+import MainBackground from "@/components/_mainBackground.vue";
 import LocationTopBar from "@/components/_locationTopBar.vue";
 import WeatherMainResult from "@/components/_weatherMainResult.vue";
-import MainBackground from "@/components/_mainBackground.vue";
 import WeatherByHour from "@/components/_weatherByHour.vue";
 import AirPollution from "@/components/_airPollution.vue";
 import CompassRose from "@/components/_compassRose.vue";
 import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
 import MapLocation from "@/components/_mapLocation.vue";
-import News from "@/components/_news.vue";
-import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
+import WeatherDetailsGrid from "@/components/_weatherDetailsGrid";
+import News from "@/components/_news.vue";
 import NotificationMessage from "@/components/_notificationMessage.vue";
+import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // component mixins
 import Animations from "@/components-mixins/_animations.vue";
@@ -66,6 +77,7 @@ export default {
     weatherSevenDays: WeatherSevenDays,
     vApexchart: Graph,
     wTableHour: WeatherTableHour,
+    wDetailsGrid: WeatherDetailsGrid,
     mapLocation: MapLocation,
     news: News,
     notification: NotificationMessage,
@@ -88,12 +100,17 @@ export default {
       showNotification: false,
       notificationsMessages: [],
       iconType: "",
+      sunrise: 0,
+      sunset: 0,
+      feelsLike: 0,
+      pressure: 0,
+      humidity: 0,
+      cloudiness: 0,
+      uvi: 0,
+      visibility: 0,
     };
   },
   methods: {
-    isScrolled() {
-      console.log(window.scrollY);
-    },
     async updateSupabaseData(userID) {
       const { error } = await this.supabase
         .from("user-favorite-locations")
@@ -103,6 +120,10 @@ export default {
         .eq("id", userID);
       if (error) console.log(error);
     },
+    /***
+     * Update local data
+     * @param user <Object> all user data
+     */
     updateLocalsStores(user) {
       // Update the list of favorite locations in the store
       if (user.data) {
@@ -117,10 +138,18 @@ export default {
         JSON.stringify(this.favoriteLocations)
       );
     },
+    /***
+     * Get user access token
+     * @return {string | CHANNEL_EVENTS.access_token}
+     */
     getUserAccessToken() {
       const userAccessToken = this.supabase.auth.session()?.access_token;
       return (this.userAccessToken = userAccessToken);
     },
+    /***
+     * Add current location to favorite
+     * @return {Promise<void>}
+     */
     async addToFavorite() {
       // Get data from LocalStorage
       this.locationToAdd.locations =
@@ -183,6 +212,16 @@ export default {
     }
   },
   async mounted() {
+    // Props data for grid weather details component
+    this.sunrise = this.$store.state.locationData[0].current.sunrise;
+    this.sunset = this.$store.state.locationData[0].current.sunset;
+    this.feelsLike = this.$store.state.locationData[0].current.feels_like;
+    this.pressure = this.$store.state.locationData[0].current.pressure;
+    this.humidity = this.$store.state.locationData[0].current.humidity;
+    this.cloudiness = this.$store.state.locationData[0].current.clouds;
+    this.uvi = this.$store.state.locationData[0].current.uvi;
+    this.visibility = this.$store.state.locationData[0].current.visibility;
+    // Notification if user is logged in or logged out
     if (this.$route.query.isLogged !== undefined) {
       if (this.$route.query.isLogged === "1") {
         this.showNotification = true;

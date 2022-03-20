@@ -1,0 +1,94 @@
+.weather-details-grid
+  margin-top: $padding__l
+  @include padding-inline-mobile
+
+  &__sun
+    @include card-settings($padding__xxs, $padding__xxs)
+    display: grid
+    grid-template-columns: 4rem 1fr 4rem
+
+    &-icon
+      display: grid
+      grid-template-rows: 1fr 1rem
+      row-gap: $gap__xxs
+      justify-items: start
+      align-items: center
+
+      &:last-child
+        justify-items: end
+
+      & > h3
+        position: absolute
+        top: 0
+        margin-top: $padding__xxs
+
+      & > i
+        height: 100%
+        font-size: 1.8rem
+        align-items: flex-end
+
+      & > p
+        margin: 0
+        position: relative
+        top: 40%
+
+    &-arc-cont
+      height: auto
+      overflow: hidden
+      @include padding-inline-mobile
+      padding-top: $padding__xxxs
+      border-bottom: 1px solid $color__black
+
+    &-arc-line
+      width: auto
+      height: auto
+      border: 1px solid $color__yellow
+      filter: brightness(130%)
+      border-radius: 50%
+      aspect-ratio: 1/1
+      position: relative
+
+      &::before
+        content: ""
+        width: 110%
+        height: 1rem
+        background-color: $color__yellow
+        filter: brightness(80%)
+        position: absolute
+        top: 50%
+        left: -5%
+        transform-origin: 50% 0
+        transform: rotateZ(10deg)
+        clip-path: circle(5% at 4% 50%)
+
+  &__row
+    display: grid
+    grid-template-columns: 1fr 1fr
+    column-gap: $gap__s
+    margin-top: $gap__s
+
+    &-item
+      width: 100%
+      aspect-ratio: 1/1
+      @include card-settings($padding__xxs, $padding__xxs)
+      display: grid
+      justify-items: center
+      align-items: center
+
+      & > h3
+        justify-self: start
+        align-self: start
+        margin: 0
+
+      & > i
+        height: 100%
+        font-size: 1.8rem
+
+        &.size-icon-cloud
+          font-size: 3rem
+
+        &.size-icon-visibility
+          font-size: 2.5rem
+
+      & > p
+        margin: 0
