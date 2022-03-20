@@ -3,7 +3,7 @@
     <h2 class="subtitle-xs weather-seven-days__title fade-up">Más detalles</h2>
     <div class="weather-details-grid__sun fade-up" :style="sunSectionHeight">
       <div class="weather-details-grid__sun-icon">
-        <h3 class="text-xxs">Amanecer</h3>
+        <h3 class="text-xxs sunrise-text">Amanecer</h3>
         <i class="icon__sunrise"></i>
         <p class="text-xxs text-center">
           {{ sunriseHour }}:{{ sunriseMinutes }}

@@ -6,6 +6,7 @@
     @include card-settings($padding__xxs, $padding__xxs)
     display: grid
     grid-template-columns: 4rem 1fr 4rem
+    position: relative
 
     &-icon
       display: grid
@@ -21,6 +22,9 @@
         position: absolute
         top: 0
         margin-top: $padding__xxs
+
+        &.sunrise-text
+          left: $padding__xxs
 
         &.sunset-text
           right: $padding__xxs

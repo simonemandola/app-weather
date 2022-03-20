@@ -26,7 +26,7 @@ export default {
     return {
       weatherData: this.$store.state.locationData[0],
       watcherDate: this.$store.state.locationData[0].coord.lat,
-      limitHourToShow: 12,
+      limitHourToShow: 8,
       heightGraph: 256,
       series: [
         {
@@ -58,7 +58,7 @@ export default {
           lineCap: "round"
         },
         fill: {
-          colors: ["#e87c1a", "#b4faf0"],
+          colors: ["#c76e26", "#6aa79f", "#b4faf0"],
         },
         xaxis: {
           type: "string",
