@@ -31,6 +31,9 @@ import GradientBackground from "@/components/_gradientBackground.vue";
 import Loading from "@/components/_loading.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
+// mixins
+import { isNight, toggleMode } from "@/mixins/mixins";
+
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
 const FORMAT = ".json?";
@@ -51,6 +54,7 @@ const OPW_KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 
 export default {
   name: "Search",
+  mixins: [toggleMode],
   components: {
     return: Return,
     background: GradientBackground,
@@ -129,6 +133,12 @@ export default {
         console.warn(error);
       }
     },
+    isNightCurrentDate() {
+      return isNight(
+        this.weatherData.current.dt,
+        this.weatherData.current.sunset
+      );
+    },
     setNewData(city) {
       this.$store.state.locationData[0].name = city.text;
       console.log(city);
@@ -145,6 +155,8 @@ export default {
       this.$store.state.locationData[0].alerts = this.weatherData.alerts;
       this.$store.state.locationData[0].timeZoneOffset =
         this.weatherData.timezone_offset;
+      // Check if is night or day
+      this.$store.state.isNight = this.isNightCurrentDate();
     },
     async showResult(citySelected) {
       this.suggestions = [];

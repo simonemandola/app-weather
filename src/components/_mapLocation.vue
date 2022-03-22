@@ -16,9 +16,6 @@
 // mapbox
 import mapboxgl from "mapbox-gl";
 
-// mixins
-import { isNight } from "@/mixins/mixins.js";
-
 export default {
   name: "MapLocation",
   data() {
@@ -34,16 +31,15 @@ export default {
         light: "mapbox://styles/mapbox/light-v10",
         dark: "mapbox://styles/mapbox/dark-v10",
       },
+      isNight: this.$store.state.isNight,
     };
   },
   computed: {
-    isNightCurrentDate() {
-      const currentDate = this.$store.state.locationData[0].current.dt;
-      const sunset = this.$store.state.locationData[0].current.sunset;
-      return isNight(currentDate, sunset);
-    },
     iconColorMarker() {
-      return this.isNightCurrentDate ? "text-white" : "text-grey";
+      return this.isNight ? "light" : "dark";
+    },
+    mapStyleColor() {
+      return this.isNight ? this.mapStyle.dark : this.mapStyle.light;
     },
   },
   mounted() {
@@ -52,7 +48,7 @@ export default {
     mapboxgl.accessToken = this.key;
     this.map = new mapboxgl.Map({
       container: this.refMap, // container ref
-      style: this.isNightCurrentDate ? this.mapStyle.dark : this.mapStyle.light, // style URL
+      style: this.mapStyleColor, // style URL
       center: [this.lon, this.lat], // starting position [lng, lat]
       zoom: this.zoom, // starting zoom
     });

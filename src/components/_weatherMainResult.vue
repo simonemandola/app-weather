@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     directory() {
-      return this.$store.state.isNight ? "dark" : "light";
+      return this.$store.state.isNight ? "light" : "dark";
     },
   },
   mounted() {
@@ -56,7 +56,6 @@ export default {
     setInterval(() => {
       if (this.temperature < temp) this.temperature++;
     }, 400);
-    // this.weatherData.current.temp = this.weatherData.current.temp.toFixed(0);
   },
 };
 </script>

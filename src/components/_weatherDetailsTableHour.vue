@@ -3,19 +3,33 @@
     <h2 class="subtitle-xs weather-details-hour__title">
       Previsión detallada por hora
     </h2>
-    <div class="weather-details-hour__head-table">
-      <span class="text-xs text-grey">Hora</span>
-      <span class="text-xs text-grey">Temp.</span>
-      <span class="text-xs text-grey">UV</span>
-      <span class="text-xs text-grey">Hum.</span>
-      <span class="text-xs text-grey"
+    <div
+      class="weather-details-hour__head-table"
+      :class="{ 'dark-mode-card-bg-color': isNight }"
+    >
+      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+        >Hora</span
+      >
+      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+        >Temp.</span
+      >
+      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+        >UV</span
+      >
+      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+        >Hum.</span
+      >
+      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
         ><span>Vel.</span><span>Viento</span></span
       >
-      <span class="text-xs text-grey"
+      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
         ><span>Dir.</span><span>Viento</span></span
       >
     </div>
-    <div class="weather-details-hour__wrap">
+    <div
+      class="weather-details-hour__wrap"
+      :class="{ 'dark-mode-card-bg-color': isNight }"
+    >
       <div class="weather-details-hour__table">
         <ul>
           <li
@@ -29,9 +43,9 @@
             <span class="weather-details-hour__table-item text-xs"
               >{{ hour.temp }}º</span
             >
-            <span class="weather-details-hour__table-item text-xs">{{
-              hour.uvi
-            }}</span>
+            <span class="weather-details-hour__table-item text-xs"
+              >{{ hour.uvi }}%</span
+            >
             <span class="weather-details-hour__table-item text-xs"
               >{{ hour.humidity }}%</span
             >
@@ -57,6 +71,7 @@ export default {
   data() {
     return {
       wheatherDataHourly: this.$store.state.locationData[0].hourly,
+      isNight: this.$store.state.isNight,
     };
   },
   mounted() {
