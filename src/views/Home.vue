@@ -56,6 +56,9 @@ import News from "@/components/_news.vue";
 import NotificationMessage from "@/components/_notificationMessage.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
+// mixins
+import { toggleMode } from "@/mixins/mixins";
+
 // component mixins
 import Animations from "@/components-mixins/_animations.vue";
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
@@ -65,6 +68,7 @@ import Graph from "@/components/_graph.vue";
 
 export default {
   name: "Home",
+  mixins: [toggleMode],
   components: {
     animations: Animations,
     locatioTopBar: LocationTopBar,

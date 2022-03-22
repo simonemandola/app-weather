@@ -4,6 +4,7 @@
     <div class="weather-by-hour__items-wrap fade-right">
       <div
         class="weather-by-hour__item"
+        :class="{ 'dark-mode-card-bg-color': isNight }"
         v-for="(hour, i) in weatherByHour"
         :key="i"
         :style="{ 'animation-delay': i * 2 + '00ms' }"
@@ -22,17 +23,19 @@
 </template>
 
 <script>
+
 export default {
   name: "WeatherByHour",
   data() {
     return {
       weatherByHour: [],
       timeZoneOffset: 0,
+      isNight: this.$store.state.isNight,
     };
   },
   computed: {
     directory() {
-      return this.$store.state.isNight ? "dark" : "light";
+      return this.isNight ? "light" : "dark";
     },
   },
   mounted() {

@@ -3,23 +3,23 @@
     <h2 class="subtitle-xs compass-rose__title">
       Viento <span class="text-xxs">{{ windSpeed }}km/h</span>
     </h2>
-    <div class="compass-rose__wrap">
+    <div class="compass-rose__wrap" :class="{ 'dark-mode-card-bg-color': isNight }">
       <img
         class="compass-rose__back"
-        src="/img/compass-rose-1.svg"
+        :src="`/img/${directory}/compass-rose-1.svg`"
         alt="compass-rose 1"
       />
       <div class="compass-rose__img-container">
         <img
           class="compass-rose__middle"
-          src="/img/compass-rose-2.svg"
+          :src="`/img/${directory}/compass-rose-2.svg`"
           alt="compass-rose 2"
         />
       </div>
       <div class="compass-rose__img-container">
         <img
           class="compass-rose__front"
-          src="/img/compass-rose-3.svg"
+          :src="`/img/${directory}/compass-rose-3.svg`"
           alt="compass-rose 3"
           :style="'transform: rotateZ(' + windDeg + 'deg)'"
         />
@@ -35,7 +35,13 @@ export default {
     return {
       windSpeed: this.$store.state.locationData[0].hourly[0].wind_speed,
       windDeg: this.$store.state.locationData[0].hourly[0].wind_deg,
+      isNight: this.$store.state.isNight,
     };
+  },
+  computed: {
+    directory() {
+      return this.isNight ? "compass-rose-light" : "compass-rose-dark";
+    },
   },
   methods: {
     windDegAnimation() {

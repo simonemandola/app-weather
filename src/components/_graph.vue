@@ -54,11 +54,11 @@ export default {
         stroke: {
           curve: "smooth",
           width: 1.5,
-          colors: ["#202020"],
-          lineCap: "round"
+          colors: [this.colorBlack],
+          lineCap: "round",
         },
         fill: {
-          colors: ["#c76e26", "#6aa79f", "#b4faf0"],
+          colors: ["#c76e26", "#6aa79f"],
         },
         xaxis: {
           type: "string",
@@ -71,6 +71,8 @@ export default {
           enabled: false,
         },
       },
+      colorWhite: "#f5f5f5",
+      colorBlack: "#202020",
     };
   },
   methods: {
@@ -88,13 +90,16 @@ export default {
     },
   },
   mounted() {
+    this.$store.state.isNight
+      ? (this.chartOptions.chart.foreColor = this.colorWhite)
+      : (this.chartOptions.chart.foreColor = this.colorBlack);
     this.setGraphData();
   },
   watch: {
     watcherDate(newValue, oldValue) {
       if (newValue !== oldValue) {
-        (this.weatherData = this.$store.state.locationData[0]),
-          this.setGraphData();
+        this.weatherData = this.$store.state.locationData[0];
+        this.setGraphData();
       }
     },
   },

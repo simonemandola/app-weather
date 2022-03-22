@@ -5,6 +5,7 @@
       v-for="(day, i) in weatherByDays"
       :key="i"
       class="weather-seven-days__wrap fade-up"
+      :class="{ 'dark-mode-card-bg-color': isNight }"
       :style="{ 'animation-delay': i * 2 + '00ms' }"
     >
       <p class="weather-seven-days__day text-xs">{{ day.dt }}</p>
@@ -31,11 +32,12 @@ export default {
     return {
       weatherByDays: this.$store.state.locationData[0].daily,
       timeZoneOffset: 0,
+      isNight: this.$store.state.isNight,
     };
   },
   computed: {
     directory() {
-      return this.$store.state.isNight ? "dark" : "light";
+      return this.isNight ? "light" : "dark";
     },
   },
   mounted() {

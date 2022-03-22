@@ -1,7 +1,11 @@
 <template>
   <div class="weather-details-grid">
     <h2 class="subtitle-xs weather-seven-days__title fade-up">Más detalles</h2>
-    <div class="weather-details-grid__sun fade-up" :style="sunSectionHeight">
+    <div
+      class="weather-details-grid__sun fade-up"
+      :class="{ 'dark-mode-card-bg-color': isNight }"
+      :style="sunSectionHeight"
+    >
       <div class="weather-details-grid__sun-icon">
         <h3 class="text-xxs sunrise-text">Amanecer</h3>
         <i class="icon__sunrise"></i>
@@ -19,36 +23,54 @@
       </div>
     </div>
     <div class="weather-details-grid__row fade-up delay-2">
-      <div class="weather-details-grid__row-item">
+      <div
+        class="weather-details-grid__row-item"
+        :class="{ 'dark-mode-card-bg-color': isNight }"
+      >
         <h3 class="text-xxs">Percepción humana</h3>
         <i class="icon__thermometer"></i>
         <p class="text-m text-center">{{ feelsLikeToFixed }}º</p>
       </div>
-      <div class="weather-details-grid__row-item">
+      <div
+        class="weather-details-grid__row-item"
+        :class="{ 'dark-mode-card-bg-color': isNight }"
+      >
         <h3 class="text-xxs">Presión</h3>
         <i class="icon__pressure"></i>
         <p class="text-m text-center">{{ pressure }}hPa</p>
       </div>
     </div>
     <div class="weather-details-grid__row fade-up delay-4">
-      <div class="weather-details-grid__row-item">
+      <div
+        class="weather-details-grid__row-item"
+        :class="{ 'dark-mode-card-bg-color': isNight }"
+      >
         <h3 class="text-xxs">Humiditad</h3>
         <i class="icon__humidity"></i>
         <p class="text-m text-center">{{ humidity }}%</p>
       </div>
-      <div class="weather-details-grid__row-item">
+      <div
+        class="weather-details-grid__row-item"
+        :class="{ 'dark-mode-card-bg-color': isNight }"
+      >
         <h3 class="text-xxs">Nubes</h3>
         <i class="icon__cloudiness size-icon-cloud"></i>
         <p class="text-m text-center">{{ cloudiness }}%</p>
       </div>
     </div>
     <div class="weather-details-grid__row fade-up delay-6">
-      <div class="weather-details-grid__row-item">
+      <div
+        class="weather-details-grid__row-item"
+        :class="{ 'dark-mode-card-bg-color': isNight }"
+      >
         <h3 class="text-xxs">Uvi</h3>
         <i class="icon__sun"></i>
         <p class="text-m text-center">{{ uviToFixed }}%</p>
       </div>
-      <div class="weather-details-grid__row-item">
+      <div
+        class="weather-details-grid__row-item"
+        :class="{ 'dark-mode-card-bg-color': isNight }"
+      >
         <h3 class="text-xxs">Visibilidad</h3>
         <i class="icon__visibility size-icon-visibility"></i>
         <p class="text-m text-center">{{ visibilityKm }}km</p>
@@ -75,6 +97,7 @@ export default {
   data() {
     return {
       sunArcContainer: 0,
+      isNight: this.$store.state.isNight,
     };
   },
   computed: {

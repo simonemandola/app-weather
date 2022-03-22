@@ -33,3 +33,19 @@ export const isEmpty = (value) => {
 export const areEqual = (valueA, valueB) => {
   return valueA === valueB;
 };
+
+/***
+ * Toggle mode
+ */
+
+export const toggleMode = {
+  created() {
+    if (this.$store.state.isNight) {
+      document.body.classList.remove("dark-mode");
+      document.body.classList.add("light-mode");
+    } else {
+      document.body.classList.add("dark-mode");
+      document.body.classList.remove("light-mode");
+    }
+  },
+}

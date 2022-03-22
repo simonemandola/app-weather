@@ -11,6 +11,9 @@
 <script>
 import GeolocationError from "@/components/_geolocationError.vue";
 
+// mixins
+import { isNight } from "@/mixins/mixins";
+
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
 const FORMAT = ".json?";
@@ -41,7 +44,7 @@ export default {
       showGeolocationError: false,
       geolocationOptions: {
         enableHighAccuracy: true,
-        timeout: 5000,
+        timeout: 8000,
       },
     };
   },
@@ -81,6 +84,12 @@ export default {
         console.warn(error);
       }
     },
+    isNightCurrentDate() {
+      return isNight(
+        this.weatherData.current.dt,
+        this.weatherData.current.sunset
+      );
+    },
     setNewData() {
       this.$store.state.locationData[0].coord.lat = this.currentPosition.lat;
       this.$store.state.locationData[0].coord.lon = this.currentPosition.lon;
@@ -94,6 +103,9 @@ export default {
       this.$store.state.locationData[0].alerts = this.weatherData.alerts;
       this.$store.state.locationData[0].timeZoneOffset =
         this.weatherData.timezone_offset;
+      // Check if is night or day
+      this.$store.state.isNight = this.isNightCurrentDate();
+      console.log(this.$store.state.isNight);
     },
     async showResult() {
       await this.getWeatherData(
@@ -120,11 +132,6 @@ export default {
   },
   async created() {
     window.localStorage.removeItem("user-weather-data");
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   this.currentPosition.lat = position.coords.latitude;
-    //   this.currentPosition.lon = position.coords.longitude;
-    //   this.showResult();
-    // }, this.geolocationError());
     navigator.geolocation.getCurrentPosition(
       this.getPosition,
       this.geolocationError,

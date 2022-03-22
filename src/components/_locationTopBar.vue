@@ -4,13 +4,14 @@
     :class="{
       'background-top-bar': addBgColor,
       'top-bar-min-height': addMinHeight,
+      'dark-mode-bg-top-bar': isNight && addBgColor,
     }"
   >
-    <h1 class="title-xxs text-center">
+    <h1 class="title-xxs text-center" :class="{ 'text-white': isNight }">
       {{ locationName }}, <span>{{ country }}</span>
     </h1>
     <button @click.prevent="toTheTop" v-if="addMinHeight">
-      <i class="icon__return"></i>
+      <i class="icon__return" :class="{ 'text-white': isNight }"></i>
     </button>
   </div>
 </template>
@@ -25,6 +26,7 @@ export default {
       myScrollY: 0,
       addBgColor: false,
       addMinHeight: false,
+      isNight: this.$store.state.isNight,
     };
   },
   methods: {
