@@ -5,7 +5,7 @@
         <img :src="`/img/${illustrationName}.png`" :alt="illustrationName" />
       </div>
       <h1
-        class="user-account-modal__title title-xxs text-center fade-up delay-2"
+        class="user-account-modal__title title-xxs text-center text-black fade-up delay-2"
       >
         {{ titleForm }}
       </h1>
@@ -58,11 +58,11 @@
             class="user-account-modal__form-label"
             :class="{ 'input-error': errors.password }"
           >
-            <span class="text-xxxs">Password</span>
+            <span class="text-xxxs">Contraseña</span>
             <input
               type="password"
               v-model="user.password"
-              placeholder="Password"
+              placeholder="Contraseña"
             />
             <i
               v-if="errors.password"
@@ -78,11 +78,11 @@
             v-if="isAddNewUser"
             :class="{ 'input-error': errors.rePassword }"
           >
-            <span class="text-xxxs">Repetir password</span>
+            <span class="text-xxxs">Repetir contraseña</span>
             <input
               type="password"
               v-model="user.rePassword"
-              placeholder="Repetir password"
+              placeholder="Repetir contraseña"
             />
             <i
               v-if="errors.rePassword"
@@ -119,9 +119,9 @@
             class="user-account-modal__form-not-logged-no-user text-center"
             v-if="!isAddNewUser"
           >
-            <span class="text-xxs">¿Eres nuevo?</span>
+            <span class="text-xxs text-black">¿Eres nuevo?</span>
             <button
-              class="text-xxs"
+              class="text-xxs text-black"
               type="button"
               @click.prevent="showAddNewUserForm"
             >
@@ -134,7 +134,7 @@
           type="button"
           @click.prevent="hideUserForm"
         >
-          <i class="icon__return"></i>
+          <i class="icon__return text-black"></i>
         </button>
       </form>
     </div>
@@ -329,7 +329,7 @@ export default {
       });
     },
     showAddNewUserForm() {
-      console.log("Show create new user.");
+      console.log("Show create new user form.");
       this.isAddNewUser = true;
       this.titleForm = this.title.createNewUser;
       this.illustrationName = this.illustrations.newUser;

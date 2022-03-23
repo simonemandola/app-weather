@@ -87,8 +87,8 @@ export default {
       };
     },
     getUserAccessToken() {
-      const userAccessToken = this.supabase.auth.session()?.access_token;
-      return (this.userAccessToken = userAccessToken);
+      this.userAccessToken = this.supabase.auth.session()?.access_token;
+      return this.userAccessToken;
     },
     async updateSupabaseData(userID) {
       const { error } = await this.supabase
@@ -132,16 +132,17 @@ export default {
     window.scrollTo(0, 0);
     this.supabase = SupabaseCli.methods.getSupabaseCli();
     await this.getUserAccessToken();
-    // Get the JSON object for the logged in user.
-    const user = await this.supabase.auth.api.getUser(this.userAccessToken);
     // If user is logged in get their favorite locations list
-    if (user.user) {
+    if (this.userAccessToken) {
+      // Get the JSON object for the logged in user.
+      const user = await this.supabase.auth.api.getUser(this.userAccessToken);
       // Get the user's favorite locations from the database
-      let { data: locationsDataFromDatabase, error } = await this.supabase
-        .from("user-favorite-locations")
-        .select("favorite_locations")
-        .eq("id", user.user.id);
-      if (error) console.log(error);
+      let { data: locationsDataFromDatabase, errorGetFavorite } =
+        await this.supabase
+          .from("user-favorite-locations")
+          .select("favorite_locations")
+          .eq("id", user.user.id);
+      if (errorGetFavorite) console.log(errorGetFavorite);
       // Convert to JSON object
       this.favoriteLocations = JSON.parse(
         locationsDataFromDatabase[0].favorite_locations

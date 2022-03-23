@@ -1,12 +1,13 @@
 <template>
   <div class="map">
     <h2 class="subtitle-xs map__title">Mapa</h2>
-    <div class="map__map" ref="map">
+    <div
+      class="map__map"
+      :class="{ 'dark-mode-card-bg-color': isNight }"
+      ref="map"
+    >
       <div class="marker" ref="marker">
-        <i
-          class="icon__location"
-          :class="iconColorMarker"
-        ></i>
+        <i class="icon__location" :class="iconColorMarker"></i>
       </div>
     </div>
   </div>

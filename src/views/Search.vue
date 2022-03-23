@@ -127,7 +127,6 @@ export default {
         } else {
           this.showLoading = false;
           this.weatherData = data;
-          console.log(this.weatherData);
         }
       } catch (error) {
         console.warn(error);
@@ -141,7 +140,6 @@ export default {
     },
     setNewData(city) {
       this.$store.state.locationData[0].name = city.text;
-      console.log(city);
       this.$store.state.locationData[0].country =
         city.context[0].short_code ?? city.context[1].short_code;
       this.$store.state.locationData[0].coord.lat = this.weatherData.lat;

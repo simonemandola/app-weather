@@ -41,13 +41,15 @@
             Acceder
           </button>
         </li>
+        <li class="settings__row">
+          <p class="text-xxs version-text text-white text-end">Version 0.1</p>
+        </li>
       </ul>
     </nav>
     <sign-in-modal
       @show-user-form="showForm = $event"
       :show-user-form="showForm"
     />
-    <p class="text-xxs version-text text-white">Version 1.0</p>
     <bottom-menu />
   </main>
 </template>

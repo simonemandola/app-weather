@@ -105,7 +105,6 @@ export default {
         this.weatherData.timezone_offset;
       // Check if is night or day
       this.$store.state.isNight = this.isNightCurrentDate();
-      console.log(this.$store.state.isNight);
     },
     async showResult() {
       await this.getWeatherData(

@@ -1,7 +1,7 @@
 <template>
   <main>
     <main-background />
-    <locatio-top-bar />
+    <location-top-bar />
     <div class="favorite-bar">
       <div class="favorite-bar__wrap">
         <p class="text-xs text-bold">Feliz día.</p>
@@ -71,7 +71,7 @@ export default {
   mixins: [toggleMode],
   components: {
     animations: Animations,
-    locatioTopBar: LocationTopBar,
+    locationTopBar: LocationTopBar,
     mainResults: WeatherMainResult,
     mainBackground: MainBackground,
     weatherByHour: WeatherByHour,
@@ -112,6 +112,7 @@ export default {
       cloudiness: 0,
       uvi: 0,
       visibility: 0,
+      tempUserData: {},
     };
   },
   methods: {
@@ -129,8 +130,10 @@ export default {
      * @param user <Object> all user data
      */
     updateLocalsStores(user) {
+      console.log("==================");
+      console.log(user);
       // Update the list of favorite locations in the store
-      if (user.data) {
+      if (user) {
         this.$store.state.user.favoriteLocations = this.favoriteLocations;
       } else {
         this.$store.state.favoriteLocations = this.favoriteLocations;
@@ -147,8 +150,8 @@ export default {
      * @return {string | CHANNEL_EVENTS.access_token}
      */
     getUserAccessToken() {
-      const userAccessToken = this.supabase.auth.session()?.access_token;
-      return (this.userAccessToken = userAccessToken);
+      this.userAccessToken = this.supabase.auth.session()?.access_token;
+      return this.userAccessToken;
     },
     /***
      * Add current location to favorite
@@ -164,20 +167,17 @@ export default {
       this.locationIsFavorite = this.favoriteLocations.some(
         (location) => location.locations.id === this.locationToAdd.locations.id
       );
-      await this.getUserAccessToken();
-      // Get the JSON object for the logged in user.
-      const user = await this.supabase.auth.api.getUser(this.userAccessToken);
       // Add user id to favorite locations if user is logged in
-      if (user.user) this.locationToAdd.userID = user.user.id;
+      if (this.tempUserData) this.locationToAdd.userID = this.tempUserData.id;
       if (!this.locationIsFavorite) {
         // if not a favorite set the variable to true
         this.locationIsFavorite = true;
         // Add the new location to the favorite locations array
         this.favoriteLocations.push(this.locationToAdd);
         // Update local Store
-        this.updateLocalsStores(user);
+        this.updateLocalsStores(this.tempUserData);
         // Update supabase data
-        if (user.user) this.updateSupabaseData(user.user.id);
+        if (this.tempUserData) this.updateSupabaseData(this.tempUserData.id);
         // Show notification
         this.showNotification = true;
         this.notificationsMessages = [];
@@ -192,9 +192,9 @@ export default {
             location.locations.id !== this.locationToAdd.locations.id
         );
         // Update local Store
-        this.updateLocalsStores(user);
+        this.updateLocalsStores(this.tempUserData);
         // Update supabase data
-        if (user.user) this.updateSupabaseData(user.user.id);
+        if (this.tempUserData) this.updateSupabaseData(this.tempUserData.id);
         // Show notification
         this.showNotification = true;
         this.notificationsMessages = [];
@@ -241,16 +241,20 @@ export default {
     }
     this.supabase = SupabaseCli.methods.getSupabaseCli();
     await this.getUserAccessToken();
-    // Get the JSON object for the logged in user.
-    const user = await this.supabase.auth.api.getUser(this.userAccessToken);
     // If user is logged in, get their favorite locations list
-    if (user.user) {
-      // Get the user's favorite locations from the database
-      let { data: locationsDataFromDatabase, error } = await this.supabase
-        .from("user-favorite-locations")
-        .select("favorite_locations")
-        .eq("id", user.user.id);
+    if (this.userAccessToken) {
+      // Get the JSON object for the logged in user.
+      const { user, error } = await this.supabase.auth.api.getUser(
+        this.userAccessToken
+      );
       if (error) console.log(error);
+      // Get the user's favorite locations from the database
+      let { data: locationsDataFromDatabase, errorGetFavorite } =
+        await this.supabase
+          .from("user-favorite-locations")
+          .select("favorite_locations")
+          .eq("id", user.id);
+      if (errorGetFavorite) console.log(errorGetFavorite);
       // Convert to JSON object
       this.favoriteLocations = JSON.parse(
         locationsDataFromDatabase[0].favorite_locations
@@ -263,6 +267,7 @@ export default {
         "favorite-locations",
         JSON.stringify(this.favoriteLocations)
       );
+      this.tempUserData = user;
     } else {
       // Get data from the local store
       this.favoriteLocations = this.$store.state.favoriteLocations;
