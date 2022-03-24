@@ -1,20 +1,43 @@
 <template>
   <div class="main-weather-result">
     <div class="main-weather-result__wrap">
-      <div class="main-weather-result__image">
+      <transition
+        tag="div"
+        name="slide-up"
+        class="main-weather-result__image"
+        data-observer-el
+      >
         <img
+          v-show="elementIsIntercepted"
           :src="`/img/weather-status/icons/${directory}/${weatherData.current.weather[0].icon}.svg`"
           alt="current weather forecast"
         />
-      </div>
-      <div class="main-weather-result__text">
-        <p class="main-weather-result__temperature text-end">
+      </transition>
+      <transition-group
+        tag="div"
+        name="slide-up"
+        class="main-weather-result__text"
+        data-observer-el
+      >
+        <p
+          v-show="elementIsIntercepted"
+          class="main-weather-result__temperature text-end"
+          key="1"
+        >
           {{ temperature }}º
         </p>
-        <p class="main-weather-result__state text-s text-end">
+        <p
+          v-show="elementIsIntercepted"
+          class="main-weather-result__state text-s text-end"
+          key="2"
+        >
           {{ weatherData.current.weather[0].description }}
         </p>
-        <div class="main-weather-result__state-info">
+        <div
+          v-show="elementIsIntercepted"
+          class="main-weather-result__state-info"
+          key="3"
+        >
           <p class="text-xs">
             <i class="icon__temp-min"></i>{{ weatherData.daily[0].temp.min }}
           </p>
@@ -22,7 +45,7 @@
             <i class="icon__temp-max"></i>{{ weatherData.daily[0].temp.max }}
           </p>
         </div>
-      </div>
+      </transition-group>
       <weather-alert />
     </div>
   </div>
@@ -32,8 +55,12 @@
 // components
 import WeatherAlerts from "@/components/_weatherAlerts.vue";
 
+// mixins
+import { observerElement } from "@/mixins/mixins";
+
 export default {
   name: "WeatherMainResult",
+  mixins: [observerElement],
   components: {
     weatherAlert: WeatherAlerts,
   },
@@ -41,6 +68,7 @@ export default {
     return {
       weatherData: this.$store.state.locationData[0],
       temperature: 0,
+      elementIsIntercepted: false,
     };
   },
   computed: {

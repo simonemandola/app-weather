@@ -48,17 +48,12 @@ export const toggleMode = {
       document.body.classList.remove("light-mode");
     }
   },
-}
+};
 
 /***
  * Observer Element
  */
 export const observerElement = {
-  data() {
-    return {
-      elementIsIntercepted: false,
-    }
-  },
   mounted() {
     if (document.querySelector("[data-observer-el]")) {
       // Observer
@@ -71,8 +66,9 @@ export const observerElement = {
       });
       const elements = document.querySelectorAll("[data-observer-el]");
       elements.forEach((el) => {
+        console.log(el);
         observer.observe(el);
       });
     }
-  }
-}
+  },
+};

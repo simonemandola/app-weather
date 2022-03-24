@@ -1,7 +1,13 @@
 <template>
   <div class="weather-by-hour">
-    <h2 class="subtitle-xs weather-by-hour__title">Previsión 48 horas</h2>
-
+    <transition name="fade-in" data-observer-el>
+      <h2
+        v-show="elementIsIntercepted"
+        class="subtitle-xs weather-by-hour__title"
+      >
+        Previsión 48 horas
+      </h2>
+    </transition>
     <transition-group
       class="weather-by-hour__items-wrap"
       tag="ul"
