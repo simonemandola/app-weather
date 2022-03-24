@@ -48,4 +48,27 @@ export const toggleMode = {
       document.body.classList.remove("light-mode");
     }
   },
-}
+};
+
+/***
+ * Observer Element
+ */
+export const observerElement = {
+  mounted() {
+    if (document.querySelector("[data-observer-el]")) {
+      // Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio > 0) {
+            this.elementIsIntercepted = true;
+          }
+        });
+      });
+      const elements = document.querySelectorAll("[data-observer-el]");
+      elements.forEach((el) => {
+        console.log(el);
+        observer.observe(el);
+      });
+    }
+  },
+};

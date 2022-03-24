@@ -7,9 +7,15 @@
       'dark-mode-bg-top-bar': isNight && addBgColor,
     }"
   >
-    <h1 class="title-xxs text-center" :class="{ 'text-white': isNight }">
-      {{ locationName }}, <span>{{ country }}</span>
-    </h1>
+    <transition name="slide-down" data-observer-el>
+      <h1
+        v-show="elementIsIntercepted"
+        class="title-xxs text-center"
+        :class="{ 'text-white': isNight }"
+      >
+        {{ locationName }}, <span>{{ country }}</span>
+      </h1>
+    </transition>
     <button @click.prevent="toTheTop" v-if="addMinHeight">
       <i class="icon__return" :class="{ 'text-white': isNight }"></i>
     </button>
@@ -17,8 +23,12 @@
 </template>
 
 <script>
+// mixins
+import { observerElement } from "@/mixins/mixins";
+
 export default {
   name: "LocationTopBar",
+  mixins: [observerElement],
   data() {
     return {
       locationName: this.$store.state.locationData[0].name,
@@ -27,6 +37,7 @@ export default {
       addBgColor: false,
       addMinHeight: false,
       isNight: this.$store.state.isNight,
+      elementIsIntercepted: false,
     };
   },
   methods: {

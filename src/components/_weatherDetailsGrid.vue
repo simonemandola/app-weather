@@ -1,8 +1,8 @@
 <template>
   <div class="weather-details-grid">
-    <h2 class="subtitle-xs weather-seven-days__title fade-up">Más detalles</h2>
+    <h2 class="subtitle-xs weather-seven-days__title">Más detalles</h2>
     <div
-      class="weather-details-grid__sun fade-up"
+      class="weather-details-grid__sun"
       :class="{ 'dark-mode-card-bg-color': isNight }"
       :style="sunSectionHeight"
     >
@@ -22,7 +22,7 @@
         <p class="text-xxs text-center">{{ sunsetHour }}:{{ sunsetMinutes }}</p>
       </div>
     </div>
-    <div class="weather-details-grid__row fade-up delay-2">
+    <div class="weather-details-grid__row">
       <div
         class="weather-details-grid__row-item"
         :class="{ 'dark-mode-card-bg-color': isNight }"
@@ -40,7 +40,7 @@
         <p class="text-m text-center">{{ pressure }}hPa</p>
       </div>
     </div>
-    <div class="weather-details-grid__row fade-up delay-4">
+    <div class="weather-details-grid__row">
       <div
         class="weather-details-grid__row-item"
         :class="{ 'dark-mode-card-bg-color': isNight }"
@@ -58,7 +58,7 @@
         <p class="text-m text-center">{{ cloudiness }}%</p>
       </div>
     </div>
-    <div class="weather-details-grid__row fade-up delay-6">
+    <div class="weather-details-grid__row">
       <div
         class="weather-details-grid__row-item"
         :class="{ 'dark-mode-card-bg-color': isNight }"

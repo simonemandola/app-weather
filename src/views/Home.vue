@@ -2,21 +2,21 @@
   <main>
     <main-background />
     <location-top-bar />
-    <div class="favorite-bar">
-      <div class="favorite-bar__wrap">
+    <transition tag="div" name="slide-up" class="favorite-bar" data-observer-el>
+      <div v-show="elementIsIntercepted" class="favorite-bar__wrap">
         <p class="text-xs text-bold">Feliz día.</p>
         <button @click.prevent="addToFavorite">
           <i :class="locationIsFavorite ? icon.checked : icon.unchecked"></i>
         </button>
       </div>
-    </div>
+    </transition>
     <main-results />
     <weather-by-hour />
-    <air-pollution class="fade-up" />
-    <compass-rose class="fade-up" />
-    <w-table-hour class="fade-up" />
-    <v-apexchart class="fade-up" />
-    <map-location class="fade-up" />
+    <air-pollution />
+    <compass-rose />
+    <w-table-hour />
+    <v-apexchart />
+    <map-location />
     <weather-seven-days />
     <w-details-grid
       :sunrise="sunrise"
@@ -36,7 +36,6 @@
       @hide-notification="showNotification = $event"
     />
     <bottom-menu />
-    <animations />
   </main>
 </template>
 
@@ -57,10 +56,9 @@ import NotificationMessage from "@/components/_notificationMessage.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // mixins
-import { toggleMode } from "@/mixins/mixins";
+import { toggleMode, observerElement } from "@/mixins/mixins";
 
 // component mixins
-import Animations from "@/components-mixins/_animations.vue";
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
 
 // graph
@@ -68,9 +66,8 @@ import Graph from "@/components/_graph.vue";
 
 export default {
   name: "Home",
-  mixins: [toggleMode],
+  mixins: [toggleMode, observerElement],
   components: {
-    animations: Animations,
     locationTopBar: LocationTopBar,
     mainResults: WeatherMainResult,
     mainBackground: MainBackground,
@@ -113,6 +110,7 @@ export default {
       uvi: 0,
       visibility: 0,
       tempUserData: {},
+      elementIsIntercepted: false,
     };
   },
   methods: {
