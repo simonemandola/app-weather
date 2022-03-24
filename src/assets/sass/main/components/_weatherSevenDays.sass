@@ -6,6 +6,9 @@
   &__title
     margin-bottom: $padding__xxs
 
+  &__items-wrap
+    @include flex(flex-start,center,column)
+
   &__wrap
     width: 100%
     display: grid
@@ -17,7 +20,7 @@
   &__wrap
     border-bottom: none
 
-    &:nth-child(2)
+    &:first-child
       background-color: transparentize($color__white, .4)
 
   &__wrap:last-child

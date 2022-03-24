@@ -49,3 +49,30 @@ export const toggleMode = {
     }
   },
 }
+
+/***
+ * Observer Element
+ */
+export const observerElement = {
+  data() {
+    return {
+      elementIsIntercepted: false,
+    }
+  },
+  mounted() {
+    if (document.querySelector("[data-observer-el]")) {
+      // Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio > 0) {
+            this.elementIsIntercepted = true;
+          }
+        });
+      });
+      const elements = document.querySelectorAll("[data-observer-el]");
+      elements.forEach((el) => {
+        observer.observe(el);
+      });
+    }
+  }
+}
