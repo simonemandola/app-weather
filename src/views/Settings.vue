@@ -2,7 +2,7 @@
   <main>
     <background />
     <return :title="title" />
-    <nav class="settings container">
+    <nav class="settings">
       <ul>
         <li class="settings__row">
           <span class="settings__item-title text-white">{{ units }}</span>
@@ -24,18 +24,23 @@
           </form>
         </li>
         <li class="settings__row">
-          <span class="settings__item-title text-white">Cambiar modo</span>
+          <span class="settings__item-title text-white">Modo</span>
           <form class="settings__options">
-            <label class="settings__wrap-option">
+            <label ref="icon-mode" class="settings__wrap-option">
               <input
                 class="settings__mode-toggle"
                 type="checkbox"
-                :checked="checked"
-                @change="toggleMode($event.target.checked)"
+                @change="toggleMode()"
               />
-              <span class="settings__option-label text-white"
-              ><i :class="$store.state.isDarkMode ? 'icon__sun-fill' : 'icon__moon-fill'"></i></span
-              >
+              <span class="settings__option-label icon-toggle-mode text-white"
+                ><i
+                  :class="
+                    $store.state.isDarkMode
+                      ? 'icon__sun-fill'
+                      : 'icon__moon-fill'
+                  "
+                ></i
+              ></span>
             </label>
           </form>
         </li>
@@ -53,7 +58,10 @@
           </button>
         </li>
         <li class="settings__row" v-else>
-          <button class="text-white settings__item-title" @click.prevent="showUserModal">
+          <button
+            class="text-white settings__item-title"
+            @click.prevent="showUserModal"
+          >
             Acceder
           </button>
         </li>
@@ -108,6 +116,7 @@ export default {
       userIsLogged: false,
       showForm: false,
       myLocalStorage: window.localStorage,
+      iconMode: "",
       linkGit: "https://github.com/simonemandola/app-weather",
     };
   },
@@ -120,6 +129,11 @@ export default {
     //   console.log(weatherData);
     // },
     toggleMode() {
+      console.log(this.iconMode);
+      this.iconMode.classList.add("anim-toggle-mode");
+      setTimeout(() => {
+        this.iconMode.classList.remove("anim-toggle-mode");
+      }, 500);
       this.$store.state.isDarkMode = !this.$store.state.isDarkMode;
     },
     doSelect(checked) {
@@ -151,6 +165,7 @@ export default {
       ? (this.$store.state.user.isLogged = true)
       : (this.$store.state.user.isLogged = false);
     this.userIsLogged = this.$store.state.user.isLogged;
+    this.iconMode = this.$refs["icon-mode"];
   },
 };
 </script>

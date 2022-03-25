@@ -43,8 +43,8 @@
       height: auto
       overflow: hidden
       @include padding-inline-mobile
-      padding-top: $padding__xxxs
-      border-bottom: 1px solid $color__black
+      padding-top: $padding__xxs
+      border-bottom: 1px solid transparentize($color__black, .5)
 
     &-arc-line
       width: auto
@@ -57,16 +57,33 @@
 
       &::before
         content: ""
+        width: 112%
+        height: 1rem
+        background-image: url("../img/sun-small.png")
+        position: absolute
+        top: 50%
+        left: -6%
+        transform-origin: 50% 0
+        transform: var(--degrees)
+        background-size: contain
+        background-repeat: no-repeat
+        background-position-x: left
+        filter: drop-shadow(0 0 .35rem transparentize($color__main-orange, .2))
+
+      &::after
+        content: ""
         width: 110%
         height: 1rem
-        background-color: $color__yellow
-        filter: brightness(80%)
+        background-image: url("../img/moon-small.png")
         position: absolute
         top: 50%
         left: -5%
         transform-origin: 50% 0
         transform: var(--degrees)
-        clip-path: circle(5% at 4% 50%)
+        background-size: contain
+        background-repeat: no-repeat
+        background-position-x: right
+        filter: drop-shadow(0 0 .35rem transparentize($color__white, .2))
 
   &__row
     display: grid

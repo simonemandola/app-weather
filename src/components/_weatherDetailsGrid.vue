@@ -13,7 +13,11 @@
           {{ sunriseHour }}:{{ sunriseMinutes }}
         </p>
       </div>
-      <div class="weather-details-grid__sun-arc-cont" ref="sun-arc-cont">
+      <div
+        class="weather-details-grid__sun-arc-cont"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
+        ref="sun-arc-cont"
+      >
         <div
           class="weather-details-grid__sun-arc-line"
           :style="`--degrees: ${sunDegreesRotation}`"
