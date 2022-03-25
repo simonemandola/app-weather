@@ -19,7 +19,7 @@
         v-for="(hour, i) in weatherByHour"
         :key="i"
         class="weather-by-hour__item"
-        :class="{ 'dark-mode-card-bg-color': isNight }"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
         :style="{ 'transition-delay': i * 2 + '00ms' }"
       >
         <p class="text-xxs">{{ hour.dt }}</p>
@@ -45,13 +45,13 @@ export default {
     return {
       weatherByHour: [],
       timeZoneOffset: 0,
-      isNight: this.$store.state.isNight,
+      isDarkMode: this.$store.state.isDarkMode,
       elementIsIntercepted: false,
     };
   },
   computed: {
     directory() {
-      return this.isNight ? "light" : "dark";
+      return this.isDarkMode ? "light" : "dark";
     },
   },
   mounted() {

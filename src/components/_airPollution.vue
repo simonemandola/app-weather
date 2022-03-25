@@ -2,7 +2,7 @@
   <transition name="slide-up" data-observer-el>
     <div class="air-pollution" v-show="elementIsIntercepted">
       <h2 class="subtitle-xs air-pollution__title">Calidad del aire</h2>
-      <div class="air-pollution__wrap" :class="{ 'dark-mode-card-bg-color': isNight }">
+      <div class="air-pollution__wrap" :class="{ 'dark-mode-card-bg-color': isDarkMode }">
         <div class="air-pollution__bg">
           <div class="air-pollution__color"></div>
           <div class="air-pollution__point" :style="positionPoint"></div>
@@ -44,7 +44,7 @@ export default {
         "Poco saludable",
         "Muy poco saludable",
       ],
-      isNight: this.$store.state.isNight,
+      isDarkMode: this.$store.state.isDarkMode,
     };
   },
   methods: {

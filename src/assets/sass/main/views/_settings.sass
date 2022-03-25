@@ -1,5 +1,10 @@
 .settings
   padding-top: $return__height * 2
+  position: fixed
+  left: 0
+  right: 0
+  top: 0
+  @include padding-inline-mobile
 
   &__row
     width: 100%
@@ -18,6 +23,7 @@
 
       & > p
         margin: 0
+        opacity: .4
 
       & > a > i
         width: 100%
@@ -41,6 +47,12 @@
     padding:
       left: $padding__xxxs
       right: $padding__xxxs
+
+    &.icon-toggle-mode
+      width: 100%
+      height: 100%
+      @include flex(center, center, row)
+      transition: $transition-bezier
 
 .toggle
   height: 1.2rem
@@ -194,3 +206,17 @@
   animation-name: fadeUp
   animation-duration: 400ms
   animation-timing-function: $transition-bezier
+
+@keyframes animToggleMode
+  from
+    opacity: 1
+    transform: rotateZ(0deg)
+  to
+    opacity: .4
+    transform: rotateZ(360deg)
+
+.anim-toggle-mode
+  animation-name: animToggleMode
+  animation-duration: .4s
+  animation-timing-function: $transition-bezier
+  animation-fill-mode: backwards

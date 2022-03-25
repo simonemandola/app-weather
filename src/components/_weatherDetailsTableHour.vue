@@ -5,30 +5,30 @@
     </h2>
     <div
       class="weather-details-hour__head-table"
-      :class="{ 'dark-mode-card-bg-color': isNight }"
+      :class="{ 'dark-mode-card-bg-color': isDarkMode }"
     >
-      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+      <span class="text-xs text-grey" :class="{ 'text-white': isDarkMode }"
         >Hora</span
       >
-      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+      <span class="text-xs text-grey" :class="{ 'text-white': isDarkMode }"
         >Temp.</span
       >
-      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+      <span class="text-xs text-grey" :class="{ 'text-white': isDarkMode }"
         >UV</span
       >
-      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+      <span class="text-xs text-grey" :class="{ 'text-white': isDarkMode }"
         >Hum.</span
       >
-      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+      <span class="text-xs text-grey" :class="{ 'text-white': isDarkMode }"
         ><span>Vel.</span><span>Viento</span></span
       >
-      <span class="text-xs text-grey" :class="{ 'text-white': isNight }"
+      <span class="text-xs text-grey" :class="{ 'text-white': isDarkMode }"
         ><span>Dir.</span><span>Viento</span></span
       >
     </div>
     <div
       class="weather-details-hour__wrap"
-      :class="{ 'dark-mode-card-bg-color': isNight }"
+      :class="{ 'dark-mode-card-bg-color': isDarkMode }"
     >
       <div class="weather-details-hour__table">
         <ul>
@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       wheatherDataHourly: this.$store.state.locationData[0].hourly,
-      isNight: this.$store.state.isNight,
+      isDarkMode: this.$store.state.isDarkMode,
     };
   },
   mounted() {

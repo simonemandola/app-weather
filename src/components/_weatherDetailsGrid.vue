@@ -3,7 +3,7 @@
     <h2 class="subtitle-xs weather-seven-days__title">Más detalles</h2>
     <div
       class="weather-details-grid__sun"
-      :class="{ 'dark-mode-card-bg-color': isNight }"
+      :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       :style="sunSectionHeight"
     >
       <div class="weather-details-grid__sun-icon">
@@ -13,8 +13,15 @@
           {{ sunriseHour }}:{{ sunriseMinutes }}
         </p>
       </div>
-      <div class="weather-details-grid__sun-arc-cont" ref="sun-arc-cont">
-        <div class="weather-details-grid__sun-arc-line"></div>
+      <div
+        class="weather-details-grid__sun-arc-cont"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
+        ref="sun-arc-cont"
+      >
+        <div
+          class="weather-details-grid__sun-arc-line"
+          :style="`--degrees: ${sunDegreesRotation}`"
+        ></div>
       </div>
       <div class="weather-details-grid__sun-icon">
         <h3 class="text-xxs sunset-text">Puesta de sol</h3>
@@ -25,7 +32,7 @@
     <div class="weather-details-grid__row">
       <div
         class="weather-details-grid__row-item"
-        :class="{ 'dark-mode-card-bg-color': isNight }"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       >
         <h3 class="text-xxs">Percepción humana</h3>
         <i class="icon__thermometer"></i>
@@ -33,7 +40,7 @@
       </div>
       <div
         class="weather-details-grid__row-item"
-        :class="{ 'dark-mode-card-bg-color': isNight }"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       >
         <h3 class="text-xxs">Presión</h3>
         <i class="icon__pressure"></i>
@@ -43,7 +50,7 @@
     <div class="weather-details-grid__row">
       <div
         class="weather-details-grid__row-item"
-        :class="{ 'dark-mode-card-bg-color': isNight }"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       >
         <h3 class="text-xxs">Humiditad</h3>
         <i class="icon__humidity"></i>
@@ -51,7 +58,7 @@
       </div>
       <div
         class="weather-details-grid__row-item"
-        :class="{ 'dark-mode-card-bg-color': isNight }"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       >
         <h3 class="text-xxs">Nubes</h3>
         <i class="icon__cloudiness size-icon-cloud"></i>
@@ -61,7 +68,7 @@
     <div class="weather-details-grid__row">
       <div
         class="weather-details-grid__row-item"
-        :class="{ 'dark-mode-card-bg-color': isNight }"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       >
         <h3 class="text-xxs">Uvi</h3>
         <i class="icon__sun"></i>
@@ -69,7 +76,7 @@
       </div>
       <div
         class="weather-details-grid__row-item"
-        :class="{ 'dark-mode-card-bg-color': isNight }"
+        :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       >
         <h3 class="text-xxs">Visibilidad</h3>
         <i class="icon__visibility size-icon-visibility"></i>
@@ -97,10 +104,25 @@ export default {
   data() {
     return {
       sunArcContainer: 0,
-      isNight: this.$store.state.isNight,
+      isDarkMode: this.$store.state.isDarkMode,
     };
   },
   computed: {
+    sunDegreesRotation() {
+      const secondsSun = this.getSunsetToSeconds - this.getSunriseToSeconds;
+      const secondsBetweenSunriseAndCurrentHour =
+        new Date(this.$store.state.locationData[0].current.dt).getTime() -
+        this.getSunriseToSeconds;
+      return `rotateZ(${
+        (180 * secondsBetweenSunriseAndCurrentHour) / secondsSun
+      }deg)`;
+    },
+    getSunriseToSeconds() {
+      return new Date(this.sunrise).getTime().toFixed(0);
+    },
+    getSunsetToSeconds() {
+      return new Date(this.sunset).getTime().toFixed(0);
+    },
     sunriseHour() {
       return addZeroToNumberIfSmallerThenTen(
         new Date(this.sunrise * 1000).getHours()

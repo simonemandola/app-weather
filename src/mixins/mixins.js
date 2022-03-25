@@ -40,7 +40,7 @@ export const areEqual = (valueA, valueB) => {
 
 export const toggleMode = {
   created() {
-    if (this.$store.state.isNight) {
+    if (this.$store.state.isDarkMode) {
       document.body.classList.remove("dark-mode");
       document.body.classList.add("light-mode");
     } else {

@@ -4,14 +4,17 @@
       <li v-for="(item, key, i) in menu" :key="i">
         <router-link :to="{ name: item.link, query: { active: key } }">
           <i
-            :class="
-              item.isActive ? [item.iconActive, 'text-light-blue'] : item.icon
-            "
+            :class="[
+              item.isActive
+                ? [item.iconActive, textColorActiveView]
+                : item.icon,
+              { 'text-white': this.$store.state.isDarkMode },
+            ]"
           ></i>
           <div>
             <span
               class="text-xs"
-              :class="{ 'text-light-blue': item.isActive }"
+              :class="item.isActive ? textColorActiveView : ''"
               v-show="item.isActive"
               >{{ item.text }}</span
             >
@@ -19,10 +22,13 @@
         </router-link>
       </li>
     </ul>
-    <div class="bottom-menu-fixed__inner-bg"></div>
+    <div
+      class="bottom-menu-fixed__inner-bg"
+      :class="{ 'dark-mode': this.$store.state.isDarkMode }"
+    ></div>
     <img
       class="bottom-menu-fixed__wave"
-      src="/img/wave-bottom-menu.svg"
+      :src="`/img/${wave}.svg`"
       alt="wave bottom menu"
     />
   </nav>
@@ -65,31 +71,33 @@ export default {
       },
     };
   },
+  computed: {
+    wave() {
+      return this.$store.state.isDarkMode
+        ? "wave-bottom-menu-dark"
+        : "wave-bottom-menu";
+    },
+    textColorActiveView() {
+      return this.$store.state.isDarkMode ? "text-white" : "text-light-blue";
+    },
+  },
   mounted() {
     if (this.$route.query.active !== undefined) {
+      this.menu.home.isActive = false;
+      this.menu.settings.isActive = false;
+      this.menu.search.isActive = false;
+      this.menu.favorite.isActive = false;
       switch (this.$route.query.active) {
         case this.menu.home.link.toLowerCase():
           this.menu.home.isActive = true;
-          this.menu.settings.isActive = false;
-          this.menu.search.isActive = false;
-          this.menu.favorite.isActive = false;
           break;
         case this.menu.settings.link.toLowerCase():
-          this.menu.home.isActive = false;
           this.menu.settings.isActive = true;
-          this.menu.search.isActive = false;
-          this.menu.favorite.isActive = false;
           break;
         case this.menu.search.link.toLowerCase():
-          this.menu.home.isActive = false;
-          this.menu.settings.isActive = false;
           this.menu.search.isActive = true;
-          this.menu.favorite.isActive = false;
           break;
         case this.menu.favorite.link.toLowerCase():
-          this.menu.home.isActive = false;
-          this.menu.settings.isActive = false;
-          this.menu.search.isActive = false;
           this.menu.favorite.isActive = true;
           break;
       }

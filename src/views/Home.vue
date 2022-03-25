@@ -125,8 +125,6 @@ export default {
      * @param user <Object> all user data
      */
     updateLocalsStores(user) {
-      console.log("==================");
-      console.log(user);
       // Update the list of favorite locations in the store
       if (user) {
         this.$store.state.user.favoriteLocations = this.favoriteLocations;
