@@ -40,7 +40,7 @@ import Loading from "@/components/_loading.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // mixins
-import { isNight, toggleMode } from "@/mixins/mixins";
+import { toggleMode } from "@/mixins/mixins";
 
 // API Geocoding Mapbox, constants
 const API_URL = process.env.VUE_APP_URL_API_GEOCODING_MAPBOX;
@@ -101,7 +101,6 @@ export default {
       }
       if (this.$refs["icon-mic"].classList.contains("recording-anim")) {
         this.$refs["icon-mic"].classList.remove("recording-anim");
-        rec.abort();
         rec.stop();
       } else {
         this.$refs["icon-mic"].classList.add("recording-anim");
@@ -112,7 +111,7 @@ export default {
         rec.start();
         setTimeout(() => {
           this.$refs["icon-mic"].classList.remove("recording-anim");
-          rec.abort();
+          rec.stop();
         }, 8000);
       }
     },
@@ -168,12 +167,6 @@ export default {
         console.warn(error);
       }
     },
-    isNightCurrentDate() {
-      return isNight(
-        this.weatherData.current.dt,
-        this.weatherData.current.sunset
-      );
-    },
     setNewData(city) {
       this.$store.state.locationData[0].name = city.text;
       this.$store.state.locationData[0].country =
@@ -189,8 +182,6 @@ export default {
       this.$store.state.locationData[0].alerts = this.weatherData.alerts;
       this.$store.state.locationData[0].timeZoneOffset =
         this.weatherData.timezone_offset;
-      // Check if is night or day
-      this.$store.state.isNight = this.isNightCurrentDate();
     },
     async showResult(citySelected) {
       this.suggestions = [];

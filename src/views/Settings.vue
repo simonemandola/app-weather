@@ -23,6 +23,22 @@
             </label>
           </form>
         </li>
+        <li class="settings__row">
+          <span class="settings__item-title text-white">Cambiar modo</span>
+          <form class="settings__options">
+            <label class="settings__wrap-option">
+              <input
+                class="settings__mode-toggle"
+                type="checkbox"
+                :checked="checked"
+                @change="toggleMode($event.target.checked)"
+              />
+              <span class="settings__option-label text-white"
+              ><i :class="$store.state.isDarkMode ? 'icon__sun-fill' : 'icon__moon-fill'"></i></span
+              >
+            </label>
+          </form>
+        </li>
         <li class="settings__row text-white" v-if="userIsLogged">
           <button class="settings__item-title" @click.prevent="showUserModal">
             Salir
@@ -103,6 +119,9 @@ export default {
     //   weatherData.current.temp = weatherData.current.temp * (9 / 5) + 32;
     //   console.log(weatherData);
     // },
+    toggleMode() {
+      this.$store.state.isDarkMode = !this.$store.state.isDarkMode;
+    },
     doSelect(checked) {
       switch (checked) {
         case true:

@@ -4,20 +4,20 @@
     :class="{
       'background-top-bar': addBgColor,
       'top-bar-min-height': addMinHeight,
-      'dark-mode-bg-top-bar': isNight && addBgColor,
+      'dark-mode-bg-top-bar': isDarkMode && addBgColor,
     }"
   >
     <transition name="slide-down" data-observer-el>
       <h1
         v-show="elementIsIntercepted"
         class="title-xxs text-center"
-        :class="{ 'text-white': isNight }"
+        :class="{ 'text-white': isDarkMode }"
       >
         {{ locationName }}, <span>{{ country }}</span>
       </h1>
     </transition>
     <button @click.prevent="toTheTop" v-if="addMinHeight">
-      <i class="icon__return" :class="{ 'text-white': isNight }"></i>
+      <i class="icon__return" :class="{ 'text-white': isDarkMode }"></i>
     </button>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
       myScrollY: 0,
       addBgColor: false,
       addMinHeight: false,
-      isNight: this.$store.state.isNight,
+      isDarkMode: this.$store.state.isDarkMode,
       elementIsIntercepted: false,
     };
   },

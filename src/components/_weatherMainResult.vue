@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     directory() {
-      return this.$store.state.isNight ? "light" : "dark";
+      return this.$store.state.isDarkMode ? "light" : "dark";
     },
   },
   mounted() {

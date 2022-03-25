@@ -90,7 +90,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.state.isNight
+    this.$store.state.isDarkMode
       ? (this.chartOptions.chart.foreColor = this.colorWhite)
       : (this.chartOptions.chart.foreColor = this.colorBlack);
     this.setGraphData();

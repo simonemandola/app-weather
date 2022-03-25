@@ -3,7 +3,7 @@
     <h2 class="subtitle-xs map__title">Mapa</h2>
     <div
       class="map__map"
-      :class="{ 'dark-mode-card-bg-color': isNight }"
+      :class="{ 'dark-mode-card-bg-color': isDarkMode }"
       ref="map"
     >
       <div class="marker" ref="marker">
@@ -32,15 +32,15 @@ export default {
         light: "mapbox://styles/mapbox/light-v10",
         dark: "mapbox://styles/mapbox/dark-v10",
       },
-      isNight: this.$store.state.isNight,
+      isDarkMode: this.$store.state.isDarkMode,
     };
   },
   computed: {
     iconColorMarker() {
-      return this.isNight ? "light" : "dark";
+      return this.isDarkMode ? "light" : "dark";
     },
     mapStyleColor() {
-      return this.isNight ? this.mapStyle.dark : this.mapStyle.light;
+      return this.isDarkMode ? this.mapStyle.dark : this.mapStyle.light;
     },
   },
   mounted() {

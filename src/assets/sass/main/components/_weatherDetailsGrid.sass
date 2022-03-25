@@ -65,7 +65,7 @@
         top: 50%
         left: -5%
         transform-origin: 50% 0
-        transform: rotateZ(10deg)
+        transform: var(--degrees)
         clip-path: circle(5% at 4% 50%)
 
   &__row
@@ -77,7 +77,7 @@
     &-item
       width: 100%
       height: auto
-      aspect-ratio: 1/1
+      aspect-ratio: 1/.8
       @include card-settings($padding__xxs, $padding__xxs)
       display: grid
       justify-items: center
