@@ -28,7 +28,6 @@
       :uvi="uvi"
       :visibility="visibility"
     />
-    <news />
     <notification
       :show-notification="showNotification"
       :notifications-messages="notificationsMessages"
@@ -51,7 +50,6 @@ import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
 import MapLocation from "@/components/_mapLocation.vue";
 import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 import WeatherDetailsGrid from "@/components/_weatherDetailsGrid";
-import News from "@/components/_news.vue";
 import NotificationMessage from "@/components/_notificationMessage.vue";
 import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
@@ -80,7 +78,6 @@ export default {
     wTableHour: WeatherTableHour,
     wDetailsGrid: WeatherDetailsGrid,
     mapLocation: MapLocation,
-    news: News,
     notification: NotificationMessage,
   },
   data() {

@@ -1,3 +1,13 @@
+@keyframes recordingAnim
+  0%
+    opacity: .8
+    color: $color__white
+  80%
+    opacity: 1
+    color: $color__red
+  100%
+    color: $color__red
+
 .search-form
   @include padding-inline-mobile
   padding-top: $padding__xl
@@ -8,7 +18,7 @@
     height: 3rem
     border-bottom: 1px solid $color__white
     display: grid
-    grid-template-columns: 10% 90%
+    grid-template-columns: 10% 80% 10%
     justify-content: left
     align-items: center
 
@@ -22,6 +32,16 @@
       &::placeholder
         color: $color__white
         text-transform: initial
+
+  &__icon-mic
+    position: relative
+
+    & > .icon__mic.recording-anim
+      animation-name: recordingAnim
+      animation-timing-function: linear
+      animation-iteration-count: infinite
+      animation-direction: alternate
+      animation-duration: .8s
 
   &__suggestions
     position: relative

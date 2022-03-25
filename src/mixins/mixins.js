@@ -66,9 +66,29 @@ export const observerElement = {
       });
       const elements = document.querySelectorAll("[data-observer-el]");
       elements.forEach((el) => {
-        console.log(el);
         observer.observe(el);
       });
     }
+  },
+};
+
+/***
+ * Search with voice
+ */
+
+export const searchLocationWithVoice = {
+  data() {
+    return {
+      city: {
+        selected: "",
+        value: "",
+      },
+      cityRecordered: "",
+    };
+  },
+  methods: {
+    searchWithVoice() {
+
+    },
   },
 };

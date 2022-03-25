@@ -11,6 +11,19 @@
       right: $padding__xxs
     border-bottom: 1px solid $color__grey
 
+    &.settings--about
+      display: grid
+      grid-template-columns: 1fr 3rem
+      justify-content: space-between
+
+      & > p
+        margin: 0
+
+      & > a > i
+        width: 100%
+        height: 100%
+        justify-content: flex-end
+
   &__item-title
     text-transform: capitalize
 

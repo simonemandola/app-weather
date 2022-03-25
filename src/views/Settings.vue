@@ -41,8 +41,11 @@
             Acceder
           </button>
         </li>
-        <li class="settings__row">
-          <p class="text-xxs version-text text-white text-end">Version 0.1</p>
+        <li class="settings__row settings--about">
+          <p class="text-white">Acerca de...</p>
+          <a :href="linkGit" target="_blank">
+            <i class="icon__github text-white"></i>
+          </a>
         </li>
       </ul>
     </nav>
@@ -89,6 +92,7 @@ export default {
       userIsLogged: false,
       showForm: false,
       myLocalStorage: window.localStorage,
+      linkGit: "https://github.com/simonemandola/app-weather",
     };
   },
   methods: {

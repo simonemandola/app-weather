@@ -6,6 +6,14 @@
       <label>
         <i class="icon__location"></i>
         <input type="search" :placeholder="placeholder" v-model="city.value" />
+        <button
+          v-if="speechRecSupported"
+          class="search-form__icon-mic"
+          type="button"
+          @click.prevent="activeSearchByVoice"
+        >
+          <i ref="icon-mic" class="icon__mic"></i>
+        </button>
       </label>
       <div class="search-form__suggestions" v-if="suggestions.length > 0">
         <ul>
@@ -77,9 +85,37 @@ export default {
       suggestions: [],
       showLoading: false,
       weatherData: [],
+      cityRecordered: "",
+      speechRecSupported: true,
     };
   },
   methods: {
+    activeSearchByVoice() {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const rec = new SpeechRecognition();
+      const that = this;
+      function recordingUserWord(e) {
+        this.cityRecordered = e.results[e.results.length - 1][0].transcript;
+        that.city.value = this.cityRecordered;
+      }
+      if (this.$refs["icon-mic"].classList.contains("recording-anim")) {
+        this.$refs["icon-mic"].classList.remove("recording-anim");
+        rec.abort();
+        rec.stop();
+      } else {
+        this.$refs["icon-mic"].classList.add("recording-anim");
+        rec.lang = "es-ES";
+        rec.continuous = true;
+        rec.interim = true;
+        rec.addEventListener("result", recordingUserWord);
+        rec.start();
+        setTimeout(() => {
+          this.$refs["icon-mic"].classList.remove("recording-anim");
+          rec.abort();
+        }, 8000);
+      }
+    },
     async getGeocoding() {
       this.suggestions = [];
       try {
@@ -167,6 +203,14 @@ export default {
       window.localStorage.removeItem("user-weather-data");
       this.$router.push({ name: "Home", query: { active: "home" } });
     },
+  },
+  mounted() {
+    if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+      console.log("SpeechRecognition is supported.");
+    } else {
+      console.log("SpeechRecognition not supported.");
+      this.speechRecSupported = false;
+    }
   },
   watch: {
     city: {
