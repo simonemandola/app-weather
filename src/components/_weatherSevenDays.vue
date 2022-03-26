@@ -24,7 +24,7 @@
         </p>
         <div class="weather-seven-days__image">
           <img
-            :src="`/img/weather-status/icons/${directory}/${day.weather[0].icon}.svg`"
+            :src="`/img/weather-status/icons/solid/${day.weather[0].icon}.png`"
             alt=""
           />
         </div>
@@ -46,11 +46,6 @@ export default {
       isDarkMode: this.$store.state.isDarkMode,
       elementIsIntercepted: false,
     };
-  },
-  computed: {
-    directory() {
-      return this.isDarkMode ? "light" : "dark";
-    },
   },
   mounted() {
     this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
