@@ -4,7 +4,7 @@
     <location-top-bar />
     <transition tag="div" name="slide-up" class="favorite-bar" data-observer-el>
       <div v-show="elementIsIntercepted" class="favorite-bar__wrap">
-        <p class="text-xs text-bold">Feliz día.</p>
+        <p class="text-xs text-bold">{{ todayDate }}</p>
         <button @click.prevent="addToFavorite">
           <i :class="locationIsFavorite ? icon.checked : icon.unchecked"></i>
         </button>
@@ -61,6 +61,7 @@ import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
 
 // graph
 import Graph from "@/components/_graph.vue";
+import { getCardFormatDateLong } from "../mixins/mixins";
 
 export default {
   name: "Home",
@@ -109,6 +110,11 @@ export default {
       tempUserData: {},
       elementIsIntercepted: false,
     };
+  },
+  computed: {
+    todayDate() {
+      return getCardFormatDateLong(new Date);
+    },
   },
   methods: {
     async updateSupabaseData(userID) {

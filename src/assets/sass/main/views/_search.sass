@@ -11,7 +11,10 @@
 .search-form
   @include padding-inline-mobile
   padding-top: $padding__xl
-  position: relative
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
 
   label
     width: 100%
@@ -21,6 +24,11 @@
     grid-template-columns: 10% 80% 10%
     justify-content: left
     align-items: center
+
+    i,
+    input,
+    button
+      height: 100%
 
     i
       color: $color__white
@@ -33,15 +41,12 @@
         color: $color__white
         text-transform: initial
 
-  &__icon-mic
-    position: relative
-
-    & > .icon__mic.recording-anim
-      animation-name: recordingAnim
-      animation-timing-function: linear
-      animation-iteration-count: infinite
-      animation-direction: alternate
-      animation-duration: .8s
+  &__icon-mic > .icon__mic.recording-anim
+    animation-name: recordingAnim
+    animation-timing-function: linear
+    animation-iteration-count: infinite
+    animation-direction: alternate
+    animation-duration: .8s
 
   &__suggestions
     position: relative

@@ -5,7 +5,7 @@
     <div class="favorite">
       <div class="favorite__no-results" v-if="favoriteLocations.length === 0">
         <div class="favorite__no-results-img">
-          <img src="/img/weather-status/icons/light/11d.svg" alt="" />
+          <img src="/img/thunderstorm.svg" alt="thunderstorm icon" />
         </div>
         <p class="text-s text-white text-center">¡Oops!</p>
         <p class="text-s text-white text-center">

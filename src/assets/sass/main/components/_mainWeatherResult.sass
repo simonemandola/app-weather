@@ -1,7 +1,7 @@
 .main-weather-result
   width: 100%
   @include padding-inline-mobile
-  min-height: 50vh
+  min-height: 30vh
   display: grid
   align-items: center
   margin-top: $padding__m
@@ -19,9 +19,9 @@
     width: 100%
     display: grid
     justify-items: center
-    align-self: end
+    align-self: start
     position: relative
-    padding-bottom: $padding__l
+    padding-top: $padding__s
 
   &__temperature
     width: 100%
@@ -58,8 +58,8 @@
   &__image
     width: 75%
     @include flex(center,center,row)
-    align-self: end
-    padding-bottom: $padding__xl
+    align-self: start
+    padding-top: $padding__s
 
   &__alert
     width: 100%
@@ -68,12 +68,16 @@
     align-self: end
 
     &-body
+      line-height: 1rem
       margin:
-        top: $padding__xxxs
+        top: $padding__xxs
         bottom: 0
 
       & > i
         font-size: .8rem
 
     &-source
-      margin: 0
+      font-style: italic
+      margin:
+        top: $padding__xxxs
+        bottom: 0

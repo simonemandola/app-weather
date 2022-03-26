@@ -87,8 +87,31 @@ export const searchLocationWithVoice = {
     };
   },
   methods: {
-    searchWithVoice() {
-
-    },
+    searchWithVoice() {},
   },
+};
+
+/**
+ *
+ * Function that returns a date according to the format of the application.
+ * @param {number | string} myDate  date to work with
+ * @param {string} language user's app language, ex: "es"
+ * @return {string} Ex-short: "Viernes 27 Enero"
+ */
+export const getCardFormatDateLong = (myDate, language = "es") => {
+  const date = new Date(myDate);
+  const weekDay = date
+    .toLocaleDateString(language, {
+      weekday: "long",
+    })
+    .replace(/^\w/, (c) => c.toUpperCase());
+  const day = date.toLocaleDateString(language, {
+    day: "numeric",
+  });
+  const month = date
+    .toLocaleDateString(language, {
+      month: "long",
+    })
+    .replace(/^\w/, (c) => c.toUpperCase());
+  return `${weekDay} ${day} ${month}`;
 };

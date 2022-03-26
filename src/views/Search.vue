@@ -87,6 +87,7 @@ export default {
       weatherData: [],
       cityRecordered: "",
       speechRecSupported: true,
+      timeoutSpeechRec: 8000,
     };
   },
   methods: {
@@ -112,7 +113,7 @@ export default {
         setTimeout(() => {
           this.$refs["icon-mic"].classList.remove("recording-anim");
           rec.stop();
-        }, 8000);
+        }, this.timeoutSpeechRec);
       }
     },
     async getGeocoding() {
@@ -160,7 +161,6 @@ export default {
         if (data.daily.length === 0) {
           throw new Error("No se encontró coincidencia de ciudad.");
         } else {
-          this.showLoading = false;
           this.weatherData = data;
         }
       } catch (error) {
