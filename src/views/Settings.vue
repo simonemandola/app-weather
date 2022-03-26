@@ -129,7 +129,6 @@ export default {
     //   console.log(weatherData);
     // },
     toggleMode() {
-      console.log(this.iconMode);
       this.iconMode.classList.add("anim-toggle-mode");
       setTimeout(() => {
         this.iconMode.classList.remove("anim-toggle-mode");

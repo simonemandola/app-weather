@@ -9,7 +9,7 @@
       >
         <img
           v-show="elementIsIntercepted"
-          :src="`/img/weather-status/icons/${directory}/${weatherData.current.weather[0].icon}.svg`"
+          :src="`/img/weather-status/icons/solid/${weatherData.current.weather[0].icon}.png`"
           alt="current weather forecast"
         />
       </transition>
@@ -70,11 +70,6 @@ export default {
       temperature: 0,
       elementIsIntercepted: false,
     };
-  },
-  computed: {
-    directory() {
-      return this.$store.state.isDarkMode ? "light" : "dark";
-    },
   },
   mounted() {
     let temp = this.$store.state.locationData[0].current.temp;

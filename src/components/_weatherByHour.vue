@@ -25,7 +25,7 @@
         <p class="text-xxs">{{ hour.dt }}</p>
         <div class="weather-by-hour__icon">
           <img
-            :src="`/img/weather-status/icons/${directory}/${hour.weather[0].icon}.svg`"
+            :src="`/img/weather-status/icons/solid/${hour.weather[0].icon}.png`"
             :alt="hour.weather[0].icon"
           />
         </div>
@@ -48,11 +48,6 @@ export default {
       isDarkMode: this.$store.state.isDarkMode,
       elementIsIntercepted: false,
     };
-  },
-  computed: {
-    directory() {
-      return this.isDarkMode ? "light" : "dark";
-    },
   },
   mounted() {
     this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
