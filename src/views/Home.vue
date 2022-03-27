@@ -216,7 +216,6 @@ export default {
   },
   async mounted() {
     // Props data for grid weather details component
-    console.log(this.$store.state.locationData[0].timeZoneOffset);
     this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
     this.sunrise = this.$store.state.locationData[0].current.sunrise;
     this.sunset = this.$store.state.locationData[0].current.sunset;
