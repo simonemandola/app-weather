@@ -28,7 +28,6 @@
       </div>
       <loading :show-loading="showLoading" />
     </form>
-    <bottom-menu />
   </main>
 </template>
 
@@ -37,7 +36,6 @@
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Loading from "@/components/_loading.vue";
-import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // mixins
 import { toggleMode } from "@/mixins/mixins";
@@ -67,7 +65,6 @@ export default {
     return: Return,
     background: GradientBackground,
     loading: Loading,
-    bottomMenu: BottomMenuFixed,
   },
   data() {
     return {

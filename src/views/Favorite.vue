@@ -14,30 +14,43 @@
         <p class="text-s text-white text-center">
           Pulsa el icono <i class="icon__favorite"></i> para añadir.
         </p>
+        <router-link
+          class="favorite__no-results-link text-s text-center text-white"
+          :to="{ name: 'Search' }"
+          >Añadir ubicaciones</router-link
+        >
       </div>
-      <card
-        v-else
-        v-touch:swipe="toggleAllowToDelete(location.locations.id)"
-        v-for="(location, i) in favoriteLocations"
-        :key="i"
-        :location-name="location.locations.name"
-        :weather-description="location.locations.current.weather[0].description"
-        :temperature="location.locations.current.temp"
-        :wind-speed="location.locations.current.wind_speed"
-        :humidity="location.locations.current.humidity"
-        :icon-weather="location.locations.current.weather[0].icon"
-        :class="{
-          'allow-delete-favorite':
-            sets.has(location.locations.id) || (shakeCard && i === 0),
-        }"
-        :enable-delete="true"
-        @delete-from-favorite="
-          deleteLocationFromFavorite(location.locations.id)
-        "
-      />
+      <div v-else>
+        <card
+          v-touch:swipe="toggleAllowToDelete(location.locations.id)"
+          v-for="(location, i) in favoriteLocations"
+          :key="i"
+          :location-name="location.locations.name"
+          :country="location.locations.country"
+          :weather-description="
+            location.locations.current.weather[0].description
+          "
+          :temperature="location.locations.current.temp"
+          :wind-speed="location.locations.current.wind_speed"
+          :humidity="location.locations.current.humidity"
+          :icon-weather="location.locations.current.weather[0].icon"
+          :class="{
+            'allow-delete-favorite':
+              sets.has(location.locations.id) || (shakeCard && i === 0),
+          }"
+          :enable-delete="true"
+          @delete-from-favorite="
+            deleteLocationFromFavorite(location.locations.id)
+          "
+        />
+        <router-link
+          class="favorite__link text-s text-center text-white"
+          :to="{ name: 'Search' }"
+          >Añadir más ubicaciones
+        </router-link>
+      </div>
     </div>
     <loading :show-loading="showLoading" />
-    <bottom-menu />
   </main>
 </template>
 
@@ -47,7 +60,6 @@ import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Card from "@/components/_card.vue";
 import Loading from "@/components/_loading.vue";
-import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // component mixins
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
@@ -59,7 +71,6 @@ export default {
     background: GradientBackground,
     card: Card,
     loading: Loading,
-    bottomMenu: BottomMenuFixed,
   },
   data() {
     return {

@@ -34,7 +34,6 @@
       :icon-type="iconType"
       @hide-notification="showNotification = $event"
     />
-    <bottom-menu />
   </main>
 </template>
 
@@ -51,7 +50,6 @@ import MapLocation from "@/components/_mapLocation.vue";
 import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 import WeatherDetailsGrid from "@/components/_weatherDetailsGrid";
 import NotificationMessage from "@/components/_notificationMessage.vue";
-import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 // mixins
 import { toggleMode, observerElement } from "@/mixins/mixins";
@@ -73,7 +71,6 @@ export default {
     weatherByHour: WeatherByHour,
     airPollution: AirPollution,
     compassRose: CompassRose,
-    bottomMenu: BottomMenuFixed,
     weatherSevenDays: WeatherSevenDays,
     vApexchart: Graph,
     wTableHour: WeatherTableHour,

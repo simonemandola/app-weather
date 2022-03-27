@@ -81,8 +81,11 @@ export default {
       return this.$store.state.isDarkMode ? "text-white" : "text-light-blue";
     },
   },
-  mounted() {
-    if (this.$route.query.active !== undefined) {
+  created() {
+    this.menu.home.isActive = true;
+  },
+  watch: {
+    "$route.query.active"() {
       this.menu.home.isActive = false;
       this.menu.settings.isActive = false;
       this.menu.search.isActive = false;
@@ -101,7 +104,7 @@ export default {
           this.menu.favorite.isActive = true;
           break;
       }
-    }
+    },
   },
 };
 </script>

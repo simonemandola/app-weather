@@ -1,7 +1,18 @@
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="" mode="out-in">
-      <component :is="Component"></component>
-    </transition>
+    <component :is="Component"></component>
+    <bottom-menu v-if="$route.name !== 'Screensplash'" />
   </router-view>
 </template>
+
+<script>
+// components
+import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
+
+export default {
+  name: "APP",
+  components: {
+    bottomMenu: BottomMenuFixed,
+  },
+}
+</script>

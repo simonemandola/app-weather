@@ -1,10 +1,14 @@
 .card
   width: 100%
-  margin-top: $padding__s
+  min-height: 9rem
+  margin-top: $padding__xs
   display: grid
   grid-template-columns: 100% 5rem
   column-gap: $gap__m
   transition: $transition-bezier
+
+  &:first-child
+    margin-top: 0
 
   &__wrap
     @include card-settings($padding__xxs, $padding__xxs)
@@ -23,6 +27,10 @@
       top: 0
       bottom: $padding__xxxs
     line-height: 100%
+
+    & > span
+      text-transform: uppercase
+      font-size: 1.5rem
 
   &__data-cont
     display: grid

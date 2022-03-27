@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     newsArticles: [],
-    isDarkMode: false,
+    isDarkMode: true,
     previousData: {
       id: "",
     },

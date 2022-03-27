@@ -6,12 +6,15 @@
 
 .dark-mode-card-bg-color,
 .dark-mode-card-bg-color.weather-seven-days__wrap:last-child
-  background-color: transparentize($color__black, .65)
+  background-color: transparentize($color__black, .5)
   border-color: transparentize($color__black, .5)
 
   &.weather-by-hour__item:first-child,
   &.weather-seven-days__wrap:first-child
-    background-color: transparentize($color__black, .4)
+    background-color: transparentize($color__black, .2)
+    border-right-color: transparentize($color__black, .5)
+
+  &.weather-by-hour__item:last-child
     border-right-color: transparentize($color__black, .5)
 
   &.weather-details-grid__sun-arc-cont
@@ -19,4 +22,4 @@
     background-color: transparent
 
 .dark-mode-bg-top-bar
-  background-color: transparentize($color__black, .65)
+  background-color: transparentize($color__black, .5)

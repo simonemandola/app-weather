@@ -113,5 +113,5 @@ export const getCardFormatDateLong = (myDate, language = "es") => {
       month: "long",
     })
     .replace(/^\w/, (c) => c.toUpperCase());
-  return `${weekDay} ${day} ${month}`;
+  return `${weekDay} ${day} de ${month}`;
 };
