@@ -1,13 +1,13 @@
 <template>
-  <article class="loader" v-if="showLoading">
-    <div class="loader__img">
+  <article class="loading" v-if="showLoading">
+    <div class="loading__img">
       <img src="/img/loading-illustration.png" alt="loading">
     </div>
-    <div class="loader__points">
+    <div class="loading__points">
       <h1 class="title-xxs">Cargando</h1>
-      <div class="loader__point"></div>
-      <div class="loader__point"></div>
-      <div class="loader__point"></div>
+      <div class="loading__point"></div>
+      <div class="loading__point"></div>
+      <div class="loading__point"></div>
     </div>
   </article>
 </template>

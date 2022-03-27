@@ -33,6 +33,8 @@
       <div
         class="weather-details-grid__row-item"
         :class="{ 'dark-mode-card-bg-color': isDarkMode }"
+        ref="item-row"
+        :style="`--height-item-row: ${itemRowWidth}`"
       >
         <h3 class="text-xxs">Percepción humana</h3>
         <i class="icon__thermometer"></i>
@@ -51,6 +53,7 @@
       <div
         class="weather-details-grid__row-item"
         :class="{ 'dark-mode-card-bg-color': isDarkMode }"
+        :style="`--height-item-row: ${itemRowWidth}`"
       >
         <h3 class="text-xxs">Humiditad</h3>
         <i class="icon__humidity"></i>
@@ -69,6 +72,7 @@
       <div
         class="weather-details-grid__row-item"
         :class="{ 'dark-mode-card-bg-color': isDarkMode }"
+        :style="`--height-item-row: ${itemRowWidth}`"
       >
         <h3 class="text-xxs">Uvi</h3>
         <i class="icon__sun"></i>
@@ -104,6 +108,7 @@ export default {
   data() {
     return {
       sunArcContainer: 0,
+      itemRowWidth: 0,
       isDarkMode: this.$store.state.isDarkMode,
     };
   },
@@ -144,7 +149,7 @@ export default {
       );
     },
     sunSectionHeight() {
-      return `height: ${this.sunArcContainer / 2 + 40}px`;
+      return `height: ${this.sunArcContainer / 2 + 35}px`;
     },
     feelsLikeToFixed() {
       return this.feelsLike.toFixed(0);
@@ -158,6 +163,8 @@ export default {
   },
   mounted() {
     this.sunArcContainer = this.$refs["sun-arc-cont"].scrollHeight;
+    this.itemRowWidth = this.$refs["item-row"].scrollWidth + "px";
   },
 };
 </script>
+
