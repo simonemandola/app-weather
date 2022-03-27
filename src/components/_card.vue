@@ -16,11 +16,11 @@
           </div>
           <div class="card__wind-humidity">
             <div class="card__wind">
-              <i class="icon__wind"></i>
+              <i class="icon__wind text-black"></i>
               <p class="text-xxxs text-black">{{ windSpeed }}km/h</p>
             </div>
             <div class="card__humidity">
-              <i class="icon__humidity"></i>
+              <i class="icon__humidity text-black"></i>
               <p class="text-xxxs text-black">{{ humidity }}%</p>
             </div>
           </div>

@@ -96,6 +96,9 @@ export default {
       showNotification: false,
       notificationsMessages: [],
       iconType: "",
+      timeZoneOffset: 0,
+      isNegativeTimeZoneOffset: false,
+      defaultTimeOffset: 3600,
       sunrise: 0,
       sunset: 0,
       feelsLike: 0,
@@ -213,6 +216,8 @@ export default {
   },
   async mounted() {
     // Props data for grid weather details component
+    console.log(this.$store.state.locationData[0].timeZoneOffset);
+    this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
     this.sunrise = this.$store.state.locationData[0].current.sunrise;
     this.sunset = this.$store.state.locationData[0].current.sunset;
     this.feelsLike = this.$store.state.locationData[0].current.feels_like;
@@ -221,6 +226,22 @@ export default {
     this.cloudiness = this.$store.state.locationData[0].current.clouds;
     this.uvi = this.$store.state.locationData[0].current.uvi;
     this.visibility = this.$store.state.locationData[0].current.visibility;
+    if (Math.sign(this.timeZoneOffset) === -1) {
+      this.timeZoneOffset = Math.abs(this.timeZoneOffset);
+      this.timeZoneOffset = this.timeZoneOffset + this.defaultTimeOffset;
+      this.isNegativeTimeZoneOffset = true;
+    } else {
+      this.timeZoneOffset = this.timeZoneOffset - this.defaultTimeOffset * 2;
+    }
+    if (this.isNegativeTimeZoneOffset) {
+      this.sunrise = this.sunrise - this.timeZoneOffset;
+      this.sunset = this.sunset - this.timeZoneOffset;
+      this.$store.state.locationData[0].current.dt = this.$store.state.locationData[0].current.dt - this.timeZoneOffset;
+    } else {
+      this.sunrise = this.sunrise + this.timeZoneOffset;
+      this.sunset = this.sunset + this.timeZoneOffset;
+      this.$store.state.locationData[0].current.dt = this.$store.state.locationData[0].current.dt + this.timeZoneOffset;
+    }
     // Notification if user is logged in or logged out
     if (this.$route.query.isLogged !== undefined) {
       if (this.$route.query.isLogged === "1") {

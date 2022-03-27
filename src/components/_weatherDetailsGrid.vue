@@ -144,7 +144,7 @@ export default {
       );
     },
     sunSectionHeight() {
-      return `height: ${this.sunArcContainer / 2 + 40}px`;
+      return `height: ${this.sunArcContainer / 2 + 35}px`;
     },
     feelsLikeToFixed() {
       return this.feelsLike.toFixed(0);

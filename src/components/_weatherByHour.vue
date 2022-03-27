@@ -79,6 +79,7 @@ export default {
       hour.pop = hour.pop.toFixed(1) * 100;
     });
     this.weatherByHour[0].dt = "Ahora";
+    console.log(new Date(this.$store.state.locationData[0].current.dt * 1000));
   },
 };
 </script>
