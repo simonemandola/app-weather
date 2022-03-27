@@ -2,18 +2,25 @@
   height: 100%
   padding:
     top: $return__height * 2
-    bottom: $padding__xl
   @include padding-inline-mobile
   overflow-x: hidden
 
   & > article:first-child
     margin-top: 0
 
+  &__link
+    margin-top: $padding__m
+    text-decoration: underline
+
   &__no-results
 
     &-img
       width: 15%
       @include centerX
+
+    &-link
+      margin-top: $padding__xxs
+      text-decoration: underline
 
 .allow-delete-favorite
   transform: translateX(-16%)

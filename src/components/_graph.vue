@@ -30,17 +30,16 @@ export default {
       heightGraph: 256,
       series: [
         {
-          name: "Temperature",
           data: temperatureArray,
         },
       ],
       chartOptions: {
         chart: {
           offsetY: 0,
-          offsetX: -6,
+          offsetX: 0,
           type: "column",
           fontFamily: "Niramit, sans-serif",
-          foreColor: "#202020",
+          foreColor: this.colorBlack,
           zoom: {
             enabled: false,
           },
@@ -49,7 +48,17 @@ export default {
           },
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
+          offsetY: -5,
+          formatter: function (val) {
+            return val + "º";
+          },
+          style: {
+            colors: [this.colorBlack],
+          },
+          background: {
+            enabled: false,
+          },
         },
         stroke: {
           curve: "smooth",
@@ -58,7 +67,12 @@ export default {
           lineCap: "round",
         },
         fill: {
-          colors: ["#c76e26", "#6aa79f"],
+          colors: ["#f6f025", "#6aa79f"],
+        },
+        yaxis: {
+          labels: {
+            show: false,
+          },
         },
         xaxis: {
           type: "string",
@@ -77,10 +91,8 @@ export default {
   },
   methods: {
     setGraphData() {
-      if (hoursArray.length > 0 || temperatureArray.length > 0) {
-        hoursArray = [];
-        temperatureArray = [];
-      }
+      hoursArray.splice(0, 8);
+      temperatureArray.splice(0, 8);
       this.weatherData.hourly.filter((hour, i) => {
         if (i < this.limitHourToShow) {
           hoursArray.push(hour.dt);

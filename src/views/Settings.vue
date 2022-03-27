@@ -77,7 +77,6 @@
       @show-user-form="showForm = $event"
       :show-user-form="showForm"
     />
-    <bottom-menu />
   </main>
 </template>
 
@@ -86,7 +85,6 @@
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import SignInForm from "@/components/_signInForm.vue";
-import BottomMenuFixed from "@/components/_bottomMenuFixed.vue";
 
 export default {
   name: "Settings",
@@ -94,7 +92,6 @@ export default {
     return: Return,
     background: GradientBackground,
     signInModal: SignInForm,
-    bottomMenu: BottomMenuFixed,
   },
   data() {
     return {
