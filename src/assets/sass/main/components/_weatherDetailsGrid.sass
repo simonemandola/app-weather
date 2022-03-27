@@ -89,12 +89,11 @@
     display: grid
     grid-template-columns: 1fr 1fr
     column-gap: $gap__s
-    padding-top: $gap__s
+    margin-top: $gap__s
 
     &-item
       width: 100%
-      height: auto
-      aspect-ratio: 1/.8
+      height: var(--height-item-row)
       @include card-settings($padding__xxs, $padding__xxs)
       display: grid
       justify-items: center
