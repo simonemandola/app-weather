@@ -65,7 +65,7 @@
   100%
     opacity: 1
 
-.loader
+.loading
   width: 100%
   height: 100vh
   position: fixed
@@ -105,3 +105,37 @@
 
     &:nth-child(3)
       animation-delay: 300ms
+
+.wave-recording
+  position: fixed
+  top: 0
+  left: 0
+  opacity: .5
+  width: 100%
+  height: 100%
+  display: grid
+  place-content: center
+
+  &__wave
+    padding-top: 16rem
+    height: 5rem
+    width: 8rem
+    fill: $color__white
+
+@for $i from 1 through 9
+  #Line_#{$i}
+    animation: pulse 1s infinite
+    animation-delay: $i * .15s
+
+@keyframes pulse
+  0%
+    transform: scaleY(1)
+    transform-origin: 50% 50%
+
+  50%
+    transform: scaleY(.7)
+    transform-origin: 50% 50%
+
+  100%
+    transform: scaleY(1)
+    transform-origin: 50% 50%
