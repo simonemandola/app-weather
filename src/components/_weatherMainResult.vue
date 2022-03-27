@@ -11,6 +11,7 @@
           v-show="elementIsIntercepted"
           :src="`/img/weather-status/icons/solid/${weatherData.current.weather[0].icon}.png`"
           alt="current weather forecast"
+          draggable="false"
         />
       </transition>
       <transition-group

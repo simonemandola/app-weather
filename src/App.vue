@@ -1,7 +1,9 @@
 <template>
   <router-view v-slot="{ Component }">
-    <component :is="Component"></component>
-    <bottom-menu v-if="$route.name !== 'Screensplash'" />
+    <main>
+      <component :is="Component"></component>
+      <bottom-menu v-if="$route.name !== 'Screensplash'" />
+    </main>
   </router-view>
 </template>
 

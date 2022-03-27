@@ -25,7 +25,8 @@
         <div class="weather-seven-days__image">
           <img
             :src="`/img/weather-status/icons/solid/${day.weather[0].icon}.png`"
-            alt=""
+            :alt="`${day.weather[0].icon}`"
+            draggable="false"
           />
         </div>
       </li>

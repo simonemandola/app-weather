@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <section>
     <main-background />
     <location-top-bar />
     <transition tag="div" name="slide-up" class="favorite-bar" data-observer-el>
@@ -34,7 +34,7 @@
       :icon-type="iconType"
       @hide-notification="showNotification = $event"
     />
-  </main>
+  </section>
 </template>
 
 <script>
@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     todayDate() {
-      return getCardFormatDateLong(new Date);
+      return getCardFormatDateLong(new Date());
     },
   },
   methods: {
@@ -215,6 +215,9 @@ export default {
     }
   },
   async mounted() {
+    window.addEventListener("devicemotion", (e) => {
+      console.log(e);
+    });
     // Props data for grid weather details component
     this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
     this.sunrise = this.$store.state.locationData[0].current.sunrise;
@@ -235,11 +238,13 @@ export default {
     if (this.isNegativeTimeZoneOffset) {
       this.sunrise = this.sunrise - this.timeZoneOffset;
       this.sunset = this.sunset - this.timeZoneOffset;
-      this.$store.state.locationData[0].current.dt = this.$store.state.locationData[0].current.dt - this.timeZoneOffset;
+      this.$store.state.locationData[0].current.dt =
+        this.$store.state.locationData[0].current.dt - this.timeZoneOffset;
     } else {
       this.sunrise = this.sunrise + this.timeZoneOffset;
       this.sunset = this.sunset + this.timeZoneOffset;
-      this.$store.state.locationData[0].current.dt = this.$store.state.locationData[0].current.dt + this.timeZoneOffset;
+      this.$store.state.locationData[0].current.dt =
+        this.$store.state.locationData[0].current.dt + this.timeZoneOffset;
     }
     // Notification if user is logged in or logged out
     if (this.$route.query.isLogged !== undefined) {

@@ -27,6 +27,7 @@
           <img
             :src="`/img/weather-status/icons/solid/${hour.weather[0].icon}.png`"
             :alt="hour.weather[0].icon"
+            draggable="false"
           />
         </div>
         <p v-if="hour.pop > 20" class="text-xxs text-rain-blue">

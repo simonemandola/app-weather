@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="screensplash">
-      <img src="/img/weather-status/icons/dark/02d.svg" alt="icon app" />
-      <p class="text-center text-s text-bold">Weather APP</p>
+      <img src="/img/w-icon-small.png" alt="icon app" />
+      <p class="text-center text-s text-bold text-white">Weather APP</p>
     </div>
     <geolocation-error :show-geolocation-error="showGeolocationError" />
   </div>

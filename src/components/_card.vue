@@ -30,6 +30,7 @@
         <img
           :src="`/img/weather-status/icons/solid/${iconWeather}.png`"
           alt="weather"
+          draggable="false"
         />
       </div>
     </div>

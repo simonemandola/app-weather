@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <section>
     <background />
     <return :title="title" />
     <div class="favorite">
@@ -51,7 +51,7 @@
       </div>
     </div>
     <loading :show-loading="showLoading" />
-  </main>
+  </section>
 </template>
 
 <script>

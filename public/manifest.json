@@ -1,7 +1,7 @@
 {
   "name": "SM Weather APP",
   "short_name": "Weather",
-  "theme_color": "#1f5750",
+  "theme_color": "#202040",
   "icons": [
     {
       "src": "manifest-icon-192.png",
@@ -18,6 +18,6 @@
   ],
   "start_url": "..",
   "display": "fullscreen",
-  "background_color": "#1f5750",
+  "background_color": "#202040",
   "orientation": "portrait-primary"
 }

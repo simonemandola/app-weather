@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <section>
     <background />
     <return :title="title" />
     <nav class="settings">
@@ -77,7 +77,7 @@
       @show-user-form="showForm = $event"
       :show-user-form="showForm"
     />
-  </main>
+  </section>
 </template>
 
 <script>

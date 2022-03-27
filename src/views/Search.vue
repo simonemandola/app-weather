@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <section>
     <background />
     <return :title="title" />
     <form @submit.prevent class="search-form">
@@ -83,7 +83,7 @@
       </div>
       <loading :show-loading="showLoading" />
     </form>
-  </main>
+  </section>
 </template>
 
 <script>
