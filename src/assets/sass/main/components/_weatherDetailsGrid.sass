@@ -118,5 +118,16 @@
         margin: 0
 
 @media all and (max-width: $breakpoint-small)
-  .weather-details-grid__sun-icon > h3
-    margin-top: $padding__xxxs
+  .weather-details-grid
+    &__sun-icon > h3
+      margin-top: $padding__xxxs
+    &__sun-arc-line
+
+      &::before,
+      &::after
+        width: 120%
+        top: 40%
+        left: -10%
+
+      &::after
+        top: 45%

@@ -140,7 +140,7 @@ export default {
   },
   async mounted() {
     this.showLoading = true;
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     this.supabase = SupabaseCli.methods.getSupabaseCli();
     await this.getUserAccessToken();
     // If user is logged in get their favorite locations list

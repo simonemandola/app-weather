@@ -187,7 +187,7 @@ export default {
         const data = await res.json();
         // Si no se encontraron coincidencias, crea un nuevo error y muestra un mensaje en la consola
         if (data.features.length === 0) {
-          throw new Error("No se encontraron coincidencias.");
+          throw new Error("No city matches found.");
         } else {
           this.suggestions = data.features;
         }
@@ -196,8 +196,8 @@ export default {
       }
     },
     async getWeatherData(lat, lon) {
-      this.suggestions = [];
       this.showLoading = true;
+      this.suggestions = [];
       try {
         const res = await fetch(
           API_URL_OPW_ONE_CALL +
@@ -214,7 +214,7 @@ export default {
         const data = await res.json();
         // Si no se encontraron coincidencias, crea un nuevo error y muestra un mensaje en la consola
         if (data.daily.length === 0) {
-          throw new Error("No se encontró coincidencia de ciudad.");
+          throw new Error("No city match found.");
         } else {
           this.weatherData = data;
         }

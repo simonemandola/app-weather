@@ -94,6 +94,7 @@ export default {
       this.$store.state.locationData[0].alerts = this.weatherData.alerts;
       this.$store.state.locationData[0].timeZoneOffset =
         this.weatherData.timezone_offset;
+      this.$store.state.locationData[0].name = "Mi ubicación";
     },
     async showResult() {
       await this.getWeatherData(

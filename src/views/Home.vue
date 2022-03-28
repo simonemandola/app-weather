@@ -215,9 +215,6 @@ export default {
     }
   },
   async mounted() {
-    window.addEventListener("devicemotion", (e) => {
-      console.log(e);
-    });
     // Props data for grid weather details component
     this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
     this.sunrise = this.$store.state.locationData[0].current.sunrise;
