@@ -1,6 +1,6 @@
 <template>
   <div class="map point-of-interest">
-    <h2 class="subtitle-xs map__title">Restaurantes a 10 min andando</h2>
+    <h2 class="subtitle-xs map__title">Sitios de comida a 10 min</h2>
     <div
       class="map__map"
       :class="{ 'dark-mode-card-bg-color': isDarkMode }"
