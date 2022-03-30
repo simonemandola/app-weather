@@ -35,7 +35,7 @@ export default {
       isDarkMode: this.$store.state.isDarkMode,
       colorPoint: {
         blue: "#036ffa",
-        purple: "#e2122a",
+        purple: "#23165e",
       },
       urlGoogleMaps: "https://www.google.com/maps/search/?api=1&query="
     };
