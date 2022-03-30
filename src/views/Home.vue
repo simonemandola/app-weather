@@ -28,6 +28,7 @@
       :uvi="uvi"
       :visibility="visibility"
     />
+    <point-of-interest />
     <notification
       :show-notification="showNotification"
       :notifications-messages="notificationsMessages"
@@ -49,6 +50,7 @@ import WeatherTableHour from "@/components/_weatherDetailsTableHour.vue";
 import MapLocation from "@/components/_mapLocation.vue";
 import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 import WeatherDetailsGrid from "@/components/_weatherDetailsGrid";
+import PointOfInterest from "@/components/_pointOfInterest.vue";
 import NotificationMessage from "@/components/_notificationMessage.vue";
 
 // mixins
@@ -75,6 +77,7 @@ export default {
     vApexchart: Graph,
     wTableHour: WeatherTableHour,
     wDetailsGrid: WeatherDetailsGrid,
+    pointOfInterest: PointOfInterest,
     mapLocation: MapLocation,
     notification: NotificationMessage,
   },
