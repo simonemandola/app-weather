@@ -21,7 +21,7 @@
         </div>
         <div class="user-account-modal__form-not-logged fade-up delay-4" v-else>
           <label
-            class="user-account-modal__form-label"
+            class="user-account-modal__form-label text-black"
             :class="{ 'input-error': errors.username }"
           >
             <span class="text-xxxs">Username</span>
@@ -36,7 +36,7 @@
             ></i>
           </label>
           <label
-            class="user-account-modal__form-label"
+            class="user-account-modal__form-label text-black"
             :class="{ 'input-error': errors.email }"
           >
             <span class="text-xxxs">Correo</span>
@@ -55,7 +55,7 @@
             ></i>
           </label>
           <label
-            class="user-account-modal__form-label"
+            class="user-account-modal__form-label text-black"
             :class="{ 'input-error': errors.password }"
           >
             <span class="text-xxxs">Contraseña</span>
@@ -74,7 +74,7 @@
             ></i>
           </label>
           <label
-            class="user-account-modal__form-label"
+            class="user-account-modal__form-label text-black"
             v-if="isAddNewUser"
             :class="{ 'input-error': errors.rePassword }"
           >
@@ -111,7 +111,7 @@
           </button>
           <div
             v-if="!isAddNewUser"
-            class="text-xs text-center user-account-modal__divider-line"
+            class="text-xs text-center text-black user-account-modal__divider-line"
           >
             o
           </div>
@@ -128,6 +128,14 @@
               Registrarse.
             </button>
           </div>
+          <button
+            style="text-decoration: underline; margin: 1rem auto"
+            class="text-xxs text-black"
+            type="button"
+            @click.prevent="showAddNewUserForm"
+          >
+            ¿Has olvidado tu contraseña?
+          </button>
         </div>
         <button
           class="user-account-modal__btn-close"

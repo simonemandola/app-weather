@@ -1,6 +1,6 @@
 <template>
-  <div class="map">
-    <h2 class="subtitle-xs map__title">Mapa</h2>
+  <div class="map point-of-interest">
+    <h2 class="subtitle-xs map__title">Restaurantes a 10 min andando</h2>
     <div
       class="map__map"
       :class="{ 'dark-mode-card-bg-color': isDarkMode }"
@@ -18,7 +18,7 @@
 import mapboxgl from "mapbox-gl";
 
 export default {
-  name: "PointOfInteres",
+  name: "PointOfInterest",
   data() {
     return {
       map: {},
@@ -35,7 +35,7 @@ export default {
       isDarkMode: this.$store.state.isDarkMode,
       colorPoint: {
         blue: "#036ffa",
-        purple: "#23165e",
+        purple: "#e2122a",
       },
       urlGoogleMaps: "https://www.google.com/maps/search/?api=1&query="
     };
@@ -54,13 +54,28 @@ export default {
   methods: {
     async getPointsOfInteres() {
       const res = await fetch(
-        "https://api.geoapify.com/v2/place-details?lat=39.4841&lon=-0.3632&features=details,radius_500,radius_500.restaurant,details.names&lang=es&apiKey=9bc29986ad8f47f4b1caf3430faa56b2"
+        `https://api.geoapify.com/v2/place-details?lat=${this.lat}&lon=${this.lon}&features=radius_500,radius_500.restaurant,walk_10,walk_10.restaurant&lang=es&apiKey=9bc29986ad8f47f4b1caf3430faa56b2`
       );
       const result = await res.json();
       const restaurantsPoints = result.features.filter(
         (feature) => feature.geometry.type === "Point"
       );
+      // remove previourly added layers and source
+      if (this.map.getSource("restaurants")) {
+        if (this.map.getLayer("restaurants")) {
+          this.map.removeLayer("restaurants");
+        }
 
+        if (this.map.getLayer("restaurants")) {
+          this.map.removeLayer("restaurants");
+        }
+
+        if (this.map.getLayer("restaurants")) {
+          this.map.removeLayer("restaurants");
+        }
+
+        this.map.removeSource("restaurants");
+      }
       const radius500Restaurants = {
         type: "FeatureCollection",
         features: restaurantsPoints,
@@ -69,7 +84,6 @@ export default {
         type: "geojson",
         data: radius500Restaurants,
       });
-      console.log(radius500Restaurants);
       this.map.addLayer({
         id: "restaurants",
         type: "circle",
@@ -77,7 +91,7 @@ export default {
         paint: {
           "circle-radius": 14,
           "circle-color": this.colorCircle,
-          "circle-opacity": 0.7,
+          "circle-opacity": 0.5,
           "circle-blur": 0,
         },
         filter: ["==", "$type", "Point"],
