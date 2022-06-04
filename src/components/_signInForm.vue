@@ -19,7 +19,42 @@
             Sí, quiero salir
           </button>
         </div>
-        <div class="user-account-modal__form-not-logged fade-up delay-4" v-else>
+        <div v-if="isRecoveryPassword">
+          <p class="text-xs text-black">
+            Te enviaremos un correo para que puedas restablecer tu contraseña,
+            por si acaso mira en spam si no te ha llegado nada.
+          </p>
+          <label
+            class="user-account-modal__form-label text-black"
+            :class="{ 'input-error': errors.email }"
+          >
+            <span class="text-xxxs">Correo</span>
+            <input
+              type="email"
+              v-model="user.email"
+              placeholder="mi@correo.com"
+            />
+            <i
+              v-if="errors.email"
+              class="icon__cross text-red form-icon-field"
+            ></i>
+            <i
+              v-else-if="showIcon.email"
+              class="icon__tick text-green form-icon-field"
+            ></i>
+          </label>
+          <button
+            class="user-account-modal__btn"
+            type="submit"
+            @click.prevent="doSendRecoveryPasswordLink()"
+          >
+            Enviar
+          </button>
+        </div>
+        <div
+          v-if="!isLogged && !isRecoveryPassword"
+          class="user-account-modal__form-not-logged fade-up delay-4"
+        >
           <label
             class="user-account-modal__form-label text-black"
             :class="{ 'input-error': errors.username }"
@@ -97,14 +132,14 @@
             class="user-account-modal__btn"
             v-if="isAddNewUser"
             type="submit"
-            @click.prevent="doAddNewUser"
+            @click.prevent="doAddNewUser()"
           >
             Crear cuenta
           </button>
           <button
             class="user-account-modal__btn"
             type="submit"
-            @click.prevent="doSignIn"
+            @click.prevent="doSignIn()"
             v-else
           >
             Acceder
@@ -123,7 +158,7 @@
             <button
               class="text-xxs text-black"
               type="button"
-              @click.prevent="showAddNewUserForm"
+              @click.prevent="showAddNewUserForm()"
             >
               Registrarse.
             </button>
@@ -132,7 +167,7 @@
             style="text-decoration: underline; margin: 1rem auto"
             class="text-xxs text-black"
             type="button"
-            @click.prevent="showAddNewUserForm"
+            @click.prevent="showRecoveryPasswordEmail()"
           >
             ¿Has olvidado tu contraseña?
           </button>
@@ -191,6 +226,7 @@ export default {
         signIn: "¡Hola! Bienvenido de nuevo.",
         createNewUser: "Crear una nueva cuenta",
         logOut: "¿Seguro que quieres salir?",
+        recoveryPassword: "Introduce tu correo",
       },
       titleForm: "",
       isLogged: this.$store.state.user.isLogged,
@@ -202,6 +238,7 @@ export default {
         login: "login-illustration",
         newUser: "new-user-illustration",
         logout: "logout-illustration",
+        recovery: "recovery-illustration",
       },
       illustrationName: "",
       errors: {
@@ -218,6 +255,7 @@ export default {
       },
       showErrorMessage: false,
       errorsMessages: [],
+      isRecoveryPassword: false,
     };
   },
   computed: {
@@ -253,23 +291,48 @@ export default {
     },
   },
   methods: {
-    manageErrors() {
+    manageErrors(error) {
       this.showErrorMessage = true;
       this.errorsMessages = [];
-      if (this.isEmptyUsername || this.isEmptyEmail || this.isEmptyPassword) {
-        this.errorsMessages.push("Rellena todos los campos.");
-      }
-      if (!this.passwordHasMinLength) {
-        this.errorsMessages.push(
-          "La password debe contener mínimo 6 caracteres."
-        );
-      }
-      if (!this.emailIsValidPattern) {
-        this.errorsMessages.push("El formato del email no es valido.");
-      }
-      if (this.isAddNewUser) {
-        if (!this.passwordsAreEquals) {
-          this.errorsMessages.push("Las contraseñas no coinciden.");
+      if (error) {
+        if (error === "signin-failed") {
+          this.errorsMessages.push("Usuario, correo o contraseña incorrectos.");
+        } else {
+          this.errorsMessages.push(
+            "Ha ocurrido un error, intentalo más tarde."
+          );
+          if (error === 404) {
+            this.errorsMessages.push(
+              "No hemos encontrado el correo en nuestra base de datos."
+            );
+          }
+        }
+      } else {
+        if (!this.isRecoveryPassword) {
+          if (
+            this.isEmptyUsername ||
+            this.isEmptyEmail ||
+            this.isEmptyPassword
+          ) {
+            this.errorsMessages.push("Rellena todos los campos.");
+          }
+          if (!this.passwordHasMinLength) {
+            this.errorsMessages.push(
+              "La password debe contener mínimo 6 caracteres."
+            );
+          }
+          if (this.isAddNewUser) {
+            if (!this.passwordsAreEquals) {
+              this.errorsMessages.push("Las contraseñas no coinciden.");
+            }
+          }
+        } else {
+          if (this.isEmptyEmail) {
+            this.errorsMessages.push("Rellena todos los campos.");
+          }
+        }
+        if (!this.emailIsValidPattern) {
+          this.errorsMessages.push("El formato del email no es valido.");
         }
       }
     },
@@ -290,6 +353,7 @@ export default {
           });
         } else {
           console.log(error);
+          this.manageErrors("signin-failed");
         }
         this.updateLocalsStores();
       }
@@ -320,6 +384,7 @@ export default {
               },
             ]);
           data ? console.log("Favorite locations saved") : console.log(error);
+          this.$router.push({ name: "Home" });
         } else {
           console.log(error);
         }
@@ -339,6 +404,7 @@ export default {
     showAddNewUserForm() {
       console.log("Show create new user form.");
       this.isAddNewUser = true;
+      this.isRecoveryPassword = false;
       this.titleForm = this.title.createNewUser;
       this.illustrationName = this.illustrations.newUser;
       this.user.username = "";
@@ -354,6 +420,7 @@ export default {
     hideUserForm() {
       console.log("User form closed.");
       this.isAddNewUser = false;
+      this.isRecoveryPassword = false;
       if (this.isLogged) {
         this.titleForm = this.title.logOut;
       } else {
@@ -380,6 +447,26 @@ export default {
       this.$store.state.favoriteLocations = [];
       // Update the list of favorite locations in the local storage
       this.myLocalStorage.removeItem("favorite-locations");
+    },
+    showRecoveryPasswordEmail() {
+      this.isRecoveryPassword = true;
+      this.user.email = "";
+      this.errors.email = false;
+      this.showIcon.email = false;
+      this.illustrationName = this.illustrations.recovery;
+      this.titleForm = this.title.recoveryPassword;
+    },
+    async doSendRecoveryPasswordLink() {
+      if (!this.emailIsValidPattern || this.isEmptyEmail) {
+        this.manageErrors();
+      } else {
+        let { data, error } =
+          await this.supabase.auth.api.resetPasswordForEmail(this.user.email);
+        console.log(data);
+        if (error) {
+          this.manageErrors(error.status);
+        }
+      }
     },
   },
   mounted() {

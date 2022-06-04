@@ -24,7 +24,7 @@
           </form>
         </li>
         <li class="settings__row">
-          <span class="settings__item-title text-white">Modo</span>
+          <span class="text-white">Cambiar modo</span>
           <form class="settings__options">
             <label ref="icon-mode" class="settings__wrap-option">
               <input
@@ -45,25 +45,14 @@
           </form>
         </li>
         <li class="settings__row text-white" v-if="userIsLogged">
-          <button class="settings__item-title" @click.prevent="showUserModal">
-            Salir
-          </button>
-        </li>
-        <li class="settings__row" v-if="userIsLogged">
-          <button
-            class="settings__item-title text-red"
-            @click.prevent="showUserModal"
-          >
-            Borrar cuenta
-          </button>
+          <button @click.prevent="showUserModal">Salir</button>
+          <i class="icon__logout"></i>
         </li>
         <li class="settings__row" v-else>
-          <button
-            class="text-white settings__item-title"
-            @click.prevent="showUserModal"
-          >
+          <button class="text-white" @click.prevent="showUserModal">
             Acceder
           </button>
+          <i class="icon__login text-white"></i>
         </li>
         <li class="settings__row settings--about">
           <p class="text-white">Acerca de...</p>
@@ -71,11 +60,23 @@
             <i class="icon__github text-white"></i>
           </a>
         </li>
+        <li class="settings__row" v-if="userIsLogged">
+          <button class="text-red" @click.prevent="doDeleteProfile()">
+            Borrar cuenta
+          </button>
+          <i class="icon__cross text-red"></i>
+        </li>
       </ul>
     </nav>
     <sign-in-modal
       @show-user-form="showForm = $event"
       :show-user-form="showForm"
+    />
+    <notification
+      :show-notification="showNotification"
+      :notifications-messages="notificationsMessages"
+      :icon-type="iconType"
+      @hide-notification="showNotification = $event"
     />
   </section>
 </template>
@@ -85,6 +86,7 @@
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import SignInForm from "@/components/_signInForm.vue";
+import NotificationMessage from "@/components/_notificationMessage.vue";
 
 export default {
   name: "Settings",
@@ -92,6 +94,7 @@ export default {
     return: Return,
     background: GradientBackground,
     signInModal: SignInForm,
+    notification: NotificationMessage,
   },
   data() {
     return {
@@ -115,38 +118,52 @@ export default {
       myLocalStorage: window.localStorage,
       iconMode: "",
       linkGit: "https://github.com/simonemandola/app-weather",
+      showNotification: false,
+      notificationsMessages: [],
+      iconType: "",
     };
   },
   methods: {
-    // convertToCelsius() {
-    //   let weatherData = window.localStorage.getItem("user-weather-data");
-    //   weatherData = JSON.parse(weatherData);
-    //   console.log(weatherData);
-    //   weatherData.current.temp = weatherData.current.temp * (9 / 5) + 32;
-    //   console.log(weatherData);
-    // },
     toggleMode() {
       this.iconMode.classList.add("anim-toggle-mode");
       setTimeout(() => {
         this.iconMode.classList.remove("anim-toggle-mode");
       }, 500);
       this.$store.state.isDarkMode = !this.$store.state.isDarkMode;
+      // Show notification
+      this.showNotification = true;
+      this.notificationsMessages = [];
+      this.notificationsMessages.push(
+        `Has cambiado a modo ${
+          this.$store.state.isDarkMode ? "oscuro" : "claro"
+        }`
+      );
+      this.iconType = "icon__info text-green";
     },
     doSelect(checked) {
       switch (checked) {
         case true:
           this.$store.state.units.selected = this.unitsOptions.farenheit.unit;
           this.units = this.unitsOptions.farenheit.name;
-          // this.convertToCelsius();
           break;
         case false:
           this.$store.state.units.selected = this.unitsOptions.celsius.unit;
           this.units = this.unitsOptions.celsius.name;
           break;
       }
+      // Show notification
+      this.showNotification = true;
+      this.notificationsMessages = [];
+      this.notificationsMessages.push(
+        "Para visualizar los cambios, realiza una búsqueda."
+      );
+      this.iconType = "icon__info text-green";
     },
     showUserModal() {
       this.showForm = true;
+    },
+    doDeleteProfile() {
+      console.log("Has borrado la cuenta.");
     },
   },
   mounted() {
