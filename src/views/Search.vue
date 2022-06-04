@@ -196,7 +196,6 @@ export default {
       }
     },
     async getWeatherData(lat, lon) {
-      this.showLoading = true;
       this.suggestions = [];
       try {
         const res = await fetch(
@@ -239,6 +238,7 @@ export default {
         this.weatherData.timezone_offset;
     },
     async showResult(citySelected) {
+      this.showLoading = true;
       this.suggestions = [];
       this.city.value = citySelected.place_name;
       this.city.selected = citySelected.place_name;

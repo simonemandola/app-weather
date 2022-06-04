@@ -1,6 +1,6 @@
 <template>
-  <transition name="slide-up" data-observer-el>
-    <div class="main-weather-result__alert" v-show="elementIsIntercepted" v-if="existAlerts">
+  <transition name="slide-up">
+    <div class="main-weather-result__alert" v-if="existAlerts">
       <p class="text-xxs main-weather-result__alert-body">
         <i class="icon__alert"></i> {{ weatherAlert }}
       </p>
@@ -12,18 +12,14 @@
 </template>
 
 <script>
-// mixins
-import { observerElement } from "@/mixins/mixins";
 
 export default {
   name: "WeatherAlerts",
-  mixins: [observerElement],
   data() {
     return {
       weatherAlert: "",
       sourceAlert: "",
       existAlerts: false,
-      elementIsIntercepted: false,
     };
   },
   mounted() {

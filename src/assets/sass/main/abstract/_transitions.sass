@@ -34,9 +34,41 @@
   opacity: 0
   transform: translateY(-100%)
 
+/*** ====== Slide left text navbar ====== ***/
+
+// First child
+
+.slide-left-enter-from,
+.slide-left-leave-to
+  width: 0
+
+.slide-left-enter-active,
+.slide-left-leave-active
+  transition: all .2s $transition-bezier
+
+.slide-left-enter-to,
+.slide-left-leave-from
+  width: 4rem
+
+// Inner child
+.slide-left-enter-from .text-menu
+  transform: translateX(-5rem)
+
+.slide-left-enter-active .text-menu,
+.slide-left-leave-active .text-menu
+  transition: all .2s $transition-bezier
+
+.slide-left-enter-to .text-menu,
+.slide-left-leave-from .text-menu
+  transform: translateX(0)
+
+.slide-left-leave-to .text-menu
+  transform: translateX(-5rem)
+
+/*** ====== End Slide left text navbar ====== ***/
+
 // Slide Right
 .slide-right-enter-from
-  opacity: 0
   transform: translateX(1rem)
 
 .slide-right-enter-active,

@@ -1,5 +1,9 @@
 <template>
-  <div class="map point-of-interest">
+  <div
+    v-if="existPointOfInterest"
+    class="map point-of-interest"
+    :key="componentKey"
+  >
     <h2 class="subtitle-xs map__title">Sitios de comida a 10 min</h2>
     <div
       class="map__map"
@@ -19,6 +23,7 @@ import mapboxgl from "mapbox-gl";
 
 export default {
   name: "PointOfInterest",
+  emits: ["exist-points-of-interest"],
   data() {
     return {
       map: {},
@@ -37,7 +42,10 @@ export default {
         blue: "#036ffa",
         purple: "#23165e",
       },
-      urlGoogleMaps: "https://www.google.com/maps/search/?api=1&query="
+      urlGoogleMaps: "https://www.google.com/maps/search/?api=1&query=",
+      resultPointsOfInterest: {},
+      restaurantsPoints: {},
+      componentKey: 0,
     };
   },
   computed: {
@@ -50,52 +58,60 @@ export default {
     colorCircle() {
       return this.isDarkMode ? this.colorPoint.purple : this.colorPoint.blue;
     },
+    existPointOfInterest() {
+      return this.componentKey <= 0;
+    },
   },
   methods: {
-    async getPointsOfInteres() {
+    async getPointsOfInterest() {
       const res = await fetch(
         `https://api.geoapify.com/v2/place-details?lat=${this.lat}&lon=${this.lon}&features=radius_500,radius_500.restaurant,walk_10,walk_10.restaurant&lang=es&apiKey=9bc29986ad8f47f4b1caf3430faa56b2`
       );
-      const result = await res.json();
-      const restaurantsPoints = result.features.filter(
-        (feature) => feature.geometry.type === "Point"
-      );
-      // remove previourly added layers and source
-      if (this.map.getSource("restaurants")) {
-        if (this.map.getLayer("restaurants")) {
-          this.map.removeLayer("restaurants");
-        }
+      this.resultPointsOfInterest = await res.json();
+      if (this.resultPointsOfInterest.features.length > 0) {
+        this.restaurantsPoints = this.resultPointsOfInterest.features.filter(
+          (feature) => feature.geometry.type === "Point"
+        );
+        // remove previously added layers and source
+        if (this.map.getSource("restaurants")) {
+          if (this.map.getLayer("restaurants")) {
+            this.map.removeLayer("restaurants");
+          }
 
-        if (this.map.getLayer("restaurants")) {
-          this.map.removeLayer("restaurants");
-        }
+          if (this.map.getLayer("restaurants")) {
+            this.map.removeLayer("restaurants");
+          }
 
-        if (this.map.getLayer("restaurants")) {
-          this.map.removeLayer("restaurants");
-        }
+          if (this.map.getLayer("restaurants")) {
+            this.map.removeLayer("restaurants");
+          }
 
-        this.map.removeSource("restaurants");
+          this.map.removeSource("restaurants");
+        }
+        const radius500Restaurants = {
+          type: "FeatureCollection",
+          features: this.restaurantsPoints,
+        };
+        this.map.addSource("restaurants", {
+          type: "geojson",
+          data: radius500Restaurants,
+        });
+        this.map.addLayer({
+          id: "restaurants",
+          type: "circle",
+          source: "restaurants",
+          paint: {
+            "circle-radius": 14,
+            "circle-color": this.colorCircle,
+            "circle-opacity": 0.5,
+            "circle-blur": 0,
+          },
+          filter: ["==", "$type", "Point"],
+        });
+      } else {
+        // If there are no POIs, re-render the HTML component and hide it.
+        this.componentKey++;
       }
-      const radius500Restaurants = {
-        type: "FeatureCollection",
-        features: restaurantsPoints,
-      };
-      this.map.addSource("restaurants", {
-        type: "geojson",
-        data: radius500Restaurants,
-      });
-      this.map.addLayer({
-        id: "restaurants",
-        type: "circle",
-        source: "restaurants",
-        paint: {
-          "circle-radius": 14,
-          "circle-color": this.colorCircle,
-          "circle-opacity": 0.5,
-          "circle-blur": 0,
-        },
-        filter: ["==", "$type", "Point"],
-      });
     },
   },
   mounted() {
@@ -108,7 +124,7 @@ export default {
       center: [this.lon, this.lat], // starting position [lng, lat]
       zoom: this.zoom, // starting zoom
     });
-    this.getPointsOfInteres();
+    this.getPointsOfInterest();
     this.map.on("click", "restaurants", (e) => {
       const coordinates = e.features[0].geometry.coordinates.slice();
       const restaurantName = e.features[0].properties.address_line1;
