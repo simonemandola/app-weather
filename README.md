@@ -11,7 +11,7 @@ Weather app developed with:
 - supabase
 - netlify
 
-###Other softwares
+### Others softwares
 
 - Photoshop
 - Illustrator
