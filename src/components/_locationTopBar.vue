@@ -14,11 +14,14 @@
         :class="{ 'text-white': isDarkMode }"
       >
         {{ locationName }}, <span>{{ country }}</span>
+        <span v-show="addMinHeight"> - {{ temperature }}º</span>
       </h1>
     </transition>
-    <button @click.prevent="toTheTop" v-if="addMinHeight">
-      <i class="icon__return" :class="{ 'text-white': isDarkMode }"></i>
-    </button>
+    <transition name="slide-down">
+      <button @click.prevent="toTheTop" v-if="addMinHeight">
+        <i class="icon__return" :class="{ 'text-white': isDarkMode }"></i>
+      </button>
+    </transition>
   </div>
 </template>
 
@@ -38,6 +41,7 @@ export default {
       addMinHeight: false,
       isDarkMode: this.$store.state.isDarkMode,
       elementIsIntercepted: false,
+      temperature: 0,
     };
   },
   methods: {
@@ -46,6 +50,9 @@ export default {
     },
   },
   mounted() {
+    let temp = this.$store.state.locationData[0].current.temp;
+    temp = temp.toFixed(0);
+    this.temperature = temp;
     document.addEventListener("scroll", () => {
       this.myScrollY = window.scrollY;
       this.myScrollY > 120

@@ -9,7 +9,7 @@
       >
         <img
           v-show="elementIsIntercepted"
-          :src="`/img/weather-status/icons/solid/${weatherData.current.weather[0].icon}.png`"
+          :src="`/img/weather-status/icons/solid/${weatherData.hourly[0].weather[0].icon}.png`"
           alt="current weather forecast"
           draggable="false"
         />
@@ -73,13 +73,10 @@ export default {
     };
   },
   mounted() {
+    console.log(this.weatherData);
     let temp = this.$store.state.locationData[0].current.temp;
     temp = temp.toFixed(0);
     this.temperature = temp;
-    this.temperature = this.temperature - 4;
-    setInterval(() => {
-      if (this.temperature < temp) this.temperature++;
-    }, 400);
   },
 };
 </script>
