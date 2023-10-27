@@ -1,6 +1,5 @@
 .weather-details-grid
   margin-top: $padding__l
-  @include padding-inline-mobile
 
   &__sun
     @include card-settings($padding__xxs, $padding__xxs)
@@ -47,7 +46,7 @@
       border-bottom: 1px solid transparentize($color__black, .5)
 
     &-arc-line
-      width: auto
+      width: 100%
       height: auto
       border: 2px solid $color__light-yellow
       border-inline-style: none

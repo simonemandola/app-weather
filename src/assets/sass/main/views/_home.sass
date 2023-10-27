@@ -5,7 +5,6 @@
   right: 0
   width: 100%
   z-index: 99999
-  @include padding-inline-mobile
   height: $return__height
   display: grid
   grid-template-columns: 1fr 2rem
@@ -71,10 +70,7 @@
   height: $return__height
   box-sizing: border-box
   margin-top: $return__height
-  padding:
-    top: 0
-    left: $padding__xxs
-    right: $padding__xxs
+  padding-top: 0
 
   &__wrap
     height: 100%
@@ -90,18 +86,15 @@
   margin-top: $padding__l
 
   &__title
-    @include padding-inline-mobile
     margin-bottom: 0
 
 .weather-details
   padding:
     top: $padding__xl
     bottom: $padding__xxxl
-  @include padding-inline-mobile
 
 .weather-details-hour
   margin-top: $padding__l
-  @include padding-inline-mobile
 
   &__title
     margin-bottom: $padding__xxs
@@ -146,7 +139,6 @@
       position: absolute
       bottom: 0
       width: 90%
-      @include padding-inline-mobile
       height: 1px
       background-color: $color__grey
       left: 1.1rem
@@ -174,20 +166,12 @@
   margin-top: $padding__s
 
   &__title
-    @include padding-inline-mobile
     margin-bottom: $padding__xxs
 
   &__map
     height: 24rem
     border: $main-border
     box-sizing: border-box
-    margin:
-      left: $padding__xxs
-      right: $padding__xxs
-
-.mapboxgl-ctrl-bottom-left,
-.mapboxgl-ctrl-bottom-right
-  display: none
 
 .marker
   width: 2.5rem

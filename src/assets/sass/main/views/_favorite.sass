@@ -1,7 +1,5 @@
 .favorite
   height: 100%
-  padding:
-    top: $return__height * 2
   @include padding-inline-mobile
   overflow-x: hidden
 
@@ -22,6 +20,13 @@
     &-link
       margin-top: $padding__xxs
       text-decoration: underline
+
+  &__no-results,
+  &__show-results
+    margin-top: $return__height * 2
+
+  &__show-results
+    padding-bottom: $padding__xxl
 
 .allow-delete-favorite
   transform: translateX(-16%)

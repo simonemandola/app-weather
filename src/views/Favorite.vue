@@ -20,7 +20,7 @@
           >Añadir ubicaciones</router-link
         >
       </div>
-      <div v-else>
+      <div class="favorite__show-results" v-else>
         <card
           v-touch:swipe="toggleAllowToDelete(location.locations.id)"
           v-for="(location, i) in favoriteLocations"
@@ -178,8 +178,8 @@ export default {
     });
     setTimeout(() => {
       this.shakeCard = true;
-      setTimeout(() => (this.shakeCard = false), 140);
-    }, 600);
+      setTimeout(() => (this.shakeCard = false), 600);
+    }, 1000);
   },
 };
 </script>

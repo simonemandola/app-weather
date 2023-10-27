@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="search-view">
     <background />
     <return :title="title" />
     <search-form />
