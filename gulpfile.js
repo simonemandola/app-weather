@@ -31,7 +31,7 @@ function initBrowserSync(cb) {
     /*server: {   // Folder
         baseDir: "./" + DEST_PATH
     }*/
-    proxy: "localhost:8000",
+    proxy: "localhost:8080",
   });
   return cb;
 }

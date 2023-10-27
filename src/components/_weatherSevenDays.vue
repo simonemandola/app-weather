@@ -5,10 +5,8 @@
       class="weather-seven-days__items-wrap"
       tag="ul"
       name="slide-up"
-      data-observer-el
     >
       <li
-        v-show="elementIsIntercepted"
         v-for="(day, i) in weatherByDays"
         :key="i"
         class="weather-seven-days__wrap"
@@ -35,17 +33,13 @@
 </template>
 
 <script>
-import { observerElement } from "@/mixins/mixins";
-
 export default {
   name: "weatherSevenDays",
-  mixins: [observerElement],
   data() {
     return {
       weatherByDays: this.$store.state.locationData[0].daily,
       timeZoneOffset: 0,
       isDarkMode: this.$store.state.isDarkMode,
-      elementIsIntercepted: false,
     };
   },
   mounted() {

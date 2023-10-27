@@ -20,7 +20,7 @@
       >
         <div
           class="weather-details-grid__sun-arc-line"
-          :style="`--degrees: ${sunDegreesRotation}`"
+          :style="{ '--degrees': sunDegreesRotation, '--scale': sunScale }"
         ></div>
       </div>
       <div class="weather-details-grid__sun-icon">
@@ -55,7 +55,7 @@
         :class="{ 'dark-mode-card-bg-color': isDarkMode }"
         :style="`--height-item-row: ${itemRowWidth}`"
       >
-        <h3 class="text-xxs">Humiditad</h3>
+        <h3 class="text-xxs">Humedad</h3>
         <i class="icon__humidity"></i>
         <p class="text-m text-center">{{ humidity }}%</p>
       </div>
@@ -113,6 +113,9 @@ export default {
     };
   },
   computed: {
+    sunScale() {
+      return window.innerWidth < 420 ? "scale(115%)" : "scale(105%)";
+    },
     sunDegreesRotation() {
       const secondsSun = this.getSunsetToSeconds - this.getSunriseToSeconds;
       const secondsBetweenSunriseAndCurrentHour =

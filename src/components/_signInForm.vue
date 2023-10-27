@@ -1,18 +1,18 @@
 <template>
   <div class="user-account-modal" v-if="showUserForm">
     <div class="user-account-modal__wrap">
-      <div class="user-account-modal__img fade-up">
+      <div class="user-account-modal__img">
         <img :src="`/img/${illustrationName}.png`" :alt="illustrationName" />
       </div>
       <h1
-        class="user-account-modal__title title-xxs text-center text-black fade-up delay-2"
+        class="user-account-modal__title title-xxs text-center text-black"
       >
         {{ titleForm }}
       </h1>
       <form class="user-account-modal__form">
         <div v-if="isLogged">
           <button
-            class="user-account-modal__btn fade-up delay-4"
+            class="user-account-modal__btn"
             type="submit"
             @click.prevent="doLogOut"
           >
@@ -53,7 +53,7 @@
         </div>
         <div
           v-if="!isLogged && !isRecoveryPassword"
-          class="user-account-modal__form-not-logged fade-up delay-4"
+          class="user-account-modal__form-not-logged"
         >
           <label
             class="user-account-modal__form-label text-black"
@@ -186,13 +186,11 @@
       :errors-messages="errorsMessages"
       @hide-notification="showErrorMessage = $event"
     />
-    <animations />
   </div>
 </template>
 
 <script>
 // components
-import Animations from "@/components-mixins/_animations.vue";
 import ErrorNotification from "@/components/_errorNotification";
 
 // mixins
@@ -209,7 +207,6 @@ export default {
     },
   },
   components: {
-    animations: Animations,
     errorNotification: ErrorNotification,
   },
   data() {

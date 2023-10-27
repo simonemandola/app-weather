@@ -94,7 +94,7 @@ export default {
       this.$store.state.locationData[0].alerts = this.weatherData.alerts;
       this.$store.state.locationData[0].timeZoneOffset =
         this.weatherData.timezone_offset;
-      this.$store.state.locationData[0].name = "Mi ubicación";
+      //this.$store.state.locationData[0].name;
     },
     async showResult() {
       await this.getWeatherData(
@@ -104,7 +104,7 @@ export default {
       await this.getGeocoding(this.weatherData.lon, this.weatherData.lat);
       await this.setNewData();
       setTimeout(() => {
-        this.$router.push({ name: "Home", query: { active: "home" } });
+        this.$router.replace({ name: "Home", query: { active: "home" } });
       }, 1200);
     },
     getPosition(position) {

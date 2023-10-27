@@ -2,7 +2,9 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    isMobile: false,
     isDarkMode: true,
+    showLoading: false,
     previousData: {
       id: "",
     },

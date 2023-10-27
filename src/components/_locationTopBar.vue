@@ -2,17 +2,14 @@
   <div
     class="location-top-bar"
     :class="{
+      dark: isDarkMode,
       'background-top-bar': addBgColor,
       'top-bar-min-height': addMinHeight,
       'dark-mode-bg-top-bar': isDarkMode && addBgColor,
     }"
   >
-    <transition name="slide-down" data-observer-el>
-      <h1
-        v-show="elementIsIntercepted"
-        class="title-xxs text-center"
-        :class="{ 'text-white': isDarkMode }"
-      >
+    <transition name="slide-down">
+      <h1 class="title-xxs text-center" :class="{ 'text-white': isDarkMode }">
         {{ locationName }}, <span>{{ country }}</span>
         <span v-show="addMinHeight"> - {{ temperature }}º</span>
       </h1>
@@ -26,12 +23,8 @@
 </template>
 
 <script>
-// mixins
-import { observerElement } from "@/mixins/mixins";
-
 export default {
   name: "LocationTopBar",
-  mixins: [observerElement],
   data() {
     return {
       locationName: this.$store.state.locationData[0].name,
@@ -40,7 +33,6 @@ export default {
       addBgColor: false,
       addMinHeight: false,
       isDarkMode: this.$store.state.isDarkMode,
-      elementIsIntercepted: false,
       temperature: 0,
     };
   },
@@ -51,16 +43,12 @@ export default {
   },
   mounted() {
     let temp = this.$store.state.locationData[0].current.temp;
-    temp = temp.toFixed(0);
+    temp = temp?.toFixed(0);
     this.temperature = temp;
     document.addEventListener("scroll", () => {
       this.myScrollY = window.scrollY;
-      this.myScrollY > 120
-        ? (this.addBgColor = true)
-        : (this.addBgColor = false);
-      this.myScrollY > 1500
-        ? (this.addMinHeight = true)
-        : (this.addMinHeight = false);
+      this.addBgColor = this.myScrollY > 120;
+      this.addMinHeight = this.myScrollY > 1500;
     });
   },
 };

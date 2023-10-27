@@ -14,10 +14,6 @@
 //   },
 // };
 
-export const isNight = (date, sunsetDate) => {
-  return date > sunsetDate;
-};
-
 export const addZeroToNumberIfSmallerThenTen = (myNumber) => {
   return myNumber < 10 ? `0${myNumber.toString()}` : myNumber;
 };
@@ -46,28 +42,6 @@ export const toggleMode = {
     } else {
       document.body.classList.add("dark-mode");
       document.body.classList.remove("light-mode");
-    }
-  },
-};
-
-/***
- * Observer Element
- */
-export const observerElement = {
-  mounted() {
-    if (document.querySelector("[data-observer-el]")) {
-      // Observer
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.intersectionRatio > 0) {
-            this.elementIsIntercepted = true;
-          }
-        });
-      });
-      const elements = document.querySelectorAll("[data-observer-el]");
-      elements.forEach((el) => {
-        observer.observe(el);
-      });
     }
   },
 };

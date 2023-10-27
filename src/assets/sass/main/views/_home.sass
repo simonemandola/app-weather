@@ -9,8 +9,32 @@
   height: $return__height
   display: grid
   grid-template-columns: 1fr 2rem
+  justify-content: center
   align-items: center
   transition: $transition-bezier
+  max-width: $global-max-width
+  margin: 0 auto
+
+  &::before
+    content: ""
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    width: 100%
+    height: $return__height
+    background-color: transparentize($color__white, .65)
+    backdrop-filter: blur(2px)
+    box-shadow: .1rem 0 1rem transparentize($color__black, .9)
+    z-index: -1
+    opacity: 0
+    transition: $transition-bezier
+    transition-property: opacity, height
+
+  &.dark
+
+    &::before
+      background-color: transparentize($color__black, .25)
 
   & > h1
     margin: 0
@@ -27,13 +51,17 @@
     font-size: .9rem
 
 .background-top-bar
-  background-color: transparentize($color__white, .65)
-  backdrop-filter: blur(2px)
-  box-shadow: .1rem 0 1rem transparentize($color__black, .9)
 
-.top-bar-min-height
-  height: 2rem
-  background-color: transparentize($color__white, .3)
+  &::before
+    opacity: 1
+
+.background-top-bar.top-bar-min-height
+  height: $return__height * 0.5
+
+  &::before
+    transition-property: opacity, height
+    height: $return__height * 0.5
+    background-color: transparentize($color__white, .3)
 
   & > h1
     font-size: 1rem
@@ -194,3 +222,41 @@
 
   & > p
     margin-top: 0
+
+.home
+
+  &__search-form
+    transition: $transition-bezier
+
+    & > .search-form
+      display: block
+      position: relative
+      margin-top: $padding__xl
+      padding: $padding__xs
+      box-sizing: border-box
+
+      & > label > input::placeholder
+        font-style: italic
+        opacity: .5
+
+    &.show-background,
+    &:hover
+      background-color: transparentize($color__black, .25)
+
+.info-message-desktop
+  position: fixed
+  z-index: 99999
+  padding-inline: $padding__xxs
+  padding-block: $padding__xxxs 0
+  box-sizing: border-box
+  width: fit-content
+  height: auto
+  right: 5%
+  bottom: 0
+  background-color: $color__purple
+  border: $main-border
+  border-color: darken($color__purple, 5%)
+  border-bottom: none
+
+  & > p
+    color: $color__white

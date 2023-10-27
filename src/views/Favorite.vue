@@ -16,7 +16,7 @@
         </p>
         <router-link
           class="favorite__no-results-link text-s text-center text-white"
-          :to="{ name: 'Search' }"
+          :to="{ name: 'Search', query: { active: 'search' } }"
           >Añadir ubicaciones</router-link
         >
       </div>
@@ -45,12 +45,11 @@
         />
         <router-link
           class="favorite__link text-s text-center text-white"
-          :to="{ name: 'Search' }"
+          :to="{ name: 'Search', query: { active: 'search' } }"
           >Añadir más ubicaciones
         </router-link>
       </div>
     </div>
-    <loading :show-loading="showLoading" />
   </section>
 </template>
 
@@ -59,7 +58,6 @@
 import Return from "@/components/_return.vue";
 import GradientBackground from "@/components/_gradientBackground.vue";
 import Card from "@/components/_card.vue";
-import Loading from "@/components/_loading.vue";
 
 // component mixins
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
@@ -70,7 +68,6 @@ export default {
     return: Return,
     background: GradientBackground,
     card: Card,
-    loading: Loading,
   },
   data() {
     return {
@@ -80,7 +77,6 @@ export default {
       sets: new Set(),
       myLocalStorage: window.localStorage,
       userAccessToken: "",
-      showLoading: false,
       shakeCard: false,
     };
   },
@@ -139,7 +135,7 @@ export default {
     },
   },
   async mounted() {
-    this.showLoading = true;
+    this.$store.state.showLoading = true;
     window.scrollTo({ top: 0, behavior: "smooth" });
     this.supabase = SupabaseCli.methods.getSupabaseCli();
     await this.getUserAccessToken();
@@ -166,11 +162,11 @@ export default {
         "favorite-locations",
         JSON.stringify(this.favoriteLocations)
       );
-      this.showLoading = false;
+      this.$store.state.showLoading = false;
     } else {
       // Get data from the local store
       this.favoriteLocations = this.$store.state.favoriteLocations;
-      this.showLoading = false;
+      this.$store.state.showLoading = false;
     }
     this.favoriteLocations.forEach((location) => {
       location.locations.current.temp = parseInt(

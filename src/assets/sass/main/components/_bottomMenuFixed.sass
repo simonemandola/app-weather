@@ -14,13 +14,17 @@
   z-index: 99900
   box-sizing: border-box
   overflow: hidden
+  background-color: $color__black
+
+  &.bg-light
+    background-color: $color__white
 
   &__ul
     display: grid
     grid-template-columns: repeat(4, auto)
     justify-items: start
     justify-content: space-evenly
-    height: $return__height
+    height: inherit
 
     & > li
       min-width: 3rem

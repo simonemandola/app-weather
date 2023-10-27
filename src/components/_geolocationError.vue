@@ -24,14 +24,10 @@
         Cerrar
       </button>
     </div>
-    <animations />
   </article>
 </template>
 
 <script>
-// components
-import Animations from "@/components-mixins/_animations.vue";
-
 export default {
   name: "GeolocationError",
   props: {
@@ -39,9 +35,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    animations: Animations,
   },
   methods: {
     doCloseWindow() {

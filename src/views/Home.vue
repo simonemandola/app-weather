@@ -1,19 +1,24 @@
 <template>
-  <section>
+  <section class="container" :key="mainContainerKey">
     <main-background />
+    <search-form
+      v-if="!isMobile"
+      class="home__search-form"
+      @re-render-and-set-new-data="reRenderView"
+    />
     <location-top-bar />
-    <transition tag="div" name="slide-up" class="favorite-bar" data-observer-el>
-      <div v-show="elementIsIntercepted" class="favorite-bar__wrap">
+    <div class="favorite-bar">
+      <div class="favorite-bar__wrap">
         <p class="text-xs text-bold">{{ todayDate }}</p>
-        <button @click.prevent="addToFavorite">
+        <button v-if="isMobile" @click.prevent="addToFavorite">
           <i :class="locationIsFavorite ? icon.checked : icon.unchecked"></i>
         </button>
       </div>
-    </transition>
+    </div>
     <main-results />
     <weather-by-hour />
     <air-pollution />
-    <compass-rose />
+    <compass-rose v-if="isMobile" />
     <w-table-hour />
     <v-apexchart />
     <map-location />
@@ -36,10 +41,15 @@
       @hide-notification="showNotification = $event"
     />
   </section>
+  <article v-if="!isMobile" class="info-message-desktop">
+    <p class="text-xxs">ℹ️ Miralo en el móvil para más funcionalidades.</p>
+  </article>
+  <footer-desktop v-if="!isMobile" />
 </template>
 
 <script>
 // components
+import SearchForm from "@/components/_searchForm.vue";
 import MainBackground from "@/components/_mainBackground.vue";
 import LocationTopBar from "@/components/_locationTopBar.vue";
 import WeatherMainResult from "@/components/_weatherMainResult.vue";
@@ -52,21 +62,22 @@ import WeatherSevenDays from "@/components/_weatherSevenDays.vue";
 import WeatherDetailsGrid from "@/components/_weatherDetailsGrid";
 import PointOfInterest from "@/components/_pointOfInterest.vue";
 import NotificationMessage from "@/components/_notificationMessage.vue";
+import FooterDesktop from "@/components/_footerDesktop.vue";
 
 // mixins
-import { toggleMode, observerElement } from "@/mixins/mixins";
+import { toggleMode, getCardFormatDateLong } from "@/mixins/mixins";
 
 // component mixins
 import SupabaseCli from "@/components-mixins/SupabaseCli.vue";
 
 // graph
 import Graph from "@/components/_graph.vue";
-import { getCardFormatDateLong } from "../mixins/mixins";
 
 export default {
   name: "Home",
-  mixins: [toggleMode, observerElement],
+  mixins: [toggleMode],
   components: {
+    searchForm: SearchForm,
     locationTopBar: LocationTopBar,
     mainResults: WeatherMainResult,
     mainBackground: MainBackground,
@@ -80,6 +91,7 @@ export default {
     pointOfInterest: PointOfInterest,
     mapLocation: MapLocation,
     notification: NotificationMessage,
+    footerDesktop: FooterDesktop,
   },
   data() {
     return {
@@ -112,11 +124,15 @@ export default {
       visibility: 0,
       tempUserData: {},
       elementIsIntercepted: false,
+      mainContainerKey: 0,
     };
   },
   computed: {
     todayDate() {
       return getCardFormatDateLong(new Date());
+    },
+    isMobile() {
+      return this.$store.state.isMobile;
     },
   },
   methods: {
@@ -179,7 +195,8 @@ export default {
         // Update local Store
         this.updateLocalsStores(this.tempUserData);
         // Update supabase data
-        if (this.tempUserData) this.updateSupabaseData(this.tempUserData.id);
+        if (this.tempUserData)
+          await this.updateSupabaseData(this.tempUserData.id);
         // Show notification
         this.showNotification = true;
         this.notificationsMessages = [];
@@ -196,7 +213,8 @@ export default {
         // Update local Store
         this.updateLocalsStores(this.tempUserData);
         // Update supabase data
-        if (this.tempUserData) this.updateSupabaseData(this.tempUserData.id);
+        if (this.tempUserData)
+          await this.updateSupabaseData(this.tempUserData.id);
         // Show notification
         this.showNotification = true;
         this.notificationsMessages = [];
@@ -204,48 +222,59 @@ export default {
         this.iconType = "icon__cross text-red";
       }
     },
+    setWeatherData() {
+      this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
+      this.sunrise = this.$store.state.locationData[0].current.sunrise;
+      this.sunset = this.$store.state.locationData[0].current.sunset;
+      this.feelsLike = this.$store.state.locationData[0].current.feels_like;
+      this.pressure = this.$store.state.locationData[0].current.pressure;
+      this.humidity = this.$store.state.locationData[0].current.humidity;
+      this.cloudiness = this.$store.state.locationData[0].current.clouds;
+      this.uvi = this.$store.state.locationData[0].current.uvi;
+      this.visibility = this.$store.state.locationData[0].current.visibility;
+      if (Math.sign(this.timeZoneOffset) === -1) {
+        this.timeZoneOffset = Math.abs(this.timeZoneOffset);
+        this.timeZoneOffset = this.timeZoneOffset + this.defaultTimeOffset;
+        this.isNegativeTimeZoneOffset = true;
+      } else {
+        this.timeZoneOffset = this.timeZoneOffset - this.defaultTimeOffset * 2;
+      }
+      if (this.isNegativeTimeZoneOffset) {
+        this.sunrise = this.sunrise - this.timeZoneOffset;
+        this.sunset = this.sunset - this.timeZoneOffset;
+        this.$store.state.locationData[0].current.dt =
+          this.$store.state.locationData[0].current.dt - this.timeZoneOffset;
+      } else {
+        this.sunrise = this.sunrise + this.timeZoneOffset;
+        this.sunset = this.sunset + this.timeZoneOffset;
+        this.$store.state.locationData[0].current.dt =
+          this.$store.state.locationData[0].current.dt + this.timeZoneOffset;
+      }
+    },
+    getWeatherDataFromLocalStorage() {
+      if (!window.localStorage.getItem("user-weather-data")) {
+        window.localStorage.setItem(
+          "user-weather-data",
+          JSON.stringify(this.$store.state.locationData[0])
+        );
+      } else {
+        const data = window.localStorage.getItem("user-weather-data");
+        this.$store.state.locationData[0] = JSON.parse(data);
+      }
+    },
+    reRenderView() {
+      this.mainContainerKey++;
+      this.setWeatherData();
+    },
   },
   created() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    if (!window.localStorage.getItem("user-weather-data")) {
-      window.localStorage.setItem(
-        "user-weather-data",
-        JSON.stringify(this.$store.state.locationData[0])
-      );
-    } else {
-      const data = window.localStorage.getItem("user-weather-data");
-      this.$store.state.locationData[0] = JSON.parse(data);
-    }
+    this.getWeatherDataFromLocalStorage();
   },
   async mounted() {
+    this.getWeatherDataFromLocalStorage();
     // Props data for grid weather details component
-    this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
-    this.sunrise = this.$store.state.locationData[0].current.sunrise;
-    this.sunset = this.$store.state.locationData[0].current.sunset;
-    this.feelsLike = this.$store.state.locationData[0].current.feels_like;
-    this.pressure = this.$store.state.locationData[0].current.pressure;
-    this.humidity = this.$store.state.locationData[0].current.humidity;
-    this.cloudiness = this.$store.state.locationData[0].current.clouds;
-    this.uvi = this.$store.state.locationData[0].current.uvi;
-    this.visibility = this.$store.state.locationData[0].current.visibility;
-    if (Math.sign(this.timeZoneOffset) === -1) {
-      this.timeZoneOffset = Math.abs(this.timeZoneOffset);
-      this.timeZoneOffset = this.timeZoneOffset + this.defaultTimeOffset;
-      this.isNegativeTimeZoneOffset = true;
-    } else {
-      this.timeZoneOffset = this.timeZoneOffset - this.defaultTimeOffset * 2;
-    }
-    if (this.isNegativeTimeZoneOffset) {
-      this.sunrise = this.sunrise - this.timeZoneOffset;
-      this.sunset = this.sunset - this.timeZoneOffset;
-      this.$store.state.locationData[0].current.dt =
-        this.$store.state.locationData[0].current.dt - this.timeZoneOffset;
-    } else {
-      this.sunrise = this.sunrise + this.timeZoneOffset;
-      this.sunset = this.sunset + this.timeZoneOffset;
-      this.$store.state.locationData[0].current.dt =
-        this.$store.state.locationData[0].current.dt + this.timeZoneOffset;
-    }
+    this.setWeatherData();
     // Notification if user is logged in or logged out
     if (this.$route.query.isLogged !== undefined) {
       if (this.$route.query.isLogged === "1") {

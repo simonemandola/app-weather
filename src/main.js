@@ -6,4 +6,9 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 
-createApp(App).use(store).use(router).use(VueApexCharts).use(Vue3TouchEvents).mount("#app");
+createApp(App)
+  .use(store)
+  .use(router)
+  .use(VueApexCharts)
+  .use(Vue3TouchEvents)
+  .mount("#app");

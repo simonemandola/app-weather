@@ -1,6 +1,6 @@
 <template>
-  <transition name="slide-up" data-observer-el>
-    <div class="air-pollution" v-show="elementIsIntercepted">
+  <transition name="slide-up">
+    <div class="air-pollution">
       <h2 class="subtitle-xs air-pollution__title">Calidad del aire</h2>
       <div class="air-pollution__wrap" :class="{ 'dark-mode-card-bg-color': isDarkMode }">
         <div class="air-pollution__bg">
@@ -14,9 +14,6 @@
 </template>
 
 <script>
-// mixins
-import { observerElement } from "@/mixins/mixins";
-
 // constants Open Weather - Air pollution
 const API_URL = process.env.VUE_APP_URL_API_AIR_PULLING_MAPBOX;
 const LAT = "lat=";
@@ -24,10 +21,8 @@ const LON = "&lon=";
 const KEY = `&appid=${process.env.VUE_APP_APP_ID_API_OPEN_WEATHER}`;
 export default {
   name: "AirPollution",
-  mixins: [observerElement],
   data() {
     return {
-      elementIsIntercepted: false,
       currentCoords: {
         lat: 0,
         lon: 0,

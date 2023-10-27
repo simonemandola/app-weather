@@ -43,20 +43,25 @@ export default {
       return this.isDarkMode ? this.mapStyle.dark : this.mapStyle.light;
     },
   },
+  methods: {
+    setMapLocation() {
+      this.refMap = this.$refs.map;
+      this.refMarker = this.$refs.marker;
+      mapboxgl.accessToken = this.key;
+      this.map = new mapboxgl.Map({
+        container: this.refMap, // container ref
+        style: this.mapStyleColor, // style URL
+        center: [this.lon, this.lat], // starting position [lng, lat]
+        zoom: this.zoom, // starting zoom
+      });
+      // Add marker to map
+      new mapboxgl.Marker(this.refMarker)
+        .setLngLat([this.lon, this.lat])
+        .addTo(this.map);
+    },
+  },
   mounted() {
-    this.refMap = this.$refs.map;
-    this.refMarker = this.$refs.marker;
-    mapboxgl.accessToken = this.key;
-    this.map = new mapboxgl.Map({
-      container: this.refMap, // container ref
-      style: this.mapStyleColor, // style URL
-      center: [this.lon, this.lat], // starting position [lng, lat]
-      zoom: this.zoom, // starting zoom
-    });
-    // Add marker to map
-    new mapboxgl.Marker(this.refMarker)
-      .setLngLat([this.lon, this.lat])
-      .addTo(this.map);
+    this.setMapLocation();
   },
 };
 </script>

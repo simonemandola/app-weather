@@ -70,7 +70,7 @@ export default {
   name: "WeatherDetailsTableHour",
   data() {
     return {
-      wheatherDataHourly: this.$store.state.locationData[0].hourly,
+      wheatherDataHourly: this.$store.state.locationData[0].hourly.slice(0, 24),
       isDarkMode: this.$store.state.isDarkMode,
     };
   },

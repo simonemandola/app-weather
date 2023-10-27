@@ -22,4 +22,6 @@
     background-color: transparent
 
 .dark-mode-bg-top-bar
-  background-color: transparentize($color__black, .5)
+  &.top-bar-min-height::before,
+  &::before
+    background-color: transparentize($color__black, .25)

@@ -25,11 +25,20 @@
 
   &__temperature
     width: 100%
-    font-size: 6rem
+    font-size: 5rem
     font-weight: 300
-    margin: $padding__xxxs 0
+    margin-block: $padding__xxxs
+    padding-left: 1.5rem
     line-height: 100%
     box-sizing: border-box
+    display: flex
+    justify-content: center
+
+    &::after
+      content: "º"
+      display: block
+      font-size: .75em
+      line-height: 1
 
   &__state
     text-transform: capitalize
@@ -56,7 +65,7 @@
       margin-right: .25rem
 
   &__image
-    width: 75%
+    max-width: 65%
     @include flex(center,center,row)
     align-self: start
     padding-top: $padding__s

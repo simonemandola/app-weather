@@ -1,21 +1,14 @@
 <template>
   <div class="weather-by-hour">
-    <transition name="fade-in" data-observer-el>
-      <h2
-        v-show="elementIsIntercepted"
-        class="subtitle-xs weather-by-hour__title"
-      >
-        Previsión 48 horas
-      </h2>
+    <transition name="fade-in">
+      <h2 class="subtitle-xs weather-by-hour__title">Próximas 24 horas</h2>
     </transition>
     <transition-group
       class="weather-by-hour__items-wrap"
       tag="ul"
       name="slide-right"
-      data-observer-el
     >
       <li
-        v-show="elementIsIntercepted"
         v-for="(hour, i) in weatherByHour"
         :key="i"
         class="weather-by-hour__item"
@@ -25,7 +18,9 @@
         <p class="text-xxs">{{ hour.dt }}</p>
         <div class="weather-by-hour__icon">
           <img
-            :src="`/img/weather-status/icons/solid/${hour.weather[0].icon}.png`"
+            :src="`/img/weather-status/icons/solid/${
+              i === 0 ? currentWeatherIcon : hour.weather[0].icon
+            }.png`"
             :alt="hour.weather[0].icon"
             draggable="false"
           />
@@ -40,24 +35,22 @@
 </template>
 
 <script>
-import { observerElement } from "@/mixins/mixins";
-
 export default {
   name: "WeatherByHour",
-  mixins: [observerElement],
   data() {
     return {
       weatherByHour: [],
       timeZoneOffset: 0,
       isDarkMode: this.$store.state.isDarkMode,
-      elementIsIntercepted: false,
       isNegativeTimeZoneOffset: false,
       defaultTimeOffset: 3600,
+      currentWeatherIcon:
+        this.$store.state.locationData[0].current.weather[0].icon,
     };
   },
   mounted() {
     this.timeZoneOffset = this.$store.state.locationData[0].timeZoneOffset;
-    this.weatherByHour = this.$store.state.locationData[0].hourly;
+    this.weatherByHour = this.$store.state.locationData[0].hourly.slice(0, 25);
     if (Math.sign(this.timeZoneOffset) === -1) {
       this.timeZoneOffset = Math.abs(this.timeZoneOffset);
       this.timeZoneOffset = this.timeZoneOffset + this.defaultTimeOffset;
@@ -80,6 +73,8 @@ export default {
       hour.pop = hour.pop.toFixed(1) * 100;
     });
     this.weatherByHour[0].dt = "Ahora";
+    this.weatherByHour[0].temp =
+      this.$store.state.locationData[0].current.temp.toFixed(0);
   },
 };
 </script>

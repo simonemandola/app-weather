@@ -1,0 +1,50 @@
+.footer-desktop
+  display: grid
+  grid-auto-flow: column
+  justify-content: space-between
+  align-items: center
+  column-gap: $padding__m
+  position: relative
+  box-sizing: border-box
+  padding:
+    top: $padding__s
+    left: $padding__s
+    right: $padding__s
+    bottom: $padding__xl
+  max-width: $global-max-width
+  margin: 0 auto
+
+  &::before
+    content: ""
+    position: absolute
+    width: 100vw
+    height: 100%
+    display: block
+    justify-self: center
+    background-color: $color__black
+    border-top: $main-border
+    border-color: darken($color__black, 5%)
+    z-index: -1
+
+  & a:hover
+    font-weight: 600
+    transition: $transition-bezier
+
+  &__dev-by
+    margin: 0
+
+    & > a
+      display: initial
+      text-decoration: underline
+
+  &__github
+    display: flex
+    justify-content: flex-start
+    align-items: center
+    column-gap: $padding__xxxs
+
+    & > span:hover
+      text-decoration: underline
+
+    & > i
+      font-size: .9rem

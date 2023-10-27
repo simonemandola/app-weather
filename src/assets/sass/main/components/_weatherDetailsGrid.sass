@@ -49,39 +49,37 @@
     &-arc-line
       width: auto
       height: auto
-      border: 1px solid $color__light-yellow
+      border: 2px solid $color__light-yellow
+      border-inline-style: none
+      border-bottom-style: none
       filter: brightness(110%)
       border-radius: 50%
       aspect-ratio: 1/1
       position: relative
+      display: grid
+      justify-content: center
+      align-items: center
+      grid-template-columns: 1fr
 
-      &::before
+      &::before,
+      &::after
+        grid-area: 1/1/2/2
         content: ""
-        width: 112%
+        width: 100%
         height: 1rem
-        background-image: url("../img/sun-small.png")
-        position: absolute
-        top: 45%
-        left: -5%
-        transform-origin: 50%
-        transform: var(--degrees)
+        position: relative
+        transform-origin: center
+        transform: var(--degrees) var(--scale)
         background-size: contain
         background-repeat: no-repeat
+
+      &::before
+        background-image: url("../img/sun-small.png")
         background-position-x: left
         filter: drop-shadow(0 0 .35rem transparentize($color__main-orange, .2))
 
       &::after
-        content: ""
-        width: 109%
-        height: .75rem
         background-image: url("../img/moon-small.png")
-        position: absolute
-        top: 47%
-        left: -5%
-        transform-origin: 50%
-        transform: var(--degrees)
-        background-size: contain
-        background-repeat: no-repeat
         background-position-x: right
         filter: drop-shadow(0 0 .35rem transparentize($color__white, .2))
 
@@ -113,6 +111,15 @@
 
         &.size-icon-visibility
           font-size: 2.5rem
+
+        @media screen and (min-width: 821px)
+          font-size: 3em
+
+          &.size-icon-cloud
+            font-size: 4.5rem
+
+          &.size-icon-visibility
+            font-size: 3.5rem
 
       & > p
         margin: 0
