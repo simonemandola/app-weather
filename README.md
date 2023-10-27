@@ -1,4 +1,6 @@
-# app-weather
+# app-weather with Vue 3 Option API + Vuex
+
+Link: [See live mode](https://simone-mandola-app-weather.netlify.app)
 
 Weather app developed with:
 
@@ -11,7 +13,7 @@ Weather app developed with:
 - supabase
 - netlify
 
-### Others softwares
+### Others software
 
 - Photoshop
 - Illustrator
@@ -22,10 +24,6 @@ Weather app developed with:
 - [Open weather](https://openweathermap.org/)
 - [Mapbox](https://www.mapbox.com/)
 - [Geoapify Location Platform API](https://apidocs.geoapify.com/)
-
-> ⚠ Available only on mobile!
-
-Link: [See live mode](https://simone-mandola-app-weather.netlify.app)
 
 ![Presentation_1](./src/assets/img/presentation/Presentación-weather-app.png)
 ![Presentation_2](./src/assets/img/presentation/Presentación-weather-app2.png)
