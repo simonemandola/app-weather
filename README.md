@@ -1,5 +1,7 @@
 # app-weather with Vue 3 Option API + Vuex
 
+![Netlify Status](https://api.netlify.com/api/v1/badges/2587757c-820a-423a-8116-d135a42db694/deploy-status)
+
 Link: [See live mode](https://simone-mandola-app-weather.netlify.app)
 
 Weather app developed with:
